@@ -1,0 +1,68 @@
+@import './base.css';
+
+@media screen and (max-width: 1280px) {
+  html {
+    //font-size: 6px;
+    font-size: 7px;
+  }
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1360px) {
+  html {
+    //font-size: 6.67px;
+    font-size: 7px;
+  }
+}
+
+@media screen and (min-width: 1360px) and (max-width: 1600px) {
+  html {
+    font-size: 8px;
+  }
+}
+
+@media screen and (min-width: 1600px) and (max-width: 1920px) {
+  html {
+    font-size: 9px;
+  }
+}
+
+@media screen and (min-width: 1920px) and (max-width: 2560px) {
+  html {
+    font-size: 10px;
+  }
+}
+
+@media screen and (min-width: 2560px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+.el-sub-menu .el-menu-item {
+  min-width: 20rem;
+}
+
+.el-popper {
+  max-width: 30rem;
+  .el-select__collapse-tag {
+    .el-tag {
+      height: auto;
+    }
+  }
+  .el-select__tags-text {
+    max-width: 100%;
+    white-space: normal;
+    word-wrap: normal;
+    line-height: 1.6rem;
+  }
+}
+
+:root {
+  --el-menu-base-level-padding: 24px;
+  --el-menu-active-color: #ffffff;
+  --el-menu-bg-color: #031427;
+  --el-menu-text-color: #ffffff;
+  --el-menu-hover-bg-color: #9ab0f3;
+  --layout-menu-width: 72px;
+  --tags-view-height: 32px;
+}

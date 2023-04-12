@@ -13,18 +13,20 @@ export default defineConfig({
   darkMode: 'class',
   attributify: false,
   theme: {
+    screens: {
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
+      xxl: '1400px',
+      xl2: '1680px',
+    },
     extend: {
       backgroundColor: {
         // 暗黑背景色
         'v-dark': 'var(--dark-bg-color)'
       }
-      // screens: {
-      //   sm: '768px',
-      //   md: '992px',
-      //   lg: '1200px',
-      //   xl: '1920px'
-      // }
-    }
+    },
     // height: {
     //   ...range(50).map((i) => `h-${i}px`)
     // },

@@ -5,7 +5,7 @@ const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('homepage')
 </script>
 <template>
-  <div :class="`${prefixCls}-main`">TEST</div>
+  <div class="text-32px bg-[#4a70ff]" :class="`${prefixCls}-main`">TEST</div>
 </template>
 <style lang="less" scoped>
 @prefix-chart: ~'@{namespace}-homepage';

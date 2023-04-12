@@ -7,6 +7,8 @@ import './router/routerHooks'
 import { setupStore } from './store'
 // animate.css
 import '@/plugins/animate.css'
+// 引入windi css
+import '@/plugins/windi.css'
 // 自定义指令
 import { setupCommonDirectives } from './directives'
 // 全局组件

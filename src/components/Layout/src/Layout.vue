@@ -109,7 +109,7 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
       <div v-loading="isRouterLoading" :class="`${prefixCls}-content`">
         <TagsView class="mt10 mb10" />
         <div :class="`${prefixCls}-router`">
-          <slot name="content"></slot>
+          <RouterView />
         </div>
         <div :class="`${prefixCls}-footer`">
           <div :class="`${prefixCls}-copyright`" class="mt10 tc">

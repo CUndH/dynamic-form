@@ -11,6 +11,7 @@ import { viteMockServe } from "vite-plugin-mock";
 import { createHtmlPlugin } from "vite-plugin-html";
 import GlobalsPolyfills from "@esbuild-plugins/node-globals-polyfill";
 import nodePolyfills from "rollup-plugin-node-polyfills";
+import windiCSS from 'vite-plugin-windicss';
 
 const root = process.cwd();
 
@@ -63,6 +64,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
           },
         },
       }),
+      windiCSS()
     ],
     // CSS 预处理配置
     css: {
@@ -72,7 +74,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
           javascriptEnabled: true,
         },
       },
-    }, 
+    },
     resolve: {
       extensions: [
         ".mjs",
@@ -158,18 +160,18 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
       host: "0.0.0.0",
       // 反向代理配置，下述是默认的接口路径和静态文件路径的代理配置
       // proxy: {
-        // [env.VITE_API_BASEPATH]: {
-        //   target: "http://10.1.1.41:9999",
-        //   changeOrigin: true,
-        //   rewrite: (path) =>
-        //     path.replace(new RegExp(`^${env.VITE_API_BASEPATH}`), ""),
-        // },
-        // [env.VITE_STATIC_BASEPATH]: {
-        //   target: "http://10.1.1.41:9999",
-        //   changeOrigin: true,
-        //   rewrite: (path) =>
-        //     path.replace(new RegExp(`^${env.VITE_STATIC_BASEPATH}`), ""),
-        // },
+      // [env.VITE_API_BASEPATH]: {
+      //   target: "http://10.1.1.41:9999",
+      //   changeOrigin: true,
+      //   rewrite: (path) =>
+      //     path.replace(new RegExp(`^${env.VITE_API_BASEPATH}`), ""),
+      // },
+      // [env.VITE_STATIC_BASEPATH]: {
+      //   target: "http://10.1.1.41:9999",
+      //   changeOrigin: true,
+      //   rewrite: (path) =>
+      //     path.replace(new RegExp(`^${env.VITE_STATIC_BASEPATH}`), ""),
+      // },
       // },
     },
     optimizeDeps: {

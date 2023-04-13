@@ -33,20 +33,11 @@ const getCaches = computed((): string[] => {
 
 <template>
   <ConfigGlobal>
-    <Layout v-if="currentRoute.name !== 'Login'">
-      <template #content>
-        <router-view>
-          <template #default="{ Component, route }">
-            <keep-alive :include="getCaches">
-              <component :is="Component" :key="route.fullPath" />
-            </keep-alive>
-          </template>
-        </router-view>
-      </template>
-    </Layout>
     <router-view>
       <template #default="{ Component, route }">
-        <component :is="Component" :key="route.fullPath" />
+        <keep-alive :include="getCaches">
+          <component :is="Component" :key="route.fullPath" />
+        </keep-alive>
       </template>
     </router-view>
   </ConfigGlobal>

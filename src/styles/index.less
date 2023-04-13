@@ -1,5 +1,23 @@
 @import './base.css';
 
+@font-face {
+  font-family: 'DIN-Bold';
+  src: url('./fonts/DIN-Bold.otf') format('truetype');
+  font-display: fallback;
+}
+@font-face {
+  font-family: 'DIN-Regular';
+  src: url('./fonts/DIN-Regular.otf') format('truetype');
+  font-display: fallback;
+}
+
+.DIN {
+  font-family: DIN-Bold, Verdana, Tahoma, sans-serif;
+}
+.DIN-Regular {
+  font-family: DIN-Regular, Verdana, Tahoma, sans-serif;
+}
+
 @media screen and (max-width: 1280px) {
   html {
     //font-size: 6px;

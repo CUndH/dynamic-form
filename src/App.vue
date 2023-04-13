@@ -46,7 +46,9 @@ const getCaches = computed((): string[] => {
     </Layout>
     <router-view>
       <template #default="{ Component, route }">
-        <component :is="Component" :key="route.fullPath" />
+        <keep-alive :include="getCaches">
+          <component :is="Component" :key="route.fullPath" />
+        </keep-alive>
       </template>
     </router-view>
   </ConfigGlobal>

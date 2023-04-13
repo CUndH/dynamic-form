@@ -43,6 +43,7 @@ export const asyncRoutes: AppRouteRecordRaw[] = [{
   path: '/admin',
   name: 'Admin',
   redirect: 'noredirect',
+  component: () => import('@/components/Layout/src/Layout.vue'),
   meta: {
     title: '权限管理',
     icon: 'dashicons:admin-generic'

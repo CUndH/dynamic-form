@@ -39,7 +39,33 @@ export const presetRoutes: AppRouteRecordRaw[] = [
 ]
 
 // 模拟异步获取菜单
-export const asyncRoutes: AppRouteRecordRaw[] = []
+export const asyncRoutes: AppRouteRecordRaw[] = [{
+  path: '/admin',
+  name: 'Admin',
+  redirect: 'noredirect',
+  meta: {
+    title: '权限管理',
+    icon: 'dashicons:admin-generic'
+  },
+  children: [
+    {
+      path: 'user',
+      name: 'User',
+      component: () => import('@/views/Admin/User/Index.vue'),
+      meta: {
+        title: '用户管理'
+      }
+    },
+    {
+      path: 'role',
+      name: 'Role',
+      component: () => import('@/views/Admin/Role/Index.vue'),
+      meta: {
+        title: '角色管理'
+      }
+    },
+  ]
+}]
 
 const router = createRouter({
   history: createWebHistory(),

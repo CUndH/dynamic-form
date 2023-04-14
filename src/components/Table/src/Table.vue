@@ -48,7 +48,7 @@ export default defineComponent({
     data: {
       type: Array as PropType<Recordable[]>,
       default: () => []
-    }
+    },
   },
   emits: ['update:pageSize', 'update:currentPage', 'register', 'selectionChange'],
   setup(props, { attrs, slots, emit, expose }) {

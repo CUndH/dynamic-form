@@ -7,7 +7,6 @@
  */
 import { defineProps, onMounted, PropType, reactive, ref } from 'vue'
 import { DynamicFormConfigItem } from '@/components/DynamicForm/src/types'
-import { WangEditor } from '@/components/WangEditor'
 
 const classPrefix = 'dynamic'
 
@@ -145,14 +144,6 @@ onMounted(async () => {
           {{ item.text }}
         </el-radio>
       </el-radio-group>
-      <wang-editor
-        v-else-if="config.type === 'editor'"
-        v-model="context[config.dynamicFormProp]"
-        :class="`${classPrefix}-form-editor`"
-        :editor-custom-config="{
-          readOnly: config.disabled || false
-        }"
-      />
       <div v-else :class="`${classPrefix}-form-${config.type}`">
         {{ config.type }}
       </div>

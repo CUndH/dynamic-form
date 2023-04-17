@@ -1,7 +1,7 @@
 export type DynamicFormConfig = {
   label: string
   colsNumber: number
-  config: Array<DynamicFormConfigItem[]>
+  config: DynamicFormConfigItem[]
 } & Recordable
 
 export type DynamicFormConfigItem = {

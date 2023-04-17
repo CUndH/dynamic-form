@@ -8,13 +8,13 @@ import { setupStore } from './store'
 // animate.css
 import '@/plugins/animate.css'
 // 引入windi css
-import '@/plugins/windi.css'
 // 自定义指令
 import { setupCommonDirectives } from './directives'
 // 全局组件
 import { setupGlobCom } from '@/components'
 import 'element-plus/dist/index.css'
 import '@/styles/index.less'
+import '@/plugins/windi.css'
 import 'highlight.js/styles/stackoverflow-light.css'
 import hljs from 'highlight.js/lib/core'
 import json from 'highlight.js/lib/languages/json'

@@ -51,6 +51,7 @@ defineProps({
 @prefix-cls: ~'@{namespace}-content-wrap';
 
 .@{prefix-cls} {
+  padding: 20px;
   &-header {
     display: flex;
     align-items: center;

@@ -5,11 +5,10 @@ import { PocTable } from '@/components/Table'
 import { useTable } from '@/utils/useTable'
 import { getLogListApi } from '@/api/log'
 import { stringFormatter } from '@/utils/useFormatter'
-import { moduleOpts, typeOpts } from '../Log.data'
+import moment from 'moment'
 
 const { getPrefixCls } = useDesign()
-const prefixCls = getPrefixCls('operation-log')
-
+const prefixCls = getPrefixCls('login-log')
 
 const { methods, register, tableObject } = useTable({
   getListApi: getLogListApi,
@@ -17,7 +16,6 @@ const { methods, register, tableObject } = useTable({
 })
 
 function getListCb(tableObject, res: IResponse) {
-
   if (res.code !== 0) {
     tableObject.tableList = []
     tableObject.total = 0
@@ -29,61 +27,52 @@ function getListCb(tableObject, res: IResponse) {
 
 const { getList, setSearchParams } = methods
 
-function getTypeEnumVal(list, key, val) {
-  let res = list.filter((item) => item.value === val)
-
-  if (res.length === 0) return '-'
-
-  return res[0].label
-}
-
 const columns: TableColumn[] = [
   {
-    field: 'id',
-    label: '操作编号',
-    formatter: (row) => stringFormatter(row, 'id'),
+    field: 'loginTime',
+    label: '登录时间',
+    formatter: (row) => moment(row.loginTime).format('YYYY-MM-DD HH:mm'),
     width: 160
   },
   {
-    field: 'date',
-    label: '操作时间',
+    field: 'account',
+    label: '登录账号',
     align: 'left',
+    formatter: (row) => `${row.username}(row.account)`,
     'min-width': 240
   },
   {
-    field: 'person',
-    label: '操作人员',
+    field: 'browser',
+    label: '浏览器/终端版本',
     align: 'left',
-    formatter: (row) => stringFormatter(row, 'person'),
+    formatter: (row) => stringFormatter(row, 'browser'),
     'min-width': 160
   },
   {
-    field: 'module',
-    label: '所属模块',
+    field: 'mac',
+    label: 'MAC地址',
     align: 'left',
-    formatter: (row) => stringFormatter(row, 'module'),
+    formatter: (row) => stringFormatter(row, 'mac'),
     'min-width': 160
   },
   {
-    field: 'target',
-    label: '操作对象',
-    formatter: (row) => stringFormatter(row, 'target'),
+    field: 'ip',
+    label: '登录IP',
+    formatter: (row) => stringFormatter(row, 'ip'),
     'min-width': 200
   },
   {
-    field: 'type',
-    label: '操作类型',
-    formatter: (row) => getTypeEnumVal(typeOpts, 'value', row.type),
+    field: 'area',
+    label: '所在地区',
+    formatter: (row) => stringFormatter(row, 'area'),
     'min-width': 160
   }
 ]
 
 const searchKey = ref({
   keyword: undefined,
-  module: undefined,
-  type: undefined,
-  date: undefined,
-  person: undefined
+  loginTime: undefined,
+  users: undefined,
 })
 
 const isSearch = computed(() => {
@@ -101,10 +90,8 @@ function searchList() {
 function resetSearchParams() {
   setSearchParams({
     keyword: undefined,
-    module: undefined,
-    type: undefined,
-    date: undefined,
-    person: undefined
+    loginTime: undefined,
+    users: undefined,
   })
 }
 </script>
@@ -117,30 +104,21 @@ function resetSearchParams() {
         placeholder="输入搜索关键词"
         class="mr-10px w-120"
       />
-      <el-select v-model:modelValue="searchKey.module" placeholder="所属模块" class="mr-10px w-120">
+      <el-date-picker
+        v-model:modelValue="searchKey.loginTime"
+        class="mr-10px w-120"
+        type="daterange"
+        start-placeholder="登录时间起始"
+        end-placeholder="登录时间结束"
+      />
+      <el-select v-model:modelValue="searchKey.users" placeholder="所属模块" class="mr-10px w-120">
         <el-option
-          v-for="(item, key) in moduleOpts"
+          v-for="(item, key) in []"
           :key="`search-module-${key}`"
           :label="item.label"
           :value="item.value"
         />
       </el-select>
-      <el-select v-model:modelValue="searchKey.type" placeholder="操作类型" class="mr-10px w-120">
-        <el-option
-          v-for="(item, key) in typeOpts"
-          :key="`search-type-${key}`"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
-      <el-date-picker
-        v-model:modelValue="searchKey.date"
-        class="mr-10px w-120"
-        type="daterange"
-        start-placeholder="操作时间起始"
-        end-placeholder="操作时间结束"
-      />
-      <el-input class="mr-10px w-120" v-model:modelValue="searchKey.person" placeholder="操作人员" />
       <el-button type="primary" @click="searchList">
         <template #icon>
           <Icon icon="ep:search" :size="16" />
@@ -189,7 +167,7 @@ function resetSearchParams() {
 </template>
 
 <style lang="less" scoped>
-@prefix-chart: ~'@{namespace}-operation-log';
+@prefix-chart: ~'@{namespace}-login-log';
 
 .@{prefix-chart} {
   &-list {

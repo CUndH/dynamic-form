@@ -51,10 +51,10 @@ const createMenuItemKey = (item, index: number) => {
   </el-menu>
 </template>
 
-<style lang="less" scoped>
-@prefix-cls: ~'@{namespace}-menu';
+<style lang="scss" scoped>
+$prefix-cls: '#{$namespace}-menu';
 
-.@{prefix-cls} {
+.#{$prefix-cls} {
   &-vertical {
     border-right: none;
     &::-webkit-scrollbar {

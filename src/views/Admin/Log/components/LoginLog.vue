@@ -166,10 +166,10 @@ function resetSearchParams() {
   </poc-table>
 </template>
 
-<style lang="less" scoped>
-@prefix-chart: ~'@{namespace}-login-log';
+<style lang="scss" scoped>
+$prefix-chart: '#{$namespace}-login-log';
 
-.@{prefix-chart} {
+.#{$prefix-chart} {
   &-list {
     &-header {
       display: flex;

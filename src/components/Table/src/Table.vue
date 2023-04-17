@@ -301,9 +301,9 @@ export default defineComponent({
   }
 })
 </script>
-<style lang="less">
-@prefix-cls: ~'@{namespace}-table';
-.@{prefix-cls} {
+<style lang="scss">
+$prefix-cls: '#{$namespace}-table';
+.#{$prefix-cls} {
   &-container {
     display: flex;
     flex-direction: column;

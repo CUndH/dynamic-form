@@ -43,7 +43,7 @@ declare interface IResponse<T = any> {
 type Nullable<T> = T | null
 
 type IResPromise<T = any> = Promise<IResponse<T>>
-declare module '*.module.less' {
+declare module '*.module.scss' {
   const classes: CSSModuleClasses
   export default classes
 }

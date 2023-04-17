@@ -22,9 +22,9 @@ const tabPosition = ref(1)
   </ContentWrap>
 </template>
 
-<style lang="less" scoped>
-@prefix-chart: ~'@{namespace}-log-page';
+<style lang="scss" scoped>
+$prefix-chart: '#{$namespace}-log-page';
 
-.@{prefix-chart} {
+.#{$prefix-chart} {
 }
 </style>

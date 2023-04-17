@@ -7,10 +7,10 @@ const prefixCls = getPrefixCls('homepage')
 <template>
   <div class="text-32px bg-[#4a70ff]" :class="`${prefixCls}-main`">TEST</div>
 </template>
-<style lang="less" scoped>
-@prefix-chart: ~'@{namespace}-homepage';
+<style lang="scss" scoped>
+$prefix-chart: '#{$namespace}-homepage';
 
-.@{prefix-chart} {
+.#{$prefix-chart} {
   &-main {
     padding: 1rem 2rem;
     box-sizing: border-box;

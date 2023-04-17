@@ -14,6 +14,7 @@ router.beforeEach(async (to, _from, next) => {
   }
   // 生成动态路由
   await routerStore.generateRoutes()
+  console.log(routerStore.getAddRouters)
   routerStore.getAddRouters.forEach((route) => {
     router.addRoute(route as unknown as RouteRecordRaw) // 动态添加可访问路由表
   })

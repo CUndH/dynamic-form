@@ -79,9 +79,9 @@ watch(
   </ElIcon>
 </template>
 
-<style lang="less" scoped>
-@prefix-cls: ~'@{namespace}-icon';
-.@{prefix-cls} {
+<style lang="scss" scoped>
+$prefix-cls: '#{$namespace}-icon';
+.#{$prefix-cls} {
   > span {
     display: inherit;
   }

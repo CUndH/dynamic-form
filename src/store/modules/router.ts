@@ -40,20 +40,15 @@ export const useRouterStore = defineStore({
   actions: {
     generateRoutes(): Promise<unknown> {
       return new Promise<void>(async (resolve) => {
-        // @ts-ignore
-        this.addRouters = presetRoutes.concat(asyncRoutes)
-        // @ts-ignore
-        this.routers = cloneDeep(constantRoutes)
-          .concat(presetRoutes)
-          .concat(asyncRoutes)
-          .concat([
-            {
-              name: '',
-              meta: {},
-              path: '/:pathMatch(.*)*',
-              redirect: '/404'
-            }
-          ])
+        this.addRouters = presetRoutes.concat(asyncRoutes).concat([
+          {
+            name: '',
+            meta: {},
+            path: '/:pathMatch(.*)*',
+            redirect: '/404'
+          }
+        ])
+        this.routers = cloneDeep(constantRoutes).concat(presetRoutes).concat(this.addRouters)
         resolve()
       })
     },

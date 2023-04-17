@@ -12,8 +12,11 @@ import '@/plugins/animate.css'
 import { setupCommonDirectives } from './directives'
 // 全局组件
 import { setupGlobCom } from '@/components'
-import 'element-plus/dist/index.css'
-import '@/styles/index.less'
+// 主题色
+import '@/styles/theme.scss'
+// 初始样式
+import '@/styles/index.scss'
+// windiCss
 import '@/plugins/windi.css'
 import 'highlight.js/styles/stackoverflow-light.css'
 import hljs from 'highlight.js/lib/core'
@@ -27,8 +30,6 @@ const setupAll = async () => {
 
   setupStore(app)
 
-  setupGlobCom(app)
-
   setupRouter(app)
 
   setupCommonDirectives(app)
@@ -36,6 +37,8 @@ const setupAll = async () => {
   app.use(ElementPlus)
 
   app.use(hljsVuePlugin)
+
+  setupGlobCom(app)
 
   Object.assign(app.config.globalProperties, {
     $message: ElMessage,

@@ -47,10 +47,10 @@ defineProps({
   </ElCard>
 </template>
 
-<style lang="less" scoped>
-@prefix-cls: ~'@{namespace}-content-wrap';
+<style lang="scss" scoped>
+$prefix-cls: '#{$namespace}-content-wrap';
 
-.@{prefix-cls} {
+.#{$prefix-cls} {
   padding: 20px;
   &-header {
     display: flex;
@@ -69,9 +69,9 @@ defineProps({
   }
 }
 </style>
-<style lang="less">
-@prefix-cls: ~'@{namespace}-content-wrap';
-.@{prefix-cls} {
+<style lang="scss">
+$prefix-cls: '#{$namespace}-content-wrap';
+.#{$prefix-cls} {
   .el-card__body {
     padding: 0;
     flex-grow: 1;

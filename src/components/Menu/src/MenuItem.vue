@@ -63,10 +63,10 @@ const visibleRouteChildren = computed(() => {
   </el-menu-item>
 </template>
 
-<style lang="less">
-@prefix-cls: ~'@{namespace}-menu-item';
+<style lang="scss">
+$prefix-cls: '#{$namespace}-menu-item';
 
-.@{prefix-cls} {
+.#{$prefix-cls} {
   &-title {
     font-size: 1.6rem;
   }

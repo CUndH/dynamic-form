@@ -35,46 +35,56 @@ export const presetRoutes: AppRouteRecordRaw[] = [
       icon: 'material-symbols:home',
       noCache: true
     }
+  },
+  {
+    path: '/404',
+    name: '404Page',
+    component: () => import('@/views/Error/404.vue'),
+    meta: {
+      title: '404'
+    }
   }
 ]
 
 // 模拟异步获取菜单
-export const asyncRoutes: AppRouteRecordRaw[] = [{
-  path: '/admin',
-  name: 'Admin',
-  redirect: 'noredirect',
-  component: () => import('@/components/Layout/src/Layout.vue'),
-  meta: {
-    title: '权限管理',
-    icon: 'dashicons:admin-generic'
-  },
-  children: [
-    {
-      path: 'user',
-      name: 'User',
-      component: () => import('@/views/Admin/User/Index.vue'),
-      meta: {
-        title: '用户管理'
-      }
+export const asyncRoutes: AppRouteRecordRaw[] = [
+  {
+    path: '/admin',
+    name: 'Admin',
+    redirect: 'noredirect',
+    component: () => import('@/components/Layout/src/Layout.vue'),
+    meta: {
+      title: '权限管理',
+      icon: 'dashicons:admin-generic'
     },
-    {
-      path: 'role',
-      name: 'Role',
-      component: () => import('@/views/Admin/Role/Index.vue'),
-      meta: {
-        title: '角色管理'
+    children: [
+      {
+        path: 'user',
+        name: 'User',
+        component: () => import('@/views/Admin/User/Index.vue'),
+        meta: {
+          title: '用户管理'
+        }
+      },
+      {
+        path: 'role',
+        name: 'Role',
+        component: () => import('@/views/Admin/Role/Index.vue'),
+        meta: {
+          title: '角色管理'
+        }
+      },
+      {
+        path: 'log',
+        name: 'Log',
+        component: () => import('@/views/Admin/Log/Index.vue'),
+        meta: {
+          title: '日志管理'
+        }
       }
-    },
-    {
-      path: 'log',
-      name: 'Log',
-      component: () => import('@/views/Admin/Log/Index.vue'),
-      meta: {
-        title: '日志管理'
-      }
-    },
-  ]
-}]
+    ]
+  }
+]
 
 const router = createRouter({
   history: createWebHistory(),

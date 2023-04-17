@@ -144,9 +144,9 @@ defineExpose({
   </el-form>
 </template>
 
-<style lang="less">
-@prefix-cls: ~'dynamic';
-.@{prefix-cls} {
+<style lang="scss">
+$prefix-cls: 'dynamic';
+.#{$prefix-cls} {
   &-form {
     &-title {
       display: flex;

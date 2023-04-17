@@ -160,9 +160,9 @@ onMounted(async () => {
   </el-form-item>
 </template>
 
-<style lang="less">
-@prefix-cls: ~'dynamic';
-.@{prefix-cls} {
+<style lang="scss">
+$prefix-cls: 'dynamic';
+.#{$prefix-cls} {
   &-form {
     &-item {
       display: inline-flex;
@@ -170,7 +170,7 @@ onMounted(async () => {
       padding-left: 2rem;
       text-align: left;
       width: 100%;
-      .@{prefix-cls}-form-datepicker {
+      .#{$prefix-cls}-form-datepicker {
         width: 100%;
         max-width: 25rem;
       }

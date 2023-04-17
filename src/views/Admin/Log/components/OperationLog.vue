@@ -188,10 +188,10 @@ function resetSearchParams() {
   </poc-table>
 </template>
 
-<style lang="less" scoped>
-@prefix-chart: ~'@{namespace}-operation-log';
+<style lang="scss" scoped>
+$prefix-chart: '#{$namespace}-operation-log';
 
-.@{prefix-chart} {
+.#{$prefix-chart} {
   &-list {
     &-header {
       display: flex;

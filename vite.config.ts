@@ -66,8 +66,8 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     // CSS 预处理配置
     css: {
       preprocessorOptions: {
-        less: {
-          additionalData: '@import "./src/styles/variables.module.less";',
+        scss: {
+          additionalData: '$namespace: heilanfe;$elNamespace: el;',
           javascriptEnabled: true
         }
       }

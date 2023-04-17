@@ -122,10 +122,10 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
   </div>
 </template>
 
-<style lang="less" scoped>
-@prefix-cls: ~'@{namespace}-layout';
+<style lang="scss" scoped>
+$prefix-cls: '#{$namespace}-layout';
 
-.@{prefix-cls} {
+.#{$prefix-cls} {
   width: 100%;
   height: 100vh;
   box-sizing: border-box;
@@ -135,7 +135,7 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
     height: 6.4rem;
     flex-shrink: 0;
     background-color: #ffffff;
-    color: #4a70ff;
+    color: var(--el-color-primary);
     border-bottom: 1px solid #a8abb3;
 
     &-right {
@@ -149,7 +149,7 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
       }
 
       .dropdown-arrow {
-        color: #4a70ff;
+        color: var(--el-color-primary);
         cursor: pointer;
       }
 

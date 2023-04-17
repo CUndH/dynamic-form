@@ -18,10 +18,10 @@ const prefixCls = getPrefixCls('header');
   </div>
 </template>
 
-<style lang="less" scoped>
-@prefix-cls: ~'@{namespace}-header';
+<style lang="scss" scoped>
+$prefix-cls: '#{$namespace}-header';
 
-.@{prefix-cls} {
+.#{$prefix-cls} {
   &-main {
     box-sizing: border-box;
     width: 100%;

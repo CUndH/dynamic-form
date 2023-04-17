@@ -33,6 +33,13 @@ const menuSelect = (index: string) => {
 const createMenuItemKey = (item, index: number) => {
   return item.parentPath ? `${item.parentPath}-${index}` : `${index}`
 }
+
+const visibleRoute = computed(() => {
+  if (Array.isArray(routerStore.getAddRouters)) {
+    return routerStore.getAddRouters.filter((item) => !item.meta.hidden);
+  }
+  return [];
+});
 </script>
 
 <template>
@@ -43,7 +50,7 @@ const createMenuItemKey = (item, index: number) => {
     @select="menuSelect"
   >
     <menu-item
-      v-for="(item, index) in routerStore.getAddRouters"
+      v-for="(item, index) in visibleRoute"
       :key="createMenuItemKey(item, index)"
       :class="`${prefixCls}-item`"
       :data="item"

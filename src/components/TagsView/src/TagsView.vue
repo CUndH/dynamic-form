@@ -251,11 +251,11 @@ watch(
 </script>
 
 <template>
-  <div :id="prefixCls" :class="prefixCls" class="flex w-full rel">
-    <span :class="`${prefixCls}__tool`" class="flex-all-center tc poi" @click="move(-200)">
+  <div :id="prefixCls" :class="prefixCls" class="flex w-full relative">
+    <span :class="`${prefixCls}__tool`" class="flex-all-center text-center cursor-pointer" @click="move(-200)">
       <Icon icon="ep:d-arrow-left" color="#333" />
     </span>
-    <div class="ovh flex-1">
+    <div class="overflow-hidden flex-1">
       <ElScrollbar ref="scrollbarRef" class="h-full" @scroll="scroll">
         <div class="flex h-full">
           <ContextMenu
@@ -331,7 +331,7 @@ watch(
           >
             <div>
               <router-link :ref="tagLinksRefs.set" v-slot="{ navigate }" :to="{ ...item }" custom>
-                <div class="h-full flex-all-center nowrap pl15" @click="navigate">
+                <div class="h-full flex-all-center nowrap pl-15px" @click="navigate">
                   <!--                  <Icon-->
                   <!--                    v-if="-->
                   <!--                      item?.matched &&-->
@@ -357,10 +357,10 @@ watch(
         </div>
       </ElScrollbar>
     </div>
-    <span :class="`${prefixCls}__tool`" class="flex-all-center tc poi" @click="move(200)">
+    <span :class="`${prefixCls}__tool`" class="flex-all-center text-center cursor-pointer" @click="move(200)">
       <Icon icon="ep:d-arrow-right" color="#333" />
     </span>
-    <span :class="`${prefixCls}__tool`" class="flex-all-center tc poi" @click="refreshSelectedTag(selectedTag)">
+    <span :class="`${prefixCls}__tool`" class="flex-all-center text-center cursor-pointer" @click="refreshSelectedTag(selectedTag)">
       <Icon icon="ant-design:reload-outlined" color="#333" />
     </span>
     <ContextMenu
@@ -415,7 +415,7 @@ watch(
         }
       ]"
     >
-      <span :class="`${prefixCls}__tool`" class="flex-all-center tc poi block">
+      <span :class="`${prefixCls}__tool`" class="flex-all-center text-center cursor-pointer">
         <Icon icon="ant-design:setting-outlined" color="#333" />
       </span>
     </ContextMenu>

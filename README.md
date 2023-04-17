@@ -6,7 +6,7 @@
 Vue3 + TypeScript + Vue-Router + Pinia
 
 基础依赖：
-Lodash， Echarts， Element-plus，moment，mockjs
+Lodash， Echarts， Element-plus，dayjs，mockjs
 
 ## Recommended IDE Setup
 

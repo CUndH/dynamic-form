@@ -1,45 +1,42 @@
-import * as echarts from 'echarts/core'
-
+import { CanvasRenderer } from 'echarts/renderers'
 import {
-  BarChart,
   LineChart,
+  BarChart,
   PieChart,
   MapChart,
-  PictorialBarChart,
-  RadarChart,
-  ScatterChart
+  GaugeChart,
+  SankeyChart,
+  TreeChart
 } from 'echarts/charts'
 
 import {
-  TitleComponent,
-  TooltipComponent,
   GridComponent,
-  PolarComponent,
-  AriaComponent,
-  ParallelComponent,
+  TooltipComponent,
+  TitleComponent,
   LegendComponent,
-  VisualMapComponent
+  DataZoomComponent,
+  PolarComponent,
+  MarkPointComponent,
+  MarkLineComponent
 } from 'echarts/components'
 
-import { CanvasRenderer } from 'echarts/renderers'
-
-echarts.use([
-  LegendComponent,
-  TitleComponent,
-  TooltipComponent,
-  GridComponent,
-  PolarComponent,
-  AriaComponent,
-  ParallelComponent,
-  VisualMapComponent,
-  BarChart,
+const useOptions = [
+  CanvasRenderer,
   LineChart,
+  BarChart,
   PieChart,
   MapChart,
-  CanvasRenderer,
-  PictorialBarChart,
-  RadarChart,
-  ScatterChart
-])
+  GaugeChart,
+  GridComponent,
+  TooltipComponent,
+  TitleComponent,
+  LegendComponent,
+  DataZoomComponent,
+  PolarComponent,
+  MarkPointComponent,
+  MarkLineComponent,
+  SankeyChart,
+  TreeChart
+]
 
-export default echarts
+export default useOptions

@@ -41,7 +41,9 @@ export const presetRoutes: AppRouteRecordRaw[] = [
     name: '404Page',
     component: () => import('@/views/Error/404.vue'),
     meta: {
-      title: '404'
+      title: '404',
+      hidden: true,
+      noCache: true
     }
   }
 ]

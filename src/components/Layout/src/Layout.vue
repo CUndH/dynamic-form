@@ -76,7 +76,7 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
                 @command="handleCommandDropdown"
               >
                 <div class="user-dropdown">
-                  <div class="user-avatar mr20">
+                  <div class="user-avatar mr-20px">
                     <img src="@/assets/image/avatar.jpg" alt="" />
                   </div>
                   <Icon class="dropdown-arrow" :size="24" icon="material-symbols:arrow-drop-down" />
@@ -86,7 +86,7 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
                     <div class="user-name">
                       {{ userInfo ? userInfo.nickname || userInfo.username : '管理员' }}
                     </div>
-                    <el-divider class="mt10 mb0" />
+                    <el-divider class="mt-10px mb-0" />
                     <el-dropdown-item command="resetPassword">
                       <div class="dropdown-btn">
                         <Icon icon="mdi:password-reset" :size="16" />
@@ -107,12 +107,12 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
         </Header>
       </div>
       <div v-loading="isRouterLoading" :class="`${prefixCls}-content`">
-        <TagsView class="mt10 mb10" />
+        <TagsView class="mt-10px mb-10px" />
         <div :class="`${prefixCls}-router`">
           <RouterView />
         </div>
         <div :class="`${prefixCls}-footer`">
-          <div :class="`${prefixCls}-copyright`" class="mt10 tc">
+          <div :class="`${prefixCls}-copyright`" class="mt-10px text-center">
             Copyright © {{ new Date().getFullYear() }}
             <a target="_blank" href="https://www.heilansc.com/">海澜智云</a>出品
           </div>

@@ -1,4 +1,4 @@
-import moment from 'moment/moment'
+import dayjs from 'dayjs'
 import { isDef } from '@/utils/is'
 
 export const timeFormatter = (row, key) => {
@@ -11,7 +11,7 @@ export const timeFormatter = (row, key) => {
       }
       timeData = parseInt(timeData)
     }
-    return moment(timeData).format('YYYY-MM-DD HH:mm:ss')
+    return dayjs(timeData).format('YYYY-MM-DD HH:mm:ss')
   } else {
     return '-'
   }

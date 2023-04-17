@@ -5,7 +5,7 @@ import { PocTable } from '@/components/Table'
 import { useTable } from '@/utils/useTable'
 import { getLogListApi } from '@/api/log'
 import { stringFormatter } from '@/utils/useFormatter'
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('login-log')
@@ -31,7 +31,7 @@ const columns: TableColumn[] = [
   {
     field: 'loginTime',
     label: '登录时间',
-    formatter: (row) => moment(row.loginTime).format('YYYY-MM-DD HH:mm'),
+    formatter: (row) => dayjs(row.loginTime).format('YYYY-MM-DD HH:mm'),
     width: 160
   },
   {

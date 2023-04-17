@@ -37,7 +37,7 @@ defineProps({
           <template #content>
             <div :class="`${prefixCls}-message`">{{ message }}</div>
           </template>
-          <Icon class="ml5" icon="bi:question-circle-fill" :size="14" />
+          <Icon class="ml-5" icon="bi:question-circle-fill" :size="14" />
         </ElTooltip>
       </div>
     </template>

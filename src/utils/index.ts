@@ -1,6 +1,6 @@
 // import type { Plugin } from 'vue'
 
-import moment from 'moment'
+import dayjs from 'dayjs'
 
 /**
  *
@@ -120,5 +120,5 @@ export function formatTimeCustom(input) {
     }
     timeData = parseInt(timeData)
   }
-  return moment(timeData).format('YYYY-MM-DD HH:mm:ss')
+  return dayjs(timeData).format('YYYY-MM-DD HH:mm:ss')
 }

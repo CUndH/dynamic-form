@@ -1,4 +1,4 @@
-import PocTable from './src/Table.vue'
+import Table from './src/Table.vue'
 import { ElTable } from 'element-plus'
 
 export interface TableExpose {
@@ -8,4 +8,4 @@ export interface TableExpose {
   elTableRef: ComponentRef<typeof ElTable>
 }
 
-export { PocTable }
+export { Table }

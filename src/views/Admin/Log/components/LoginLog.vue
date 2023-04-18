@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useDesign } from '@/utils/useDesign'
 import { computed, onMounted, ref, unref } from 'vue'
-import { PocTable } from '@/components/Table'
 import { useTable } from '@/utils/useTable'
 import { getLogListApi } from '@/api/log'
 import { stringFormatter } from '@/utils/useFormatter'
@@ -141,7 +140,7 @@ function resetSearchParams() {
       </el-button>
     </div>
   </div>
-  <poc-table
+  <Table
     v-model:pageSize="tableObject.size"
     v-model:currentPage="tableObject.current"
     id="deviceTable"
@@ -163,7 +162,7 @@ function resetSearchParams() {
         {{ isSearch ? '无搜索结果' : '暂无数据' }}
       </div>
     </template>
-  </poc-table>
+  </Table>
 </template>
 
 <style lang="scss" scoped>

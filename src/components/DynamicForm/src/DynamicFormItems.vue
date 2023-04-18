@@ -57,6 +57,7 @@ onMounted(async () => {
     :label="config.label"
     :label-width="config.labelWidth"
     :prop="config.dynamicFormProp"
+    :required="config.required || false"
   >
     <slot :name="config.dynamicFormProp" :config="config">
       <el-input
@@ -70,6 +71,20 @@ onMounted(async () => {
         :maxlength="config.maxlength || ''"
         :disabled="config.disabled || false"
         :type="config?.componentProps?.type"
+      />
+      <el-input 
+        v-else-if="config.type === 'textarea'"
+        v-model="context[config.dynamicFormProp]"
+        :autosize="config.autosize || false"
+        :resize="config.resize || 'vertical'"
+        :placeholder="config.placeholder || `请输入${config.label}`"
+        :class="`${classPrefix}-form-textarea`"
+        :show-word-limit="config.showWordLimit || false"
+        :rows="config.rows || 3"
+        :autocomplete="config.autocomplete"
+        :maxlength="config.maxlength || ''"
+        :disabled="config.disabled || false"
+        type="textarea"
       />
       <el-transfer
         v-else-if="config.type === 'transfer'"

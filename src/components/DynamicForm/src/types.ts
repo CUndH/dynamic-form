@@ -8,7 +8,10 @@ export type DynamicFormConfigItem = {
   label: string
   dynamicFormProp: string
   rules?: any[]
-  type: string
+  type: FormItemType
   placeholder?: string
   componentProps?: any
+  required?: boolean
 } & Recordable
+
+export type FormItemType = 'input' | 'transfer' | 'inputNumber' | 'select' | 'treeSelect' | 'dateTimePicker' | 'radio' | 'textarea';

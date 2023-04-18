@@ -193,7 +193,7 @@ function addUser() {
 </template>
 
 <style lang="scss" scoped>
-$prefix-chart: '#{$namespace}-role';
+$prefix-chart: '#{$vNamespace}-role';
 
 .#{$prefix-chart} {
   &-list {

@@ -2,7 +2,6 @@
 import { inject, Ref, ref, unref } from 'vue'
 import { DynamicForm } from '@/components/DynamicForm'
 import type { DynamicFormConfig } from '@/components/DynamicForm/src/types'
-import { Modal } from '@/components/Modal'
 import { addRoleApi } from '@/api/role'
 import { ElMessage } from 'element-plus'
 

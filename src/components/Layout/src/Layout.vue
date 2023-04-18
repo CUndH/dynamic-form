@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useDesign } from '@/utils/useDesign'
 import { ref } from 'vue'
-import { Header } from '@/components/Header'
-import { TagsView } from '@/components/TagsView'
-import { Menu } from '@/components/Menu'
-import { Icon } from '@/components/Icon'
+// import { Header } from '@/components/Header'
+// import { TagsView } from '@/components/TagsView'
+// import { Menu } from '@/components/Menu'
+// import { Icon } from '@/components/Icon'
 import eventBus, { EventTypeName } from '@/utils/eventBus'
 
 const { getPrefixCls } = useDesign()
@@ -77,7 +77,7 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
               >
                 <div class="user-dropdown">
                   <div class="user-avatar mr-20px">
-                    <img src="@/assets/image/avatar.jpg" alt="" />
+<!--                    <img src="@/assets/image/avatar.jpg" alt="" />-->
                   </div>
                   <Icon class="dropdown-arrow" :size="24" icon="material-symbols:arrow-drop-down" />
                 </div>
@@ -123,7 +123,7 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
 </template>
 
 <style lang="scss" scoped>
-$prefix-cls: '#{$namespace}-layout';
+$prefix-cls: '#{$vNamespace}-layout';
 
 .#{$prefix-cls} {
   width: 100%;
@@ -167,7 +167,7 @@ $prefix-cls: '#{$namespace}-layout';
     }
   }
   &-main {
-    width: 100%;
+    width: calc(100% - 20rem);
     max-height: calc(100% - 6.4rem);
     height: calc(100% - 9.6rem);
   }
@@ -200,6 +200,9 @@ $prefix-cls: '#{$namespace}-layout';
       font-size: 16px;
       font-weight: 700;
       color: #fff;
+      &-title {
+        white-space: nowrap;
+      }
     }
   }
   &-content {
@@ -238,9 +241,6 @@ $prefix-cls: '#{$namespace}-layout';
   &-copyright {
     font-size: 12px;
     box-sizing: border-box;
-  }
-  &-title {
-    white-space: nowrap;
   }
   &-logo,
   &-logo-collapse {

@@ -19,7 +19,7 @@ const prefixCls = getPrefixCls('header');
 </template>
 
 <style lang="scss" scoped>
-$prefix-cls: '#{$namespace}-header';
+$prefix-cls: '#{$vNamespace}-header';
 
 .#{$prefix-cls} {
   &-main {

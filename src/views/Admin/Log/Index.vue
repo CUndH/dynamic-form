@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { ContentWrap } from '@/components/ContentWrap'
 import { useDesign } from '@/utils/useDesign'
 import { ref } from 'vue'
 import OperationLog from './components/OperationLog.vue'
@@ -23,7 +22,7 @@ const tabPosition = ref(1)
 </template>
 
 <style lang="scss" scoped>
-$prefix-chart: '#{$namespace}-log-page';
+$prefix-chart: '#{$vNamespace}-log-page';
 
 .#{$prefix-chart} {
 }

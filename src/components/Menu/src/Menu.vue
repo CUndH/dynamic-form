@@ -59,7 +59,7 @@ const visibleRoute = computed(() => {
 </template>
 
 <style lang="scss" scoped>
-$prefix-cls: '#{$namespace}-menu';
+$prefix-cls: '#{$vNamespace}-menu';
 
 .#{$prefix-cls} {
   &-vertical {

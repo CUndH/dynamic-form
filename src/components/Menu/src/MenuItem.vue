@@ -64,7 +64,7 @@ const visibleRouteChildren = computed(() => {
 </template>
 
 <style lang="scss">
-$prefix-cls: '#{$namespace}-menu-item';
+$prefix-cls: '#{$vNamespace}-menu-item';
 
 .#{$prefix-cls} {
   &-title {

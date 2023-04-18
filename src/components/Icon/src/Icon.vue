@@ -80,7 +80,7 @@ watch(
 </template>
 
 <style lang="scss" scoped>
-$prefix-cls: '#{$namespace}-icon';
+$prefix-cls: '#{$vNamespace}-icon';
 .#{$prefix-cls} {
   > span {
     display: inherit;

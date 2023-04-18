@@ -48,7 +48,7 @@ defineProps({
 </template>
 
 <style lang="scss" scoped>
-$prefix-cls: '#{$namespace}-content-wrap';
+$prefix-cls: '#{$vNamespace}-content-wrap';
 
 .#{$prefix-cls} {
   padding: 20px;
@@ -70,7 +70,7 @@ $prefix-cls: '#{$namespace}-content-wrap';
 }
 </style>
 <style lang="scss">
-$prefix-cls: '#{$namespace}-content-wrap';
+$prefix-cls: '#{$vNamespace}-content-wrap';
 .#{$prefix-cls} {
   .el-card__body {
     padding: 0;

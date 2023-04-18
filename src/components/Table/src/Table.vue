@@ -8,7 +8,7 @@ import { propTypes } from '@/utils/propTypes'
 import { getSlot } from '@/utils/tsxHelper'
 import { useDesign } from '@/utils/useDesign'
 const { variables } = useDesign()
-const componentClass = variables.namespace + '-table'
+const componentClass = variables.vNamespace + '-table'
 
 export default defineComponent({
   name: 'PocTable',
@@ -302,7 +302,7 @@ export default defineComponent({
 })
 </script>
 <style lang="scss">
-$prefix-cls: '#{$namespace}-table';
+$prefix-cls: '#{$vNamespace}-table';
 .#{$prefix-cls} {
   &-container {
     display: flex;

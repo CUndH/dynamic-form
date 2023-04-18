@@ -2,7 +2,7 @@
 
 export const useDesign = () => {
   const scssVariables = {
-    namespace: 'heilanfe',
+    vNamespace: 'heilanfe',
     elNamespace: 'el'
   }
 
@@ -11,7 +11,7 @@ export const useDesign = () => {
    * @returns 返回空间名-类名
    */
   const getPrefixCls = (scope: string) => {
-    return `${scssVariables.namespace}-${scope}`
+    return `${scssVariables.vNamespace}-${scope}`
   }
 
   return {

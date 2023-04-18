@@ -1,9 +1,4 @@
-// 命名空间
-$namespace: heilanfe;
-// el命名空间
-$elNamespace: el;
-
-@use 'element-plus/theme-chalk/src/common/var.scss' with (
+@forward 'element-plus/theme-chalk/src/common/var.scss' with (
   $colors: (
     'primary': (
       'base': #00B24D,
@@ -28,6 +23,13 @@ $elNamespace: el;
     'extra-light': #f2f6fc,
     'dark': #d4d7de,
     'darker': #cdd0d6,
+  ),
+  $menu: (
+    'active-color': #ffffff,
+    'text-color': #ffffff,
+    'bg-color': #031427,
+    'hover-bg-color': #9ab0f3,
+    'base-level-padding': 24px,
   )
 );
 

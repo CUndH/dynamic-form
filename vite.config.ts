@@ -12,6 +12,8 @@ import { viteMockServe } from 'vite-plugin-mock'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import GlobalsPolyfills from '@esbuild-plugins/node-globals-polyfill'
 import nodePolyfills from 'rollup-plugin-node-polyfills'
+import Components from 'unplugin-vue-components/vite'
+import AutoImport from 'unplugin-auto-import/vite'
 
 const root = process.cwd()
 
@@ -32,6 +34,8 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     plugins: [
       vue(),
       vueJsx(),
+      AutoImport(),
+      Components(),
       WindiCSS(),
       EslintPlugin({
         cache: false,
@@ -67,7 +71,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: '$namespace: heilanfe;$elNamespace: el;',
+          additionalData: `$vNamespace: heilanfe;  $elNamespace: el;`,
           javascriptEnabled: true
         }
       }
@@ -103,10 +107,10 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
           find: 'process',
           replacement: 'rollup-plugin-node-polyfills/polyfills/process-es6'
         },
-        // {
-        //   find: "buffer",
-        //   replacement: "rollup-plugin-node-polyfills/polyfills/buffer-es6",
-        // },
+        {
+          find: 'buffer',
+          replacement: 'rollup-plugin-node-polyfills/polyfills/buffer-es6'
+        },
         {
           find: 'timers',
           replacement: 'rollup-plugin-node-polyfills/polyfills/timers'

@@ -102,16 +102,16 @@ function resetSearchParams() {
       <el-input
         v-model:modelValue="searchKey.keyword"
         placeholder="输入搜索关键词"
-        class="mr-10px w-120"
+        class="mr-10px w-200px"
       />
       <el-date-picker
         v-model:modelValue="searchKey.loginTime"
-        class="mr-10px w-120"
+        class="mr-10px w-120px"
         type="daterange"
         start-placeholder="登录时间起始"
         end-placeholder="登录时间结束"
       />
-      <el-select v-model:modelValue="searchKey.users" placeholder="所属模块" class="mr-10px w-120">
+      <el-select v-model:modelValue="searchKey.users" placeholder="所属模块" class="mr-10px w-120px">
         <el-option
           v-for="(item, key) in []"
           :key="`search-module-${key}`"
@@ -167,7 +167,7 @@ function resetSearchParams() {
 </template>
 
 <style lang="scss" scoped>
-$prefix-chart: '#{$namespace}-login-log';
+$prefix-chart: '#{$vNamespace}-login-log';
 
 .#{$prefix-chart} {
   &-list {

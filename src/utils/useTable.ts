@@ -1,4 +1,4 @@
-import { Table, TableExpose } from '@/components/Table'
+import { PocTable, TableExpose } from '@/components/Table'
 import { ElTable, ElMessageBox, ElMessage } from 'element-plus'
 import { ref, reactive, watch, computed, unref, nextTick } from 'vue'
 import { get } from 'lodash-es'
@@ -81,12 +81,12 @@ export const useTable = <T = any>(config?: UseTableConfig<T>) => {
   )
 
   // Table实例
-  const tableRef = ref<typeof Table & TableExpose>()
+  const tableRef = ref<typeof PocTable & TableExpose>()
 
   // ElTable实例
   const elTableRef = ref<ComponentRef<typeof ElTable>>()
 
-  const register = (ref: typeof Table & TableExpose, elRef: ComponentRef<typeof ElTable>) => {
+  const register = (ref: typeof PocTable & TableExpose, elRef: ComponentRef<typeof ElTable>) => {
     tableRef.value = ref
     elTableRef.value = unref(elRef)
   }

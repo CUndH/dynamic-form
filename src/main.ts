@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import ElementPlus, { ElMessage, ElMessageBox } from 'element-plus'
+import ElementPlus from 'element-plus'
 
 import App from './App.vue'
 import { setupRouter } from './router'
@@ -12,6 +12,8 @@ import '@/plugins/animate.css'
 import { setupCommonDirectives } from './directives'
 // 全局组件
 import { setupGlobCom } from '@/components'
+// 注册Vue-Echarts
+import { setupPluginVueEchart } from '@/plugins/echarts'
 // 主题色
 import '@/styles/theme.scss'
 // 初始样式
@@ -40,10 +42,7 @@ const setupAll = async () => {
 
   setupGlobCom(app)
 
-  Object.assign(app.config.globalProperties, {
-    $message: ElMessage,
-    $messageBox: ElMessageBox
-  })
+  setupPluginVueEchart(app)
 
   const win: any = window
 

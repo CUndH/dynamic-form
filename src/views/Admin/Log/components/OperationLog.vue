@@ -115,9 +115,9 @@ function resetSearchParams() {
       <el-input
         v-model:modelValue="searchKey.keyword"
         placeholder="输入搜索关键词"
-        class="mr-10px w-120"
+        class="mr-10px w-200px"
       />
-      <el-select v-model:modelValue="searchKey.module" placeholder="所属模块" class="mr-10px w-120">
+      <el-select v-model:modelValue="searchKey.module" placeholder="所属模块" class="mr-10px w-120px">
         <el-option
           v-for="(item, key) in moduleOpts"
           :key="`search-module-${key}`"
@@ -125,7 +125,7 @@ function resetSearchParams() {
           :value="item.value"
         />
       </el-select>
-      <el-select v-model:modelValue="searchKey.type" placeholder="操作类型" class="mr-10px w-120">
+      <el-select v-model:modelValue="searchKey.type" placeholder="操作类型" class="mr-10px w-120px">
         <el-option
           v-for="(item, key) in typeOpts"
           :key="`search-type-${key}`"
@@ -135,12 +135,12 @@ function resetSearchParams() {
       </el-select>
       <el-date-picker
         v-model:modelValue="searchKey.date"
-        class="mr-10px w-120"
+        class="mr-10px w-120px"
         type="daterange"
         start-placeholder="操作时间起始"
         end-placeholder="操作时间结束"
       />
-      <el-input class="mr-10px w-120" v-model:modelValue="searchKey.person" placeholder="操作人员" />
+      <el-input class="mr-10px w-200px" v-model:modelValue="searchKey.person" placeholder="操作人员" />
       <el-button type="primary" @click="searchList">
         <template #icon>
           <Icon icon="ep:search" :size="16" />
@@ -189,7 +189,7 @@ function resetSearchParams() {
 </template>
 
 <style lang="scss" scoped>
-$prefix-chart: '#{$namespace}-operation-log';
+$prefix-chart: '#{$vNamespace}-operation-log';
 
 .#{$prefix-chart} {
   &-list {

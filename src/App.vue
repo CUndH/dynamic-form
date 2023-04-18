@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, onUnmounted, ref } from 'vue'
-import { ConfigGlobal } from '@/components/ConfigGlobal'
+// import { ConfigGlobal } from '@/components/ConfigGlobal'
 import eventBus, { EventTypeName } from '@/utils/eventBus'
-import { Layout } from './components/Layout'
+// import { Layout } from './components/Layout'
 import { useRouter } from 'vue-router'
 import { useTagsViewStore } from './store/modules/tagsView'
 

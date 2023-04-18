@@ -423,7 +423,7 @@ watch(
 </template>
 
 <style lang="scss" scoped>
-$prefix-cls: '#{$namespace}-tags-view';
+$prefix-cls: '#{$vNamespace}-tags-view';
 
 .#{$prefix-cls} {
   background-color: #ffffff;

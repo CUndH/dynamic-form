@@ -43,7 +43,10 @@ export const useRouterStore = defineStore({
         this.addRouters = presetRoutes.concat(asyncRoutes).concat([
           {
             name: '',
-            meta: {},
+            meta: {
+              hidden: true,
+              noCache: true
+            },
             path: '/:pathMatch(.*)*',
             redirect: '/404'
           }

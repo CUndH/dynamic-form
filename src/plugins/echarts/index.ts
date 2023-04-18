@@ -1,3 +1,5 @@
+import { use, ComposeOption } from 'echarts/core'
+import ECharts, { THEME_KEY } from 'vue-echarts'
 import { CanvasRenderer } from 'echarts/renderers'
 import {
   LineChart,
@@ -6,9 +8,11 @@ import {
   MapChart,
   GaugeChart,
   SankeyChart,
-  TreeChart
+  TreeChart,
+  BarSeriesOption,
+  LineSeriesOption
 } from 'echarts/charts'
-
+import type { App } from 'vue'
 import {
   GridComponent,
   TooltipComponent,
@@ -17,10 +21,16 @@ import {
   DataZoomComponent,
   PolarComponent,
   MarkPointComponent,
-  MarkLineComponent
+  MarkLineComponent,
+
+  // 组件类型的定义后缀都为 ComponentOption
+  TitleComponentOption,
+  TooltipComponentOption,
+  GridComponentOption,
+  DatasetComponentOption
 } from 'echarts/components'
 
-const useOptions = [
+use([
   CanvasRenderer,
   LineChart,
   BarChart,
@@ -37,6 +47,20 @@ const useOptions = [
   MarkLineComponent,
   SankeyChart,
   TreeChart
-]
+])
 
-export default useOptions
+type ECOption = ComposeOption<
+  | BarSeriesOption
+  | LineSeriesOption
+  | TitleComponentOption
+  | TooltipComponentOption
+  | GridComponentOption
+  | DatasetComponentOption
+>
+
+export function setupPluginVueEchart(app: App<Element>, theme = 'light') {
+  app.provide(THEME_KEY, theme)
+  app.component('VChart', ECharts)
+}
+
+export { ECOption }

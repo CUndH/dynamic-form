@@ -37,6 +37,7 @@ declare module '@vue/runtime-core' {
     Layout: typeof import('./src/components/Layout/src/Layout.vue')['default']
     Menu: typeof import('./src/components/Menu/src/Menu.vue')['default']
     MenuItem: typeof import('./src/components/Menu/src/MenuItem.vue')['default']
+    Modal: typeof import('./src/components/Modal/src/Modal.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Table: typeof import('./src/components/Table/src/Table.vue')['default']

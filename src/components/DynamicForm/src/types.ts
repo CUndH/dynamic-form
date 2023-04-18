@@ -8,7 +8,7 @@ export type DynamicFormConfigItem = {
   label: string
   dynamicFormProp: string
   rules?: any[]
-  type: FormItemType
+  type?: FormItemType
   placeholder?: string
   componentProps?: any
   required?: boolean

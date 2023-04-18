@@ -46,11 +46,11 @@ function resetRoleData() {
   }
 }
 
-const dialogOpen = inject<Ref<boolean>>('dialogOpen')
+const addRoleVisible = inject<Ref<boolean>>('addRoleVisible')
 
 function modalCancel() {
   resetRoleData()
-  dialogOpen!.value = false
+  addRoleVisible!.value = false
 }
 
 function submitData() {
@@ -68,6 +68,7 @@ function submitData() {
     title="新建角色"
     :class="`${COMPONENT_PREFIX}`"
     :close-on-click-modal="false"
+    v-model:visible="addRoleVisible"
     align-center
     :width="'25%'"
     @cancel="modalCancel"

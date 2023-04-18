@@ -78,7 +78,7 @@ defineExpose({
     ref="dynamicFormRef"
     :class="`${classPrefix}-form`"
     :model="context"
-    label-position="left"
+    label-position="right"
     :disabled="disabled"
   >
     <div v-if="tabModel" :class="`${classPrefix}-form-tabs`">

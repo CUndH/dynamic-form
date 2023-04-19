@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, defineProps } from 'vue';
-import { RouteRecordRaw } from 'vue-router';
+import { computed, defineProps, PropType } from 'vue';
+// import { RouteRecordRaw } from 'vue-router';
 import { pathResolve } from '@/utils/routerHelper';
 import { useDesign } from '@/utils/useDesign';
 
@@ -9,7 +9,7 @@ const prefixCls = getPrefixCls('menu-item');
 
 const props = defineProps({
   data: {
-    type: Object,
+    type: Object as PropType<AppRouteRecordRaw>,
     default: () => {
       return {};
     }
@@ -24,7 +24,7 @@ const props = defineProps({
   }
 });
 
-const getFullPath = (item: RouteRecordRaw) => {
+const getFullPath = (item: AppRouteRecordRaw) => {
   return pathResolve(props.parentPath, item.path);
 };
 
@@ -41,14 +41,14 @@ const visibleRouteChildren = computed(() => {
 </script>
 
 <template>
-  <el-sub-menu v-if="visibleRouteChildren.length" :index="getFullPath(data)">
+  <el-sub-menu v-if="visibleRouteChildren.length > 1" :index="getFullPath(data)">
     <template #title>
       <Icon v-if="data.meta.icon" :class="`${prefixCls}-icon`" :icon="data.meta.icon" size="1.8rem" />
       <span :class="`${prefixCls}-title`">{{ data.meta?.title || data.name }}</span>
     </template>
     <menu-item
       v-for="(item, index) in visibleRouteChildren"
-      :key="createMenuItemKey(item, index)"
+      :key="createMenuItemKey(index)"
       :class="`${prefixCls}`"
       :data="item"
       :parent-path="getFullPath(data)"

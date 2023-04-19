@@ -4,6 +4,8 @@ import type { App } from 'vue'
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 
+const Layout = () => import('@/components/Layout/src/Layout.vue')
+
 export const constantRoutes: AppRouteRecordRaw[] = [
   {
     path: '/redirect',
@@ -54,7 +56,7 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
     path: '/admin',
     name: 'Admin',
     redirect: 'noredirect',
-    component: () => import('@/components/Layout/src/Layout.vue'),
+    component: Layout,
     meta: {
       title: '权限管理',
       icon: 'dashicons:admin-generic'

@@ -34,8 +34,12 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
     plugins: [
       vue(),
       vueJsx(),
-      AutoImport(),
-      Components(),
+      AutoImport({
+        dts: './src/types/auto-imports.d.ts'
+      }),
+      Components({
+        dts: './src/types/components.d.ts'
+      }),
       WindiCSS(),
       EslintPlugin({
         cache: false,

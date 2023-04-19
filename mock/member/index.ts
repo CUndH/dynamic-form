@@ -44,5 +44,19 @@ export default [
         msg: ''
       }
     }
+  },
+  {
+    url: '/api/role/detail',
+    method: 'get',
+    response: ({ query }) => {
+      return {
+        code: 200,
+        data: {
+          roleName: '销售总监',
+          describe: '暂无更多描述啊实打实的撒的'
+        },
+        msg: ''
+      }
+    }
   }
 ] as MockMethod[]

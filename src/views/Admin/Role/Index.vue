@@ -7,6 +7,7 @@ import { stringFormatter } from '@/utils/useFormatter'
 import AddRole from './components/AddRole.vue'
 import AddMember from './components/AddMember.vue'
 import SetMemberStatus from './components/SetMemberStatus.vue'
+import { useRouter } from 'vue-router'
 
 const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('role')
@@ -115,15 +116,21 @@ function addMember(row) {
   addMemberVisible.value = true
 }
 
-const curRoleId = ref('');
+const curRoleId = ref('')
 
 const setStatusVisible = ref(false)
 
 provide('setStatusVisible', setStatusVisible)
 
 function setRoleStatus(row) {
-  setStatusVisible.value = true;
-  curRoleId.value = row.id;
+  setStatusVisible.value = true
+  curRoleId.value = row.id
+}
+
+const { push } = useRouter()
+
+function goDetailPage(row) {
+  push({ path: '/role/detail', query: { id: row.roleId } })
 }
 </script>
 
@@ -175,7 +182,7 @@ function setRoleStatus(row) {
     @register="register"
   >
     <template #action="{ row }">
-      <el-button type="primary" size="small" plain>
+      <el-button type="primary" size="small" plain @click="goDetailPage(row)">
         <template #icon>
           <Icon icon="ep:setting" :size="16" />
         </template>

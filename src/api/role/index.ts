@@ -9,6 +9,13 @@ export const getRoleListApi = (params): Promise<IResponse> => {
   })
 }
 
+export const getRoleApi = (params): Promise<IResponse> => {
+  return request.get({
+    url: REQUEST_ORIGIN + '/role/detail',
+    params
+  })
+}
+
 export const addRoleApi = (params): Promise<IResponse> => {
   return request.post({
     url: REQUEST_ORIGIN + '/role/add',

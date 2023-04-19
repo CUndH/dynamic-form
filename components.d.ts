@@ -9,28 +9,12 @@ export {}
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Breadcrumb: typeof import('./src/components/Breadcrumb/src/Breadcrumb.vue')['default']
     ConfigGlobal: typeof import('./src/components/ConfigGlobal/src/ConfigGlobal.vue')['default']
     ContentWrap: typeof import('./src/components/ContentWrap/src/ContentWrap.vue')['default']
     ContextMenu: typeof import('./src/components/ContextMenu/src/ContextMenu.vue')['default']
     DynamicForm: typeof import('./src/components/DynamicForm/src/DynamicForm.vue')['default']
     DynamicFormItems: typeof import('./src/components/DynamicForm/src/DynamicFormItems.vue')['default']
-    ElButton: typeof import('element-plus/es')['ElButton']
-    ElCard: typeof import('element-plus/es')['ElCard']
-    ElConfigProvider: typeof import('element-plus/es')['ElConfigProvider']
-    ElDatePicker: typeof import('element-plus/es')['ElDatePicker']
-    ElDivider: typeof import('element-plus/es')['ElDivider']
-    ElDropdown: typeof import('element-plus/es')['ElDropdown']
-    ElDropdownItem: typeof import('element-plus/es')['ElDropdownItem']
-    ElDropdownMenu: typeof import('element-plus/es')['ElDropdownMenu']
-    ElInput: typeof import('element-plus/es')['ElInput']
-    ElMenu: typeof import('element-plus/es')['ElMenu']
-    ElMenuItem: typeof import('element-plus/es')['ElMenuItem']
-    ElOption: typeof import('element-plus/es')['ElOption']
-    ElRadioButton: typeof import('element-plus/es')['ElRadioButton']
-    ElRadioGroup: typeof import('element-plus/es')['ElRadioGroup']
-    ElSelect: typeof import('element-plus/es')['ElSelect']
-    ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
-    ElTooltip: typeof import('element-plus/es')['ElTooltip']
     Error: typeof import('./src/components/Error/src/Error.vue')['default']
     Header: typeof import('./src/components/Header/src/Header.vue')['default']
     Icon: typeof import('./src/components/Icon/src/Icon.vue')['default']
@@ -42,8 +26,5 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     Table: typeof import('./src/components/Table/src/Table.vue')['default']
     TagsView: typeof import('./src/components/TagsView/src/TagsView.vue')['default']
-  }
-  export interface ComponentCustomProperties {
-    vLoading: typeof import('element-plus/es')['ElLoadingDirective']
   }
 }

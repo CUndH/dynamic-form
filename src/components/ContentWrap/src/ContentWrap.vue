@@ -1,53 +1,52 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, useSlots, defineProps } from 'vue'
 import { propTypes } from '@/utils/propTypes'
-import { useDesign } from '@/utils/useDesign'
+// import { useDesign } from '@/utils/useDesign'
+import { useRoute } from 'vue-router'
 
-const { getPrefixCls } = useDesign()
-const { currentRoute } = useRouter()
+// const { getPrefixCls } = useDesign()
 
-const prefixCls = getPrefixCls('content-wrap')
-const currentRouteTitle = currentRoute.value.meta ? currentRoute.value.meta.title : ''
+const route = useRoute()
+
+// const prefixCls = getPrefixCls('content-wrap')
+
+const slots = useSlots()
+
+const hideDefaultTitle = ref(false)
+
+if (slots.hasOwnProperty('prefix-title')) {
+  hideDefaultTitle.value = true
+}
 
 defineProps({
   // 是否展示标题
-  showTitle: propTypes.bool.def(true),
-  // 标题内容
-  title: propTypes.string.def(''),
-  // 标题右侧问号提示内容
-  message: propTypes.string.def('')
+  showTitle: propTypes.bool.def(true)
+  // // 标题右侧问号提示内容
+  // message: propTypes.string.def('')
 })
+
+const title = route.meta.title
 </script>
 
 <template>
-  <ElCard
-    :class="[
-      prefixCls,
-      {
-        'show-title': showTitle
-      }
-    ]"
-    shadow="never"
-  >
-    <template v-if="showTitle" #header>
-      <div :class="`${prefixCls}-header`">
-        <span :class="`${prefixCls}-title`">{{ title || currentRouteTitle }}</span>
-        <ElTooltip v-if="message" effect="dark" placement="right">
-          <template #content>
-            <div :class="`${prefixCls}-message`">{{ message }}</div>
-          </template>
-          <Icon class="ml-5" icon="bi:question-circle-fill" :size="14" />
-        </ElTooltip>
+  <div class="flex flex-col overflow-hidden h-full rounded-4px" :key="title">
+    <div
+      class="flex px-12px justify-between items-center h-40px leading-40px my-8px mx-0 box-border bg-[var(--content-header-bg)] rounded-5px"
+    >
+      <div class="text-2.2rem font-bold tracking-normal text-[var(--content-title)]">
+        <slot name="prefix-title"></slot>
+        <span v-if="!hideDefaultTitle">{{ title }}</span>
       </div>
-    </template>
-    <div :class="`${prefixCls}-main`">
-      <slot></slot>
+      <div class="flex items-center -sm:hidden">
+        <slot name="extra"></slot>
+      </div>
     </div>
-  </ElCard>
+    <div class="flex flex-col flex-1 overflow-y-auto h-100% p-10px pt-0">
+      <slot name="content"></slot>
+    </div>
+  </div>
 </template>
-
-<style lang="scss" scoped>
+<!-- <style lang="scss" scoped>
 $prefix-cls: '#{$vNamespace}-content-wrap';
 
 .#{$prefix-cls} {
@@ -83,4 +82,4 @@ $prefix-cls: '#{$vNamespace}-content-wrap';
     }
   }
 }
-</style>
+</style> -->

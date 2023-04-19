@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import { useDesign } from '@/utils/useDesign'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 // import { Header } from '@/components/Header'
 // import { TagsView } from '@/components/TagsView'
 // import { Menu } from '@/components/Menu'
 // import { Icon } from '@/components/Icon'
 import eventBus, { EventTypeName } from '@/utils/eventBus'
+import { useTagsViewStore } from '@/store/modules/tagsView'
 
 const { getPrefixCls } = useDesign()
 
@@ -29,11 +30,16 @@ const handleCommandDropdown = (command: string) => {
       break
   }
 }
-
 // const userInfo = userStore.userInfo || wsCache.get('userInfo');
-const userInfo = {}
+const userInfo = {} as any
 
 const isRouterLoading = ref(false)
+
+const tagsViewStore = useTagsViewStore()
+
+const getCaches = computed((): string[] => {
+  return tagsViewStore.getCachedViews
+})
 
 eventBus.listen(EventTypeName.PAGE_START_LOAD, () => {
   isRouterLoading.value = true
@@ -66,6 +72,7 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
               :class="`${prefixCls}-collapse-switch`"
               @click="toggleCollapse"
             />
+            <Breadcrumb class="ml-24px" />
           </template>
           <template #right>
             <div :class="`${prefixCls}-header-right`">
@@ -77,7 +84,7 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
               >
                 <div class="user-dropdown">
                   <div class="user-avatar mr-20px">
-<!--                    <img src="@/assets/image/avatar.jpg" alt="" />-->
+                    <img class="border-none" src="@/assets/images/avatar.png" alt="" />
                   </div>
                   <Icon class="dropdown-arrow" :size="24" icon="material-symbols:arrow-drop-down" />
                 </div>
@@ -109,10 +116,18 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
       <div v-loading="isRouterLoading" :class="`${prefixCls}-content`">
         <TagsView class="mt-10px mb-10px" />
         <div :class="`${prefixCls}-router`">
-          <RouterView />
+          <transition name="slide-fade">
+            <RouterView>
+              <template #default="{ Component, route }">
+                <keep-alive :include="getCaches">
+                  <component :is="Component" :key="route.fullPath" />
+                </keep-alive>
+              </template>
+            </RouterView>
+          </transition>
         </div>
         <div :class="`${prefixCls}-footer`">
-          <div :class="`${prefixCls}-copyright`" class="mt-10px text-center">
+          <div :class="`${prefixCls}-copyright`" class="my-8px text-center">
             Copyright © {{ new Date().getFullYear() }}
             <a target="_blank" href="https://www.heilansc.com/">海澜智云</a>出品
           </div>
@@ -132,11 +147,11 @@ $prefix-cls: '#{$vNamespace}-layout';
   background-color: #f0f3f6;
   display: flex;
   &-header {
-    height: 6.4rem;
+    height: var(--tool-header-height);
     flex-shrink: 0;
-    background-color: #ffffff;
+    background-color: var(--main-bg-color);
     color: var(--el-color-primary);
-    border-bottom: 1px solid #a8abb3;
+    // border-bottom: 1px solid #a8abb3;
 
     &-right {
       display: flex;
@@ -149,7 +164,7 @@ $prefix-cls: '#{$vNamespace}-layout';
       }
 
       .dropdown-arrow {
-        color: var(--el-color-primary);
+        color: var(--color-normal);
         cursor: pointer;
       }
 
@@ -167,15 +182,16 @@ $prefix-cls: '#{$vNamespace}-layout';
     }
   }
   &-main {
-    width: calc(100% - 20rem);
-    max-height: calc(100% - 6.4rem);
-    height: calc(100% - 9.6rem);
+    width: calc(100% - 22rem);
+    overflow: hidden;
+    // max-height: calc(100% - 6.4rem);
+    // height: calc(100% - 9.6rem);
   }
   &-menu {
-    width: 20rem;
+    width: 22rem;
     height: 100%;
     flex-shrink: 0;
-    background-color: var(--el-menu-bg-color);
+    background-color: var(--main-bg-color);
     transition: all var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier);
     -webkit-transition: all var(--el-transition-duration)
       var(--el-transition-function-ease-in-out-bezier);
@@ -194,14 +210,40 @@ $prefix-cls: '#{$vNamespace}-layout';
       box-sizing: border-box;
     }
     &-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       text-align: center;
-      padding: 20px 16px;
-      line-height: 24px;
       font-size: 16px;
       font-weight: 700;
-      color: #fff;
+      color: var(--color-normal);
+      height: var(--tool-header-height);
+      background-color: var(--layout-logo-bg);
       &-title {
         white-space: nowrap;
+      }
+    }
+    ::v-deep(.el-menu) {
+      background-color: var(--main-bg-color);
+      .el-menu-item {
+        color: var(--color-normal);
+        &.is-active {
+          background-color: #000000;
+          color: var(--layout-menu-hover-color);
+        }
+        &:hover {
+          background-color: var(--color-normal);
+          color: var(--layout-menu-hover-color);
+        }
+      }
+      .el-sub-menu {
+        .el-sub-menu__title {
+          color: var(--color-normal);
+          &:hover {
+            color: var(--layout-menu-hover-color);
+            background-color: var(--color-normal);
+          }
+        }
       }
     }
   }
@@ -209,16 +251,18 @@ $prefix-cls: '#{$vNamespace}-layout';
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100%;
+    height: calc(100vh - var(--tool-header-height));
     box-sizing: border-box;
-    padding: 0 20px 10px;
     flex-grow: 1;
+    padding: 0 12px;
+    background-color: var(--content-bg);
+    overflow: hidden;
   }
   &-router {
     width: 100%;
     flex-grow: 1;
     overflow-y: auto;
-    //background-color: white;
+    // background-color: white;
   }
   &-footer {
     flex-shrink: 0;
@@ -252,6 +296,7 @@ $prefix-cls: '#{$vNamespace}-layout';
   }
   &-collapse-switch {
     padding-left: 30px;
+    color: var(--color-normal);
     cursor: pointer;
   }
 }

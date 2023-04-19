@@ -225,16 +225,16 @@ const scroll = ({ scrollLeft }) => {
 };
 
 // 移动到某个位置
-const move = (to: number) => {
-  const wrap$ = unref(scrollbarRef)?.wrapRef;
-  const { start } = useScrollTo({
-    el: wrap$!,
-    position: 'scrollLeft',
-    to: unref(scrollLeftNumber) + to,
-    duration: 500
-  });
-  start();
-};
+// const move = (to: number) => {
+//   const wrap$ = unref(scrollbarRef)?.wrapRef;
+//   const { start } = useScrollTo({
+//     el: wrap$!,
+//     position: 'scrollLeft',
+//     to: unref(scrollLeftNumber) + to,
+//     duration: 500
+//   });
+//   start();
+// };
 
 onMounted(() => {
   initTags();
@@ -252,9 +252,9 @@ watch(
 
 <template>
   <div :id="prefixCls" :class="prefixCls" class="flex w-full relative">
-    <span :class="`${prefixCls}__tool`" class="flex-all-center text-center cursor-pointer" @click="move(-200)">
+    <!-- <span :class="`${prefixCls}__tool`" class="flex-all-center text-center cursor-pointer" @click="move(-200)">
       <Icon icon="ep:d-arrow-left" color="#333" />
-    </span>
+    </span> -->
     <div class="overflow-hidden flex-1">
       <ElScrollbar ref="scrollbarRef" class="h-full" @scroll="scroll">
         <div class="flex h-full">
@@ -331,7 +331,7 @@ watch(
           >
             <div>
               <router-link :ref="tagLinksRefs.set" v-slot="{ navigate }" :to="{ ...item }" custom>
-                <div class="h-full flex-all-center nowrap pl-15px" @click="navigate">
+                <div class="h-full flex-all-center nowrap" @click="navigate">
                   <!--                  <Icon-->
                   <!--                    v-if="-->
                   <!--                      item?.matched &&-->
@@ -345,9 +345,8 @@ watch(
                   {{ item?.meta?.title }}
                   <Icon
                     :class="`${prefixCls}__item--close`"
-                    color="#333"
                     icon="ant-design:close-outlined"
-                    :size="12"
+                    :size="13"
                     @click.prevent.stop="closeSelectedTag(item)"
                   />
                 </div>
@@ -357,13 +356,13 @@ watch(
         </div>
       </ElScrollbar>
     </div>
-    <span :class="`${prefixCls}__tool`" class="flex-all-center text-center cursor-pointer" @click="move(200)">
+    <!-- <span :class="`${prefixCls}__tool`" class="flex-all-center text-center cursor-pointer" @click="move(200)">
       <Icon icon="ep:d-arrow-right" color="#333" />
     </span>
     <span :class="`${prefixCls}__tool`" class="flex-all-center text-center cursor-pointer" @click="refreshSelectedTag(selectedTag)">
       <Icon icon="ant-design:reload-outlined" color="#333" />
-    </span>
-    <ContextMenu
+    </span> -->
+    <!-- <ContextMenu
       trigger="click"
       :schema="[
         {
@@ -418,7 +417,7 @@ watch(
       <span :class="`${prefixCls}__tool`" class="flex-all-center text-center cursor-pointer">
         <Icon icon="ant-design:setting-outlined" color="#333" />
       </span>
-    </ContextMenu>
+    </ContextMenu> -->
   </div>
 </template>
 
@@ -426,7 +425,8 @@ watch(
 $prefix-cls: '#{$vNamespace}-tags-view';
 
 .#{$prefix-cls} {
-  background-color: #ffffff;
+  // background-color: #ffffff;
+  margin: 8px 0;
   :deep(.#{$elNamespace}-scrollbar__view) {
     height: 100%;
   }
@@ -456,23 +456,23 @@ $prefix-cls: '#{$vNamespace}-tags-view';
   }
 
   &__item {
-    position: relative;
-    top: 2px;
-    height: calc(100% - 4px);
     padding-right: 25px;
-    margin-left: 4px;
-    font-size: 12px;
+    margin-right: 10px;
     cursor: pointer;
-    border: 1px solid #d9d9d9;
-
+    color: var(--color-normal);
+    font-size: 1.4rem;
+    border-radius: 4px;
+    padding: 10px 22px 8px 12px;
+    background-color: #fff;
+    transition: all linear 0.2s;
     &--close {
       position: absolute;
-      top: 50%;
+      top: 49%;
       right: 5px;
-      display: none;
       transform: translate(0, -50%);
     }
     &:not(.#{$prefix-cls}__item--affix):hover {
+      padding-right: 22px !important;
       .#{$prefix-cls}__item--close {
         display: block;
       }
@@ -481,17 +481,18 @@ $prefix-cls: '#{$vNamespace}-tags-view';
 
   &__item:not(.is-active) {
     &:hover {
-      color: var(--el-color-primary);
+      color: var(--color-normal);
     }
   }
 
   &__item.is-active {
-    color: var(--el-color-white);
+    color: var(--layout-menu-hover-color);
     background-color: var(--el-color-primary);
-    border: 1px solid var(--el-color-primary);
+    padding-right: 12px;
     .#{$prefix-cls}__item--close {
+      display: none;
       :deep(span) {
-        color: var(--el-color-white) !important;
+        color: var(--layout-menu-hover-color);
       }
     }
   }

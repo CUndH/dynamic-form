@@ -38,7 +38,7 @@
     "types/**/*.d.ts",
     "tests/**/*.ts",
     "tests/**/*.tsx",
-    "mock/**/*.ts"
+    "mock/**/*.ts",
   ],
   "exclude": ["dist", "node_modules"]
 }

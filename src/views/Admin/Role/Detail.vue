@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import { getRoleApi } from '@/api/role'
+import { getMemberListApi } from '@/api/member'
+import { deleteUserByRoleId, getRoleApi, getRoleListApi } from '@/api/role'
 import { useDesign } from '@/utils/useDesign'
+import { stringFormatter } from '@/utils/useFormatter'
+import { useTable } from '@/utils/useTable'
+import { ElMessage } from 'element-plus'
 import { computed, onMounted, provide, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import AddMember from './components/AddMember.vue'
@@ -31,6 +35,7 @@ function getFirstFontOfRoleName(roleName: string) {
 
 onMounted(() => {
   getRoleDetail()
+  getOperationList()
 })
 
 const addMemberVisible = ref(false)
@@ -44,7 +49,128 @@ function addMember() {
   addMemberVisible.value = true
 }
 
-const activeName = ref('1');
+const activeName = ref('1')
+
+const operationList = ref([])
+
+const checkedOperationList = ref([])
+
+function getOperationList() {
+  getRoleListApi().then((res) => {
+    if (res.code === 0) {
+      operationList.value = res.data
+    }
+  })
+}
+
+function getUserTableCallBack(tableObject, res: IResponse) {
+  if (res.code !== 0) {
+    tableObject.tableList = []
+    tableObject.total = 0
+  } else {
+    tableObject.tableList = res.data.records
+    tableObject.total = res.data.total
+  }
+}
+
+const {
+  methods: userTableMethods,
+  register: userTableRegister,
+  tableObject: userTableObject
+} = useTable({
+  getListApi: getMemberListApi,
+  getListCallback: getUserTableCallBack
+})
+
+const { getList: getUserTableList } = userTableMethods
+
+const userTableColumns: TableColumn[] = [
+  {
+    field: 'name',
+    label: '姓名',
+    align: 'left',
+    'min-width': 160
+  },
+  {
+    field: 'department',
+    label: '部门',
+    align: 'left',
+    formatter: (row) => stringFormatter(row, 'department'),
+    'min-width': 300
+  },
+  {
+    field: 'time',
+    label: '添加时间',
+    align: 'left',
+    formatter: (row) => stringFormatter(row, 'time'),
+    'min-width': 300
+  },
+  {
+    field: 'action',
+    label: '操作',
+    width: 240,
+    fixed: 'right'
+  }
+]
+
+function handleDelete(row) {
+  deleteUserByRoleId({
+    userId: row.userId,
+    roleId: row.roleId
+  }).then((res) => {
+    if (res.code === 0) {
+      ElMessage.success('删除成功')
+      getUserTableList()
+    } else {
+      ElMessage.error(res.msg)
+    }
+  })
+}
+
+function getOperationTableCallBack(tableObject, res: IResponse) {
+  if (res.code !== 0) {
+    tableObject.tableList = []
+    tableObject.total = 0
+  } else {
+    tableObject.tableList = res.data.records
+    tableObject.total = res.data.total
+  }
+}
+
+const { register: operationTableRegister, tableObject: operationTableObject } = useTable({
+  getListApi: getMemberListApi,
+  getListCallback: getOperationTableCallBack
+})
+
+const operationTableColumns: TableColumn[] = [
+  {
+    field: 'time',
+    label: '操作时间',
+    align: 'left',
+    'min-width': 250
+  },
+  {
+    field: 'member',
+    label: '操作人员',
+    align: 'left',
+    formatter: (row) => stringFormatter(row, 'operationMember'),
+    'min-width': 150
+  },
+  {
+    field: 'type',
+    label: '操作类型',
+    align: 'left',
+    formatter: (row) => stringFormatter(row, 'type'),
+    'min-width': 150
+  },
+  {
+    field: 'remark',
+    label: '操作详情',
+    align: 'left',
+    formatter: (row) => stringFormatter(row, 'remark'),
+    'min-width': 300
+  }
+]
 </script>
 
 <template>
@@ -88,9 +214,89 @@ const activeName = ref('1');
     </div>
 
     <el-tabs v-model="activeName" class="mt-5">
-      <el-tab-pane label="操作权限" name="1">操作权限</el-tab-pane>
-      <el-tab-pane label="成员列表" name="2">成员列表</el-tab-pane>
-      <el-tab-pane label="操作记录" name="3">操作记录</el-tab-pane>
+      <el-tab-pane label="操作权限" name="1">
+        <div class="bg-white py-5 px-10">
+          <el-checkbox-group v-model:modelValue="checkedOperationList">
+            <table v-for="item in operationList" :key="item.id" class="w-full text-left my-10">
+              <thead>
+                <tr>
+                  <th colspan="3" class="p-5 bg-gray-100">
+                    <el-checkbox>{{ item.name }}</el-checkbox>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td v-for="subItem in item.list" :key="subItem.id" class="p-5">
+                    <el-checkbox :label="subItem.id">
+                      {{ subItem.name }}
+                    </el-checkbox>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </el-checkbox-group>
+          <el-divider />
+          <div class="text-center">
+            <el-button type="primary" large>保存</el-button>
+          </div>
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="成员列表" name="2">
+        <Table
+          v-model:pageSize="userTableObject.size"
+          v-model:currentPage="userTableObject.current"
+          :class="`${prefixCls}-table`"
+          :columns="userTableColumns"
+          :data="userTableObject.tableList"
+          :loading="userTableObject.loading"
+          :border="true"
+          :stripe="true"
+          selection
+          :pagination="{
+            total: userTableObject.total
+          }"
+          @register="userTableRegister"
+        >
+          <template #action="data">
+            <el-button
+              :class="`${prefixCls}-table-button`"
+              type="danger"
+              plain
+              @click="handleDelete(data.row)"
+            >
+              <template #icon>
+                <Icon icon="ep:delete" :size="16" />
+              </template>
+              删除
+            </el-button>
+          </template>
+          <template #empty>
+            <div :class="`${prefixCls}-table-empty`">暂无数据</div>
+          </template>
+        </Table>
+      </el-tab-pane>
+      <el-tab-pane label="操作记录" name="3">
+        <Table
+          v-model:pageSize="operationTableObject.size"
+          v-model:currentPage="operationTableObject.current"
+          :class="`${prefixCls}-table`"
+          :columns="operationTableColumns"
+          :data="operationTableObject.tableList"
+          :loading="operationTableObject.loading"
+          :border="true"
+          :stripe="true"
+          selection
+          :pagination="{
+            total: operationTableObject.total
+          }"
+          @register="operationTableRegister"
+        >
+          <template #empty>
+            <div :class="`${prefixCls}-table-empty`">暂无数据</div>
+          </template>
+        </Table>
+      </el-tab-pane>
     </el-tabs>
 
     <AddMember :data="addMemberData" />
@@ -125,6 +331,21 @@ $prefix-chart: '#{$vNamespace}-role-detail';
         border-radius: 50%;
       }
     }
+  }
+
+  table,
+  th,
+  td {
+    border: 1px solid #eee;
+  }
+
+  :deep(.el-tabs__header) {
+    margin-bottom: 0;
+  }
+
+  :deep(th .el-checkbox__label) {
+    font-size: 15px;
+    font-weight: bold;
   }
 }
 </style>

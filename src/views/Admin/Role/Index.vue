@@ -2,7 +2,7 @@
 import { useDesign } from '@/utils/useDesign'
 import { computed, onMounted, provide, ref, unref } from 'vue'
 import { useTable } from '@/utils/useTable'
-import { getMemberList } from '@/api/member'
+import { getMemberListApi } from '@/api/member'
 import { stringFormatter } from '@/utils/useFormatter'
 import AddRole from './components/AddRole.vue'
 import AddMember from './components/AddMember.vue'
@@ -13,7 +13,7 @@ const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('role')
 
 const { methods, register, tableObject } = useTable({
-  getListApi: getMemberList,
+  getListApi: getMemberListApi,
   getListCallback: getListCb
 })
 
@@ -167,7 +167,6 @@ function goDetailPage(row) {
   <Table
     v-model:pageSize="tableObject.size"
     v-model:currentPage="tableObject.current"
-    id="deviceTable"
     :class="`${prefixCls}-table mt-10px`"
     :columns="columns"
     :data="tableObject.tableList"

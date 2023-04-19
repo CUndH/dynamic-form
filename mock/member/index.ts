@@ -16,7 +16,8 @@ export default [
           records: new Array(Number(query.size || 10)).fill({}).map((_, index) => {
             return {
               id: `role_${pageStartIndex + index + 1}`,
-              roleName: `技术经理${index}`
+              roleName: `技术经理${index}`,
+              name: '张小刚'
             }
           })
         },

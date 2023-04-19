@@ -15,3 +15,17 @@ export const addRoleApi = (params): Promise<IResponse> => {
     params
   })
 }
+
+export const addMemberApi = (params): Promise<IResponse> => {
+  return request.post({
+    url: REQUEST_ORIGIN + '/member/add',
+    params
+  })
+}
+
+export const setStatusByRoleId = (params?): Promise<IResponse> => {
+  return request.post({
+    url: REQUEST_ORIGIN + '/member/status/update',
+    params
+  })
+}

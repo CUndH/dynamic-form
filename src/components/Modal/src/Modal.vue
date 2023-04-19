@@ -1,15 +1,14 @@
 <script setup lang="ts">
 import { propTypes } from '@/utils/propTypes'
-import { inject, Ref } from 'vue'
+import { computed } from 'vue';
 
 const props = defineProps({
+  visible: propTypes.bool.def(false),
   title: propTypes.string.def('编辑'),
   alignCenter: propTypes.bool.def(true)
 })
 
 const emits = defineEmits(['update:visible', 'cancel', 'ok'])
-
-const dialogOpen = inject<Ref<boolean>>('dialogOpen')
 
 function modalCancel() {
   emits('cancel')
@@ -18,6 +17,16 @@ function modalCancel() {
 function modalOk() {
   emits('ok')
 }
+
+const dialogOpen = computed({
+  get() {
+    return props.visible;
+  },
+  set(value) {
+    emits('update:visible', value);
+  }
+});
+
 </script>
 
 <template>

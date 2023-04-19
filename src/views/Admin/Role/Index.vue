@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import { useDesign } from '@/utils/useDesign'
-import { computed, onMounted, provide, Ref, ref, unref } from 'vue'
-import { PocTable } from '@/components/Table'
+import { computed, onMounted, provide, ref, unref } from 'vue'
 import { useTable } from '@/utils/useTable'
-import { getLogListApi } from '@/api/log'
+import { getMemberList } from '@/api/member'
 import { stringFormatter } from '@/utils/useFormatter'
 import AddRole from './components/AddRole.vue'
+import AddMember from './components/AddMember.vue'
+import SetMemberStatus from './components/SetMemberStatus.vue'
 
 const { getPrefixCls } = useDesign()
-const prefixCls = getPrefixCls('user')
+const prefixCls = getPrefixCls('role')
 
 const { methods, register, tableObject } = useTable({
-  getListApi: getLogListApi,
+  getListApi: getMemberList,
   getListCallback: getListCb
 })
 
@@ -29,9 +30,9 @@ const { getList, setSearchParams } = methods
 
 const columns: TableColumn[] = [
   {
-    field: 'role',
+    field: 'roleName',
     label: '角色名称',
-    formatter: (row) => stringFormatter(row, 'role'),
+    formatter: (row) => stringFormatter(row, 'roleName'),
     width: 160
   },
   {
@@ -95,12 +96,34 @@ function resetSearchParams() {
   })
 }
 
-const addRoleVisible: Ref<boolean> = ref(false)
+const addRoleVisible = ref(false)
 
-provide('dialogOpen', addRoleVisible);
+provide('addRoleVisible', addRoleVisible)
 
 function addUser() {
   addRoleVisible.value = true
+}
+
+const addMemberVisible = ref(false)
+
+const addMemberData = ref({})
+
+provide('addMemberVisible', addMemberVisible)
+
+function addMember(row) {
+  addMemberData.value = row
+  addMemberVisible.value = true
+}
+
+const curRoleId = ref('');
+
+const setStatusVisible = ref(false)
+
+provide('setStatusVisible', setStatusVisible)
+
+function setRoleStatus(row) {
+  setStatusVisible.value = true;
+  curRoleId.value = row.id;
 }
 </script>
 
@@ -134,7 +157,7 @@ function addUser() {
       </el-button>
     </div>
   </div>
-  <poc-table
+  <Table
     v-model:pageSize="tableObject.size"
     v-model:currentPage="tableObject.current"
     id="deviceTable"
@@ -151,7 +174,7 @@ function addUser() {
     }"
     @register="register"
   >
-    <template #action="data">
+    <template #action="{ row }">
       <el-button type="primary" size="small" plain>
         <template #icon>
           <Icon icon="ep:setting" :size="16" />
@@ -164,13 +187,13 @@ function addUser() {
         </template>
         编辑职务
       </el-button>
-      <el-button type="primary" size="small" plain>
+      <el-button type="primary" size="small" plain @click="addMember(row)">
         <template #icon>
           <Icon icon="ep:plus" :size="16" />
         </template>
         添加人员
       </el-button>
-      <el-button type="primary" size="small" plain>
+      <el-button type="primary" size="small" plain @click="setRoleStatus(row)">
         <template #icon>
           <Icon icon="ep:setting" :size="16" />
         </template>
@@ -188,8 +211,10 @@ function addUser() {
         {{ isSearch ? '无搜索结果' : '暂无数据' }}
       </div>
     </template>
-  </poc-table>
-  <add-role v-model:visible="addRoleVisible" />
+  </Table>
+  <add-role />
+  <AddMember :data="addMemberData" />
+  <SetMemberStatus :roleId="curRoleId" />
 </template>
 
 <style lang="scss" scoped>

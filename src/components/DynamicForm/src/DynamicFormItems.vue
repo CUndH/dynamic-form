@@ -159,9 +159,7 @@ onMounted(async () => {
           {{ item.text }}
         </el-radio>
       </el-radio-group>
-      <div v-else :class="`${classPrefix}-form-${config.type}`">
-        {{ config.type }}
-      </div>
+      <slot v-else :name="config.type"></slot>
     </slot>
   </el-form-item>
 </template>

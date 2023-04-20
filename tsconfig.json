@@ -24,7 +24,8 @@
       "vite/client",
       "element-plus/global",
       "node",
-      "vite-plugin-svg-icons/client"
+      "vite-plugin-svg-icons/client",
+      "unplugin-vue-define-options/macros-global"
     ],
     "typeRoots": ["./node_modules/@types/", "./types"],
     "paths": {

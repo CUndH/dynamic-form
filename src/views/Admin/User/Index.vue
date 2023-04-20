@@ -1,17 +1,18 @@
 <script lang="ts" setup>
-import { getMemberListApi } from '@/api/member'
+import { getUserListApi } from '@/api/member'
 import { useDesign } from '@/utils/useDesign'
 import { stringFormatter } from '@/utils/useFormatter'
 import { useTable } from '@/utils/useTable'
 import { computed, onMounted, provide, ref, unref } from 'vue'
 import { statusOpts } from './User.data'
 import UserDetail from './components/UserDetail.vue'
+import { useRouter } from 'vue-router'
 
 const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('user')
 
 const { methods, register, tableObject } = useTable({
-  getListApi: getMemberListApi,
+  getListApi: getUserListApi,
   getListCallback: getListCb
 })
 
@@ -29,9 +30,9 @@ const { getList, setSearchParams } = methods
 
 const columns: TableColumn[] = [
   {
-    field: 'name',
+    field: 'realName',
     label: '姓名',
-    formatter: (row) => stringFormatter(row, 'name'),
+    formatter: (row) => stringFormatter(row, 'realName'),
     width: 160
   },
   {
@@ -111,17 +112,17 @@ const userDetailVisible = ref(false)
 
 provide('userDetailVisible', userDetailVisible)
 
-const userDetailForm = ref({});
+const userDetailForm = ref({})
 
 provide('userForm', userDetailForm)
 
 function addUser() {
   userDetailVisible.value = true
-  userDetailForm.value = {};
+  userDetailForm.value = {}
 }
 
 function setDetailForModal(row) {
-  userDetailForm.value = row;
+  userDetailForm.value = row
   userDetailVisible.value = true
 }
 
@@ -130,8 +131,14 @@ const userStatusVisible = ref(false)
 provide('userStatusVisible', userStatusVisible)
 
 function setStatusForModal(row) {
-  userDetailForm.value = row;
+  userDetailForm.value = row
   userStatusVisible.value = true
+}
+
+const router = useRouter()
+
+function goDetailPage(row) {
+  router.push({ path: '/admin/user/detail', query: { id: row.id } })
 }
 </script>
 

@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { getMemberListApi } from '@/api/member'
-import { deleteUserByRoleId, getRoleApi, getRoleListApi } from '@/api/role'
+import { getUserApi, getUserListApi } from '@/api/member'
+import { getRoleListApi } from '@/api/role'
 import { useDesign } from '@/utils/useDesign'
 import { stringFormatter } from '@/utils/useFormatter'
 import { useTable } from '@/utils/useTable'
-import { ElMessage } from 'element-plus'
 import { computed, onMounted, provide, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import UserDetail from './components/UserDetail.vue'
@@ -16,12 +15,12 @@ const prefixCls = getPrefixCls('role-detail')
 
 const route = useRoute()
 
-const roleId = computed(() => route.query.id)
+const userId = computed(() => route.query.id)
 
 const formData = ref({})
 
-function getRoleDetail() {
-  getRoleApi({ roleId }).then((res) => {
+function getUserDetail() {
+  getUserApi({ userId }).then((res) => {
     if (res.code !== 0) {
       formData.value = res.data
     }
@@ -29,23 +28,24 @@ function getRoleDetail() {
 }
 
 onMounted(() => {
-  getRoleDetail()
+  getUserDetail()
   getOperationList()
   getLoginTableList()
   getOperationTableList()
 })
 
-const addMemberVisible = ref(false)
+const userDetailVisible = ref(false)
 
-const addMemberData = ref({})
+provide('userDetailVisible', userDetailVisible)
 
-provide('addMemberVisible', addMemberVisible)
+const userDetailForm = ref({})
 
-function addMember() {
-  addMemberData.value = formData
-  addMemberVisible.value = true
+provide('userForm', userDetailForm)
+
+function setDetailForModal() {
+  userDetailForm.value = formData
+  userDetailVisible.value = true
 }
-
 const activeName = ref('1')
 
 const operationList = ref([])
@@ -75,7 +75,7 @@ const {
   register: loginTableRegister,
   tableObject: loginTableObject
 } = useTable({
-  getListApi: getMemberListApi,
+  getListApi: getUserListApi,
   getListCallback: getLoginTableCallBack
 })
 
@@ -102,27 +102,7 @@ const loginTableColumns: TableColumn[] = [
     formatter: (row) => stringFormatter(row, 'time'),
     'min-width': 300
   },
-  {
-    field: 'action',
-    label: '操作',
-    width: 240,
-    fixed: 'right'
-  }
 ]
-
-function handleDelete(row) {
-  deleteUserByRoleId({
-    userId: row.userId,
-    roleId: row.roleId
-  }).then((res) => {
-    if (res.code === 0) {
-      ElMessage.success('删除成功')
-      getLoginTableList()
-    } else {
-      ElMessage.error(res.msg)
-    }
-  })
-}
 
 function getOperationTableCallBack(tableObject, res: IResponse) {
   if (res.code !== 0) {
@@ -139,7 +119,7 @@ const {
   register: operationTableRegister,
   tableObject: operationTableObject
 } = useTable({
-  getListApi: getMemberListApi,
+  getListApi: getUserListApi,
   getListCallback: getOperationTableCallBack
 })
 
@@ -153,10 +133,10 @@ const operationTableColumns: TableColumn[] = [
     'min-width': 250
   },
   {
-    field: 'member',
+    field: 'realName',
     label: '操作人员',
     align: 'left',
-    formatter: (row) => stringFormatter(row, 'operationMember'),
+    formatter: (row) => stringFormatter(row, 'realName'),
     'min-width': 150
   },
   {
@@ -199,15 +179,15 @@ const authOfPrjList = ref([])
         </div>
       </div>
       <div :class="`${prefixCls}-header-right`">
-        <el-button type="primary" plain @click="addMember">
+        <el-button type="primary" plain @click="setDetailForModal">
           <template #icon>
-            <Icon icon="ep:plus" :size="16" />
+            <Icon icon="ep:edit-pen" :size="16" />
           </template>
           编辑用户
         </el-button>
         <el-button type="default" plain>
           <template #icon>
-            <Icon icon="ep:edit-pen" :size="16" />
+            <Icon icon="ep:edit" :size="16" />
           </template>
           修改部门
         </el-button>
@@ -237,25 +217,12 @@ const authOfPrjList = ref([])
           :loading="loginTableObject.loading"
           :border="true"
           :stripe="true"
-          selection
+          :selection="false"
           :pagination="{
             total: loginTableObject.total
           }"
           @register="loginTableRegister"
         >
-          <template #action="data">
-            <el-button
-              :class="`${prefixCls}-table-button`"
-              type="danger"
-              plain
-              @click="handleDelete(data.row)"
-            >
-              <template #icon>
-                <Icon icon="ep:delete" :size="16" />
-              </template>
-              删除
-            </el-button>
-          </template>
           <template #empty>
             <div :class="`${prefixCls}-table-empty`">暂无数据</div>
           </template>

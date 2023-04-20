@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getMemberListApi } from '@/api/member'
+import { getUserListApi } from '@/api/member'
 import { deleteUserByRoleId, getRoleApi, getRoleListApi } from '@/api/role'
 import { useDesign } from '@/utils/useDesign'
 import { stringFormatter } from '@/utils/useFormatter'
@@ -80,7 +80,7 @@ const {
   register: userTableRegister,
   tableObject: userTableObject
 } = useTable({
-  getListApi: getMemberListApi,
+  getListApi: getUserListApi,
   getListCallback: getUserTableCallBack
 })
 
@@ -139,8 +139,12 @@ function getOperationTableCallBack(tableObject, res: IResponse) {
   }
 }
 
-const { methods: operationTableMethods, register: operationTableRegister, tableObject: operationTableObject } = useTable({
-  getListApi: getMemberListApi,
+const {
+  methods: operationTableMethods,
+  register: operationTableRegister,
+  tableObject: operationTableObject
+} = useTable({
+  getListApi: getUserListApi,
   getListCallback: getOperationTableCallBack
 })
 

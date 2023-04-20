@@ -75,7 +75,8 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
         name: 'UserDetail',
         component: () => import('@/views/Admin/User/Detail.vue'),
         meta: {
-          title: '用户详情'
+          title: '用户详情',
+          hidden: true,
         }
       },
       {
@@ -91,7 +92,8 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
         name: 'RoleDetail',
         component: () => import('@/views/Admin/Role/Detail.vue'),
         meta: {
-          title: '角色详情'
+          title: '角色详情',
+          hidden: true,
         }
       },
       {

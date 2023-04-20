@@ -2,7 +2,7 @@
 import { useDesign } from '@/utils/useDesign'
 import { computed, onMounted, provide, ref, unref } from 'vue'
 import { useTable } from '@/utils/useTable'
-import { getMemberListApi } from '@/api/member'
+import { getUserListApi } from '@/api/member'
 import { stringFormatter } from '@/utils/useFormatter'
 import AddRole from './components/AddRole.vue'
 import AddMember from './components/AddMember.vue'
@@ -13,7 +13,7 @@ const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('role')
 
 const { methods, register, tableObject } = useTable({
-  getListApi: getMemberListApi,
+  getListApi: getUserListApi,
   getListCallback: getListCb
 })
 
@@ -130,7 +130,7 @@ function setRoleStatus(row) {
 const { push } = useRouter()
 
 function goDetailPage(row) {
-  push({ path: '/role/detail', query: { id: row.roleId } })
+  push({ path: '/admin/role/detail', query: { id: row.roleId } })
 }
 </script>
 

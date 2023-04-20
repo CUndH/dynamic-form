@@ -71,6 +71,14 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
         }
       },
       {
+        path: 'user/detail',
+        name: 'UserDetail',
+        component: () => import('@/views/Admin/User/Detail.vue'),
+        meta: {
+          title: '用户详情'
+        }
+      },
+      {
         path: 'role',
         name: 'Role',
         component: () => import('@/views/Admin/Role/Index.vue'),

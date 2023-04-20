@@ -7,7 +7,8 @@ import { useTable } from '@/utils/useTable'
 import { ElMessage } from 'element-plus'
 import { computed, onMounted, provide, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import AddMember from './components/AddMember.vue'
+import UserDetail from './components/UserDetail.vue'
+import defaultAvatar from '@/assets/images/avatar.png'
 
 const { getPrefixCls } = useDesign()
 
@@ -27,16 +28,10 @@ function getRoleDetail() {
   })
 }
 
-function getFirstFontOfRoleName(roleName: string) {
-  if (!roleName) return '-'
-
-  return roleName.slice(0, 1)
-}
-
 onMounted(() => {
   getRoleDetail()
   getOperationList()
-  getUserTableList()
+  getLoginTableList()
   getOperationTableList()
 })
 
@@ -65,7 +60,7 @@ function getOperationList() {
   })
 }
 
-function getUserTableCallBack(tableObject, res: IResponse) {
+function getLoginTableCallBack(tableObject, res: IResponse) {
   if (res.code !== 0) {
     tableObject.tableList = []
     tableObject.total = 0
@@ -76,17 +71,17 @@ function getUserTableCallBack(tableObject, res: IResponse) {
 }
 
 const {
-  methods: userTableMethods,
-  register: userTableRegister,
-  tableObject: userTableObject
+  methods: loginTableMethods,
+  register: loginTableRegister,
+  tableObject: loginTableObject
 } = useTable({
   getListApi: getMemberListApi,
-  getListCallback: getUserTableCallBack
+  getListCallback: getLoginTableCallBack
 })
 
-const { getList: getUserTableList } = userTableMethods
+const { getList: getLoginTableList } = loginTableMethods
 
-const userTableColumns: TableColumn[] = [
+const loginTableColumns: TableColumn[] = [
   {
     field: 'name',
     label: '姓名',
@@ -122,7 +117,7 @@ function handleDelete(row) {
   }).then((res) => {
     if (res.code === 0) {
       ElMessage.success('删除成功')
-      getUserTableList()
+      getLoginTableList()
     } else {
       ElMessage.error(res.msg)
     }
@@ -139,7 +134,11 @@ function getOperationTableCallBack(tableObject, res: IResponse) {
   }
 }
 
-const { methods: operationTableMethods, register: operationTableRegister, tableObject: operationTableObject } = useTable({
+const {
+  methods: operationTableMethods,
+  register: operationTableRegister,
+  tableObject: operationTableObject
+} = useTable({
   getListApi: getMemberListApi,
   getListCallback: getOperationTableCallBack
 })
@@ -175,18 +174,28 @@ const operationTableColumns: TableColumn[] = [
     'min-width': 300
   }
 ]
+
+const authOfPrjList = ref([])
 </script>
 
 <template>
   <div :class="`${prefixCls}`">
     <div :class="`${prefixCls}-header bg-white`">
       <div :class="`${prefixCls}-header-left`">
-        <div :class="`${prefixCls}-header-left-avatar`">
-          {{ getFirstFontOfRoleName(formData.roleName) }}
+        <div class="ml-50px">
+          <img
+            class="w-50px h-50px mr-10 border-0 rounded-1/2"
+            :src="formData.avatar || defaultAvatar"
+          />
         </div>
         <div :class="`${prefixCls}-header-left-name`">
-          <div class="font-bold text-20px mt-2 mb-4">{{ formData.roleName }}</div>
-          <div class="text-14px">{{ formData.describe || '暂无更多描述' }}</div>
+          <div>
+            <span class="font-16px font-bold mr-5">{{ formData.realName }}</span>
+            <el-text type="success">在线</el-text>
+          </div>
+          <div class="font-bold text-20px mt-2 mb-4">
+            {{ formData.department }}/{{ formData.roleName }}
+          </div>
         </div>
       </div>
       <div :class="`${prefixCls}-header-right`">
@@ -194,7 +203,13 @@ const operationTableColumns: TableColumn[] = [
           <template #icon>
             <Icon icon="ep:plus" :size="16" />
           </template>
-          添加用户
+          编辑用户
+        </el-button>
+        <el-button type="default" plain>
+          <template #icon>
+            <Icon icon="ep:edit-pen" :size="16" />
+          </template>
+          修改部门
         </el-button>
         <el-button type="default" plain>
           <template #icon>
@@ -208,17 +223,66 @@ const operationTableColumns: TableColumn[] = [
           </template>
           设置状态
         </el-button>
-        <el-button type="default" plain>
-          <template #icon>
-            <Icon icon="ep:delete" :size="16" />
-          </template>
-          删除角色
-        </el-button>
       </div>
     </div>
 
     <el-tabs v-model="activeName" class="mt-5">
-      <el-tab-pane label="操作权限" name="1">
+      <el-tab-pane label="登录日志" name="1">
+        <Table
+          v-model:pageSize="loginTableObject.size"
+          v-model:currentPage="loginTableObject.current"
+          :class="`${prefixCls}-table`"
+          :columns="loginTableColumns"
+          :data="loginTableObject.tableList"
+          :loading="loginTableObject.loading"
+          :border="true"
+          :stripe="true"
+          selection
+          :pagination="{
+            total: loginTableObject.total
+          }"
+          @register="loginTableRegister"
+        >
+          <template #action="data">
+            <el-button
+              :class="`${prefixCls}-table-button`"
+              type="danger"
+              plain
+              @click="handleDelete(data.row)"
+            >
+              <template #icon>
+                <Icon icon="ep:delete" :size="16" />
+              </template>
+              删除
+            </el-button>
+          </template>
+          <template #empty>
+            <div :class="`${prefixCls}-table-empty`">暂无数据</div>
+          </template>
+        </Table>
+      </el-tab-pane>
+      <el-tab-pane label="操作记录" name="2">
+        <Table
+          v-model:pageSize="operationTableObject.size"
+          v-model:currentPage="operationTableObject.current"
+          :class="`${prefixCls}-table`"
+          :columns="operationTableColumns"
+          :data="operationTableObject.tableList"
+          :loading="operationTableObject.loading"
+          :border="true"
+          :stripe="true"
+          :selection="false"
+          :pagination="{
+            total: operationTableObject.total
+          }"
+          @register="operationTableRegister"
+        >
+          <template #empty>
+            <div :class="`${prefixCls}-table-empty`">暂无数据</div>
+          </template>
+        </Table>
+      </el-tab-pane>
+      <el-tab-pane label="操作权限" name="3">
         <div class="bg-white py-5 px-10">
           <el-checkbox-group v-model:modelValue="checkedOperationList">
             <table v-for="item in operationList" :key="item.id" class="w-full text-left my-10">
@@ -246,64 +310,55 @@ const operationTableColumns: TableColumn[] = [
           </div>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="成员列表" name="2">
-        <Table
-          v-model:pageSize="userTableObject.size"
-          v-model:currentPage="userTableObject.current"
-          :class="`${prefixCls}-table`"
-          :columns="userTableColumns"
-          :data="userTableObject.tableList"
-          :loading="userTableObject.loading"
-          :border="true"
-          :stripe="true"
-          selection
-          :pagination="{
-            total: userTableObject.total
-          }"
-          @register="userTableRegister"
-        >
-          <template #action="data">
-            <el-button
-              :class="`${prefixCls}-table-button`"
-              type="danger"
-              plain
-              @click="handleDelete(data.row)"
-            >
-              <template #icon>
-                <Icon icon="ep:delete" :size="16" />
-              </template>
-              删除
-            </el-button>
-          </template>
-          <template #empty>
-            <div :class="`${prefixCls}-table-empty`">暂无数据</div>
-          </template>
-        </Table>
-      </el-tab-pane>
-      <el-tab-pane label="操作记录" name="3">
-        <Table
-          v-model:pageSize="operationTableObject.size"
-          v-model:currentPage="operationTableObject.current"
-          :class="`${prefixCls}-table`"
-          :columns="operationTableColumns"
-          :data="operationTableObject.tableList"
-          :loading="operationTableObject.loading"
-          :border="true"
-          :stripe="true"
-          :selection="false"
-          :pagination="{
-            total: operationTableObject.total
-          }"
-          @register="operationTableRegister"
-        >
-          <template #empty>
-            <div :class="`${prefixCls}-table-empty`">暂无数据</div>
-          </template>
-        </Table>
+      <el-tab-pane label="项目权限" name="4">
+        <div :class="`${prefixCls}-project-auth bg-white p-20`">
+          <div>
+            <span class="font-bold">数据权限</span>
+            <span>（设置该角色的用户可以操作的数据的范围）</span>
+          </div>
+          <div class="mt-12">
+            <el-checkbox-group v-model:modelValue="authOfPrjList">
+              <el-row>
+                <el-col :span="3">
+                  <el-checkbox label="1">个人</el-checkbox>
+                </el-col>
+                <el-col :span="20" class="pt-3px font-12px text-[#aaa]"
+                  >只能操作自己和下属的数据</el-col
+                >
+              </el-row>
+              <el-row>
+                <el-col :span="3">
+                  <el-checkbox label="2">所属部门</el-checkbox>
+                </el-col>
+                <el-col :span="20" class="pt-3px font-12px text-[#aaa]"
+                  >能操作自己、下属、和自己所属部门的数据</el-col
+                >
+              </el-row>
+              <el-row>
+                <el-col :span="3">
+                  <el-checkbox label="3">所属部门及下属部门</el-checkbox>
+                </el-col>
+                <el-col :span="20" class="pt-3px font-12px text-[#aaa]"
+                  >所属部门及下属部门 能操作自己、下属和自己所属部门及其子部门的数据</el-col
+                >
+              </el-row>
+              <el-row>
+                <el-col :span="3">
+                  <el-checkbox label="4">全公司</el-checkbox>
+                </el-col>
+                <el-col :span="20" class="pt-3px font-12px text-[#aaa]">能操作全公司的数据</el-col>
+              </el-row>
+            </el-checkbox-group>
+          </div>
+          <el-divider />
+          <div class="text-center">
+            <el-button type="primary" large>保存</el-button>
+          </div>
+        </div>
       </el-tab-pane>
     </el-tabs>
 
-    <AddMember :data="addMemberData" />
+    <UserDetail />
   </div>
 </template>
 
@@ -322,18 +377,6 @@ $prefix-chart: '#{$vNamespace}-role-detail';
     &-left {
       display: flex;
       align-items: center;
-
-      &-avatar {
-        margin-right: 15px;
-        width: 60px;
-        line-height: 60px;
-        font-size: 28px;
-        font-weight: bold;
-        text-align: center;
-        color: #fff;
-        background-color: crimson;
-        border-radius: 50%;
-      }
     }
   }
 
@@ -350,6 +393,13 @@ $prefix-chart: '#{$vNamespace}-role-detail';
   :deep(th .el-checkbox__label) {
     font-size: 15px;
     font-weight: bold;
+  }
+
+  &-project-auth {
+    :deep(.el-checkbox-group) {
+      font-size: 14px;
+      line-height: inherit;
+    }
   }
 }
 </style>

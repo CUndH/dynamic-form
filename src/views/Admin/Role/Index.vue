@@ -101,7 +101,7 @@ const addRoleVisible = ref(false)
 
 provide('addRoleVisible', addRoleVisible)
 
-function addUser() {
+function addRole() {
   addRoleVisible.value = true
 }
 
@@ -156,7 +156,7 @@ function goDetailPage(row) {
       </el-button>
     </div>
     <div :class="`${prefixCls}-list-header-right`">
-      <el-button type="primary" @click="addUser">
+      <el-button type="primary" @click="addRole">
         <template #icon>
           <Icon icon="ep:plus" :size="16" />
         </template>
@@ -218,7 +218,7 @@ function goDetailPage(row) {
       </div>
     </template>
   </Table>
-  <add-role />
+  <AddRole />
   <AddMember :data="addMemberData" />
   <SetMemberStatus :roleId="curRoleId" />
 </template>

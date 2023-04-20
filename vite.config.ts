@@ -12,6 +12,7 @@ import { viteMockServe } from 'vite-plugin-mock'
 import { createHtmlPlugin } from 'vite-plugin-html'
 import GlobalsPolyfills from '@esbuild-plugins/node-globals-polyfill'
 import nodePolyfills from 'rollup-plugin-node-polyfills'
+import DefineOptions from 'unplugin-vue-define-options/vite'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 
@@ -51,6 +52,7 @@ export default defineConfig(({ command, mode }: ConfigEnv): UserConfig => {
         svgoOptions: true
       }),
       PurgeIcons(),
+      DefineOptions(),
       viteMockServe({
         ignore: /^\_/,
         mockPath: 'mock',

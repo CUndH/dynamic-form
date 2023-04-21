@@ -48,7 +48,7 @@ export default defineComponent({
     data: {
       type: Array as PropType<Recordable[]>,
       default: () => []
-    },
+    }
   },
   emits: ['update:pageSize', 'update:currentPage', 'register', 'selectionChange'],
   setup(props, { attrs, slots, emit, expose }) {
@@ -272,12 +272,15 @@ export default defineComponent({
     }
 
     return () => (
-      <div class={componentClass + '-container'} v-loading={unref(getProps).loading}>
+      <div class={[componentClass + '-container', 'flex-1']} v-loading={unref(getProps).loading}>
         <ElTable
           // @ts-ignore
           class={componentClass + '-main'}
           ref={elTableRef}
           data={unref(getProps).data}
+          width="100%"
+          height="100%"
+          max-height="100%"
           onSelection-change={selectionChange}
           {...unref(getBindValue)}
         >

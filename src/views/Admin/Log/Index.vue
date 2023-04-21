@@ -11,19 +11,24 @@ const tabPosition = ref(1)
 </script>
 
 <template>
-  <el-radio-group v-model:modelValue="tabPosition" class="mb-10px">
-    <el-radio-button :label="1">操作日志</el-radio-button>
-    <el-radio-button :label="2">登录日志</el-radio-button>
-  </el-radio-group>
   <ContentWrap :show-title="false" :class="`${prefixCls}-content`">
-    <operation-log v-if="tabPosition === 1" />
-    <login-log v-else />
+    <template #content>
+      <el-radio-group v-model:modelValue="tabPosition" class="mb-10px">
+        <el-radio-button :label="1">操作日志</el-radio-button>
+        <el-radio-button :label="2">登录日志</el-radio-button>
+      </el-radio-group>
+      <operation-log v-if="tabPosition === 1" />
+      <login-log v-else />
+    </template>
   </ContentWrap>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 $prefix-chart: '#{$vNamespace}-log-page';
 
 .#{$prefix-chart} {
+  &-content {
+    background-color: #fff;
+  }
 }
 </style>

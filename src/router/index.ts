@@ -4,6 +4,8 @@ import type { App } from 'vue'
 
 /* eslint-disable @typescript-eslint/no-var-requires */
 
+const Layout = () => import('@/components/Layout/src/Layout.vue')
+
 export const constantRoutes: AppRouteRecordRaw[] = [
   {
     path: '/redirect',
@@ -54,7 +56,7 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
     path: '/admin',
     name: 'Admin',
     redirect: 'noredirect',
-    component: () => import('@/components/Layout/src/Layout.vue'),
+    component: Layout,
     meta: {
       title: '权限管理',
       icon: 'dashicons:admin-generic'
@@ -69,11 +71,29 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
         }
       },
       {
+        path: 'user/detail',
+        name: 'UserDetail',
+        component: () => import('@/views/Admin/User/Detail.vue'),
+        meta: {
+          title: '用户详情',
+          hidden: true,
+        }
+      },
+      {
         path: 'role',
         name: 'Role',
         component: () => import('@/views/Admin/Role/Index.vue'),
         meta: {
           title: '角色管理'
+        }
+      },
+      {
+        path: 'role/detail',
+        name: 'RoleDetail',
+        component: () => import('@/views/Admin/Role/Detail.vue'),
+        meta: {
+          title: '角色详情',
+          hidden: true,
         }
       },
       {

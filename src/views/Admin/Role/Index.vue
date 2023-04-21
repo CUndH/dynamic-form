@@ -2,17 +2,18 @@
 import { useDesign } from '@/utils/useDesign'
 import { computed, onMounted, provide, ref, unref } from 'vue'
 import { useTable } from '@/utils/useTable'
-import { getMemberList } from '@/api/member'
+import { getUserListApi } from '@/api/member'
 import { stringFormatter } from '@/utils/useFormatter'
 import AddRole from './components/AddRole.vue'
 import AddMember from './components/AddMember.vue'
 import SetMemberStatus from './components/SetMemberStatus.vue'
+import { useRouter } from 'vue-router'
 
 const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('role')
 
 const { methods, register, tableObject } = useTable({
-  getListApi: getMemberList,
+  getListApi: getUserListApi,
   getListCallback: getListCb
 })
 
@@ -100,7 +101,7 @@ const addRoleVisible = ref(false)
 
 provide('addRoleVisible', addRoleVisible)
 
-function addUser() {
+function addRole() {
   addRoleVisible.value = true
 }
 
@@ -115,15 +116,21 @@ function addMember(row) {
   addMemberVisible.value = true
 }
 
-const curRoleId = ref('');
+const curRoleId = ref('')
 
 const setStatusVisible = ref(false)
 
 provide('setStatusVisible', setStatusVisible)
 
 function setRoleStatus(row) {
-  setStatusVisible.value = true;
-  curRoleId.value = row.id;
+  setStatusVisible.value = true
+  curRoleId.value = row.id
+}
+
+const { push } = useRouter()
+
+function goDetailPage(row) {
+  push({ path: '/admin/role/detail', query: { id: row.roleId } })
 }
 </script>
 
@@ -149,7 +156,7 @@ function setRoleStatus(row) {
       </el-button>
     </div>
     <div :class="`${prefixCls}-list-header-right`">
-      <el-button type="primary" @click="addUser">
+      <el-button type="primary" @click="addRole">
         <template #icon>
           <Icon icon="ep:plus" :size="16" />
         </template>
@@ -160,7 +167,6 @@ function setRoleStatus(row) {
   <Table
     v-model:pageSize="tableObject.size"
     v-model:currentPage="tableObject.current"
-    id="deviceTable"
     :class="`${prefixCls}-table mt-10px`"
     :columns="columns"
     :data="tableObject.tableList"
@@ -175,7 +181,7 @@ function setRoleStatus(row) {
     @register="register"
   >
     <template #action="{ row }">
-      <el-button type="primary" size="small" plain>
+      <el-button type="primary" size="small" plain @click="goDetailPage(row)">
         <template #icon>
           <Icon icon="ep:setting" :size="16" />
         </template>
@@ -212,7 +218,7 @@ function setRoleStatus(row) {
       </div>
     </template>
   </Table>
-  <add-role />
+  <AddRole />
   <AddMember :data="addMemberData" />
   <SetMemberStatus :roleId="curRoleId" />
 </template>

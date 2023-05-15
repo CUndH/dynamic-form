@@ -83,7 +83,24 @@
   --layout-menu-width: 72px;
   --el-menu-item-height: 6rem;
   --tool-header-height: 6.4rem;
-  --content-bg: #f8f8f8;
+  --content-bg: #E4EDEA;
   --tags-view-height: 32px;
   --color-normal: #04113F;
+}
+
+// 头部搜索栏共用样式
+.search-tool-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  .tool-item {
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+    margin-bottom: 12px;
+    .label {
+      margin-right: 5px;
+      white-space: nowrap;
+      color: var(--content-second);
+    }
+  }
 }

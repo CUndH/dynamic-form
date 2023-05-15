@@ -26,5 +26,6 @@ declare module '@vue/runtime-core' {
     RouterView: typeof import('vue-router')['RouterView']
     Table: typeof import('./../components/Table/src/Table.vue')['default']
     TagsView: typeof import('./../components/TagsView/src/TagsView.vue')['default']
+    TreeSelector: typeof import('./../components/TreeSelector/src/TreeSelector.vue')['default']
   }
 }

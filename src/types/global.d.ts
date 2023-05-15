@@ -47,3 +47,17 @@ declare module '*.module.scss' {
   const classes: CSSModuleClasses
   export default classes
 }
+
+declare interface DictItemRes {
+  id: string
+  dictId: string
+  label: string
+  dictType: string
+  description: string
+  sortOrder: number
+  createTime: string
+  updateTime: string
+  remarks: string
+  delFlag: string
+  value: string
+}

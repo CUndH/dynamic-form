@@ -1,14 +1,16 @@
 <script lang="ts" setup>
 import { getUserListApi } from '@/api/member'
-import { getDepartmentTreeDataApi } from '@/api/user'
+import { createUserApi, getDepartmentTreeDataApi, updateUserApi } from '@/api/user'
 import { useDesign } from '@/utils/useDesign'
 import { stringFormatter } from '@/utils/useFormatter'
 import { useTable } from '@/utils/useTable'
 import { computed, onMounted, provide, ref, unref } from 'vue'
-import { statusOpts } from './User.data'
-import UserDetail from './components/UserDetail.vue'
+import { statusOpts, useUserDetailModal, useUserStatusModal } from './User.data'
 import { useRouter } from 'vue-router'
 import { TableInstance } from '@/types/component/table'
+import UserDetail from './components/UserDetail.vue'
+import { RES_CODE_SUEECSS } from '@/constants'
+import { ElMessage } from 'element-plus'
 
 const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('user')
@@ -112,31 +114,57 @@ function resetSearchParams() {
   })
 }
 
-const userDetailVisible = ref(false)
-
-provide('userDetailVisible', userDetailVisible)
-
 const userDetailForm = ref({})
 
-provide('userForm', userDetailForm)
-
 function addUser() {
-  userDetailVisible.value = true
   userDetailForm.value = {}
+
+  useUserDetailModal({
+    title: '新增用户',
+    componentProps: { userData: userDetailForm.value },
+    onCancel: () => {},
+    onConfirm: () => {
+      createUserApi(userDetailForm.value).then((res) => {
+        if (res.code === RES_CODE_SUEECSS) {
+          ElMessage.success('保存成功')
+        }
+      })
+    }
+  })
 }
 
-function setDetailForModal(row) {
+function editRow(row) {
   userDetailForm.value = row
-  userDetailVisible.value = true
+
+  useUserDetailModal({
+    title: '编辑用户',
+    componentProps: { userData: userDetailForm.value },
+    onCancel: () => {},
+    onConfirm: () => {
+      updateUserApi(userDetailForm.value).then((res) => {
+        if (res.code === RES_CODE_SUEECSS) {
+          ElMessage.success('保存成功')
+        }
+      })
+    }
+  })
 }
-
-const userStatusVisible = ref(false)
-
-provide('userStatusVisible', userStatusVisible)
 
 function setStatusForModal(row) {
   userDetailForm.value = row
-  userStatusVisible.value = true
+
+  useUserStatusModal({
+    title: '修改用户状态',
+    componentProps: { userData: userDetailForm.value },
+    onCancel: () => {},
+    onConfirm: () => {
+      updateUserApi(userDetailForm.value).then((res) => {
+        if (res.code === RES_CODE_SUEECSS) {
+          ElMessage.success('保存成功')
+        }
+      })
+    }
+  })
 }
 
 const router = useRouter()
@@ -290,7 +318,7 @@ function handleSelectDept(node) {
               </template>
               详情
             </el-button>
-            <el-button type="primary" size="small" plain @click="setDetailForModal(row)">
+            <el-button type="primary" size="small" plain @click="editRow(row)">
               <template #icon>
                 <Icon icon="ep:edit-pen" :size="16" />
               </template>
@@ -317,6 +345,5 @@ function handleSelectDept(node) {
         </Table>
       </template>
     </ContentWrap>
-    <UserDetail />
   </div>
 </template>

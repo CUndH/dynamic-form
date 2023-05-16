@@ -136,88 +136,100 @@ function goDetailPage(row) {
 
 <template>
   <div :class="`${prefixCls}-list-header`">
-    <div :class="`${prefixCls}-list-header-left`">
-      <el-input
-        v-model:modelValue="searchKey.keyword"
-        placeholder="角色名称"
-        class="mr-10px w-120"
-      />
-      <el-button type="primary" @click="searchList">
-        <template #icon>
-          <Icon icon="ep:search" :size="16" />
-        </template>
-        查询
-      </el-button>
-      <el-button class="mr-10px" type="default" @click="resetSearchParams">
-        <template #icon>
-          <Icon icon="ep:refresh-left" :size="16" />
-        </template>
-        重置
-      </el-button>
-    </div>
-    <div :class="`${prefixCls}-list-header-right`">
-      <el-button type="primary" @click="addRole">
-        <template #icon>
-          <Icon icon="ep:plus" :size="16" />
-        </template>
-        新建角色
-      </el-button>
-    </div>
+    <ContentWrap class="bg-[#fff] w-full">
+      <template #content>
+        <div class="search-tool-wrap">
+          <div class="tool-item">
+            <el-input
+              v-model:modelValue="searchKey.keyword"
+              placeholder="角色名称"
+              class="mr-10px w-120"
+            />
+          </div>
+          <div class="tool-item !min-w-0">
+            <el-button type="primary" @click="searchList">
+              <template #icon>
+                <Icon icon="ep:search" :size="16" />
+              </template>
+              查询
+            </el-button>
+          </div>
+          <div class="tool-item !min-w-0">
+            <el-button class="mr-10px" type="default" @click="resetSearchParams">
+              <template #icon>
+                <Icon icon="ep:refresh-left" :size="16" />
+              </template>
+              重置
+            </el-button>
+          </div>
+        </div>
+
+        <div :class="`${prefixCls}-list-header-right`">
+          <el-button type="primary" @click="addRole">
+            <template #icon>
+              <Icon icon="ep:plus" :size="16" />
+            </template>
+            新建角色
+          </el-button>
+        </div>
+
+        <Table
+          v-model:pageSize="tableObject.size"
+          v-model:currentPage="tableObject.current"
+          :class="`${prefixCls}-table mt-10px`"
+          :columns="columns"
+          :data="tableObject.tableList"
+          :loading="tableObject.loading"
+          :selection="false"
+          :border="true"
+          :stripe="true"
+          :pagination="{
+            total: tableObject.total,
+            background: true
+          }"
+          @register="register"
+        >
+          <template #action="{ row }">
+            <el-button type="primary" size="small" plain @click="goDetailPage(row)">
+              <template #icon>
+                <Icon icon="ep:setting" :size="16" />
+              </template>
+              设置权限
+            </el-button>
+            <el-button type="primary" size="small" plain>
+              <template #icon>
+                <Icon icon="ep:edit-pen" :size="16" />
+              </template>
+              编辑职务
+            </el-button>
+            <el-button type="primary" size="small" plain @click="addMember(row)">
+              <template #icon>
+                <Icon icon="ep:plus" :size="16" />
+              </template>
+              添加人员
+            </el-button>
+            <el-button type="primary" size="small" plain @click="setRoleStatus(row)">
+              <template #icon>
+                <Icon icon="ep:setting" :size="16" />
+              </template>
+              设置状态
+            </el-button>
+            <el-button type="danger" size="small" plain>
+              <template #icon>
+                <Icon icon="ep:delete" :size="16" />
+              </template>
+              删除
+            </el-button>
+          </template>
+          <template #empty>
+            <div :class="`${prefixCls}-table-empty`">
+              {{ isSearch ? '无搜索结果' : '暂无数据' }}
+            </div>
+          </template>
+        </Table>
+      </template>
+    </ContentWrap>
   </div>
-  <Table
-    v-model:pageSize="tableObject.size"
-    v-model:currentPage="tableObject.current"
-    :class="`${prefixCls}-table mt-10px`"
-    :columns="columns"
-    :data="tableObject.tableList"
-    :loading="tableObject.loading"
-    :selection="false"
-    :border="true"
-    :stripe="true"
-    :pagination="{
-      total: tableObject.total,
-      background: true
-    }"
-    @register="register"
-  >
-    <template #action="{ row }">
-      <el-button type="primary" size="small" plain @click="goDetailPage(row)">
-        <template #icon>
-          <Icon icon="ep:setting" :size="16" />
-        </template>
-        设置权限
-      </el-button>
-      <el-button type="primary" size="small" plain>
-        <template #icon>
-          <Icon icon="ep:edit-pen" :size="16" />
-        </template>
-        编辑职务
-      </el-button>
-      <el-button type="primary" size="small" plain @click="addMember(row)">
-        <template #icon>
-          <Icon icon="ep:plus" :size="16" />
-        </template>
-        添加人员
-      </el-button>
-      <el-button type="primary" size="small" plain @click="setRoleStatus(row)">
-        <template #icon>
-          <Icon icon="ep:setting" :size="16" />
-        </template>
-        设置状态
-      </el-button>
-      <el-button type="danger" size="small" plain>
-        <template #icon>
-          <Icon icon="ep:delete" :size="16" />
-        </template>
-        删除
-      </el-button>
-    </template>
-    <template #empty>
-      <div :class="`${prefixCls}-table-empty`">
-        {{ isSearch ? '无搜索结果' : '暂无数据' }}
-      </div>
-    </template>
-  </Table>
   <AddRole />
   <AddMember :data="addMemberData" />
   <SetMemberStatus :roleId="curRoleId" />

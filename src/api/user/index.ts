@@ -8,3 +8,17 @@ export const getDepartmentTreeDataApi = (params?): Promise<IResponse> => {
     params
   })
 }
+
+export const createUserApi = (data): Promise<IResponse> => {
+  return request.post({
+    url: REQUEST_ORIGIN + '/user',
+    data
+  })
+}
+
+export const updateUserApi = (data): Promise<IResponse> => {
+  return request.put({
+    url: REQUEST_ORIGIN + '/user',
+    data
+  })
+}

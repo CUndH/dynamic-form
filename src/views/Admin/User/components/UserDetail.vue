@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import { inject, Ref, unref } from 'vue'
+import { PropType } from 'vue'
 import { DynamicForm } from '@/components/DynamicForm'
 import type { DynamicFormConfig } from '@/components/DynamicForm/src/types'
-import { addRoleApi } from '@/api/role'
-import { ElMessage } from 'element-plus'
-
-const COMPONENT_PREFIX = 'add-user-dialog'
+import { useVModel } from '@vueuse/core'
 
 const roleFormConfig: DynamicFormConfig[] = [
   {
@@ -62,10 +59,6 @@ const roleFormConfig: DynamicFormConfig[] = [
   }
 ]
 
-
-const userDetailVisible = inject<Ref<boolean>>('userDetailVisible')
-const userForm = inject<Ref<UserData | {}>>('userForm')
-
 interface UserData {
   account: string
   department: string
@@ -75,33 +68,15 @@ interface UserData {
   sex: number
 }
 
-function modalCancel() {
-  userDetailVisible!.value = false
-}
+const props = defineProps({
+  userData: {
+    type: Object as PropType<UserData | {}>
+  }
+})
 
-function submitData() {
-  addRoleApi(unref(userForm)).then((res) => {
-    if (res.code !== 0) {
-      ElMessage.success('保存成功')
-      modalCancel()
-    }
-  })
-}
+const data = useVModel(props, 'userData')
 </script>
 
 <template>
-  <Modal
-    title="新建角色"
-    :class="`${COMPONENT_PREFIX}`"
-    :close-on-click-modal="false"
-    v-model:visible="userDetailVisible"
-    align-center
-    :width="'25%'"
-    @cancel="modalCancel"
-    @ok="submitData"
-  >
-    <template #content>
-      <DynamicForm ref="roleFormRef" :form-config="roleFormConfig" :model="userForm" />
-    </template>
-  </Modal>
+  <DynamicForm ref="roleFormRef" :form-config="roleFormConfig" :model="data" />
 </template>

@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { getUserListApi } from '@/api/member'
+import { getDepartmentTreeDataApi } from '@/api/user'
 import { useDesign } from '@/utils/useDesign'
 import { stringFormatter } from '@/utils/useFormatter'
 import { useTable } from '@/utils/useTable'
@@ -84,6 +85,7 @@ const columns: TableColumn[] = [
 ]
 
 const searchKey = ref({
+  deptId: '',
   keyword: undefined,
   status: undefined,
   lastLoginTime: undefined
@@ -103,6 +105,7 @@ function searchList() {
 
 function resetSearchParams() {
   setSearchParams({
+    deptId: '',
     keyword: undefined,
     status: undefined,
     lastLoginTime: undefined
@@ -146,13 +149,31 @@ const tableRef = ref<TableInstance>()
 
 function editDepartment() {
   let ref = tableRef.value?.elTableRef
-  console.log(ref.getSelectionRows())
+  console.log(ref?.getSelectionRows())
+}
+
+function handleSelectDept(node) {
+  setSearchParams({
+    deptId: node.id
+  })
 }
 </script>
 
 <template>
-  <div :class="`${prefixCls}-list-header`">
-    <ContentWrap class="bg-[#fff]">
+  <div :class="`${prefixCls}-list-header relative h-full`">
+    <TreeSelector
+      title="部门"
+      class="absolute left-0 top-0 bottom-0 bg-[#fff] rounded-4px"
+      remote
+      :fetch-func="getDepartmentTreeDataApi"
+      :default-props="{
+        children: 'children',
+        label: 'name',
+        value: 'id'
+      }"
+      @click="handleSelectDept"
+    />
+    <ContentWrap class="ml-232px bg-[#fff]">
       <template #content>
         <div class="search-tool-wrap">
           <div class="tool-item">

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ref, watch, PropType } from 'vue'
+import { ref, watch, PropType, onMounted } from 'vue'
 import { useDesign } from '@/utils/useDesign'
-import { ElTree } from 'element-plus'
+import { ElMessage, ElTree } from 'element-plus'
 import { Search } from '@element-plus/icons-vue'
 import type Node from 'element-plus/es/components/tree/src/model/node'
-import { MAX_LEVEL } from '@/constants'
+import { MAX_LEVEL, RES_CODE_SUEECSS } from '@/constants'
 
 interface PropsType {
   children: string
@@ -55,6 +55,17 @@ const props = defineProps({
   showEditBtns: {
     type: Boolean,
     default: true
+  },
+  remote: {
+    type: Boolean,
+    default: false
+  },
+  fetchFunc: {
+    type: Function as PropType<() => Promise<IResponse>>
+  },
+  showFirstGroup: {
+    type: Boolean,
+    default: true
   }
 })
 
@@ -88,6 +99,40 @@ const handleEdit = (node: Node, data: Tree) => {
 const handleDelete = (node: Node, data: Tree) => {
   emit('delete', node, data)
 }
+
+const treeData = ref()
+
+function getTreeData() {
+  if (!props.remote) {
+    treeData.value = props.data
+    return
+  }
+
+  (props?.fetchFunc as () => Promise<IResponse>)().then((res) => {
+    if (res.code === RES_CODE_SUEECSS) {
+      let data: { [x: string]: any }[] = []
+
+      // 在一级填入一个全部
+      if (props.showFirstGroup) {
+        data = [
+          {
+            [props.defaultProps.label]: '全部',
+            [props.defaultProps.value]: '',
+            [props.defaultProps.children]: res.data
+          }
+        ]
+      }
+
+      treeData.value = data
+    } else {
+      ElMessage.error(res.msg)
+    }
+  })
+}
+
+onMounted(() => {
+  getTreeData()
+})
 </script>
 
 <template>
@@ -107,7 +152,7 @@ const handleDelete = (node: Node, data: Tree) => {
       <el-tree
         ref="treeRef"
         class="flex-1 mt-6px overflow-auto filter-tree"
-        :data="data"
+        :data="treeData"
         :props="defaultProps"
         default-expand-all
         :expand-on-click-node="false"

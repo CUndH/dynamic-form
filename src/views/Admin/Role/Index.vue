@@ -4,10 +4,13 @@ import { computed, onMounted, provide, ref, unref } from 'vue'
 import { useTable } from '@/utils/useTable'
 import { getUserListApi } from '@/api/member'
 import { stringFormatter } from '@/utils/useFormatter'
-import AddRole from './components/AddRole.vue'
-import AddMember from './components/AddMember.vue'
 import SetMemberStatus from './components/SetMemberStatus.vue'
 import { useRouter } from 'vue-router'
+import { TableColumn } from '@/types/component/table'
+import { useAddRoleModal, useAddUserModal } from './Role.data'
+import { addRoleApi, addUserApi } from '@/api/role'
+import { RES_CODE_SUEECSS } from '@/constants'
+import { ElMessage } from 'element-plus'
 
 const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('role')
@@ -97,23 +100,48 @@ function resetSearchParams() {
   })
 }
 
-const addRoleVisible = ref(false)
-
-provide('addRoleVisible', addRoleVisible)
+const roleData = ref({})
 
 function addRole() {
-  addRoleVisible.value = true
+  useAddRoleModal({
+    title: '添加角色',
+    componentProps: {
+      roleData: {},
+      onConfirm() {
+        addRoleApi(roleData.value).then((res) => {
+          if (res.code === RES_CODE_SUEECSS) {
+            ElMessage.success('保存成功')
+          }
+        })
+      }
+    },
+    opts: {
+      showConfirmButton: false
+    }
+  })
 }
 
-const addMemberVisible = ref(false)
+const addUserData = ref({})
 
-const addMemberData = ref({})
+function addUser(row) {
+  addUserData.value = row
 
-provide('addMemberVisible', addMemberVisible)
-
-function addMember(row) {
-  addMemberData.value = row
-  addMemberVisible.value = true
+  useAddUserModal({
+    title: '添加人员',
+    componentProps: {
+      addUserData: addUserData.value,
+      onConfirm() {
+        addUserApi(addUserData.value).then((res) => {
+          if (res.code === RES_CODE_SUEECSS) {
+            ElMessage.success('保存成功')
+          }
+        })
+      }
+    },
+    opts: {
+      showConfirmButton: false
+    }
+  })
 }
 
 const curRoleId = ref('')
@@ -202,7 +230,7 @@ function goDetailPage(row) {
               </template>
               编辑职务
             </el-button>
-            <el-button type="primary" size="small" plain @click="addMember(row)">
+            <el-button type="primary" size="small" plain @click="addUser(row)">
               <template #icon>
                 <Icon icon="ep:plus" :size="16" />
               </template>
@@ -230,8 +258,6 @@ function goDetailPage(row) {
       </template>
     </ContentWrap>
   </div>
-  <AddRole />
-  <AddMember :data="addMemberData" />
   <SetMemberStatus :roleId="curRoleId" />
 </template>
 
@@ -249,9 +275,6 @@ $prefix-chart: '#{$vNamespace}-role';
       &-left {
         display: flex;
         align-items: center;
-      }
-      &-right {
-        padding: 0 16px;
       }
     }
   }

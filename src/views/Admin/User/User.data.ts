@@ -1,7 +1,6 @@
-import { ElMessageBox, ElMessageBoxOptions } from "element-plus"
-import { AppContext, VNodeProps, h } from "vue"
 import UserDetailVue from "./components/UserDetail.vue";
 import SetUserStatusVue from "./components/SetUserStatus.vue";
+import { useModal } from "@/hook/useModal";
 
 export const statusOpts = [{
   label: '启用状态',
@@ -18,30 +17,6 @@ export const statusOpts = [{
 }]
 
 type UserDetailComp = InstanceType<typeof UserDetailVue>
-
-interface MessageBoxProps<T> {
-  componentProps?: Subtract<T, VNodeProps>;
-  title: string;
-  onCancel?: () => void;
-  onConfirm?: () => void;
-  opts?: Omit<ElMessageBoxOptions, 'onCancel' | 'onConfirm'>;
-  appCtx?: AppContext;
-}
-
-export function useModal(component, props) {
-  ElMessageBox.confirm(
-    h(component, props.componentProps || {}),
-    props.title,
-    {
-      ...props.opts,
-      callback: (action) => {
-        if (action === 'cancel' && props.onCancel) props.onCancel()
-        if (action === 'confirm' && props.onConfirm) props.onConfirm()
-      }
-    },
-    props.appCtx
-  )
-}
 
 export function useUserDetailModal(props: MessageBoxProps<UserDetailComp['$props']>) {
   useModal(UserDetailVue, props)

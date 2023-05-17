@@ -4,11 +4,10 @@ import { createUserApi, getDepartmentTreeDataApi, updateUserApi } from '@/api/us
 import { useDesign } from '@/utils/useDesign'
 import { stringFormatter } from '@/utils/useFormatter'
 import { useTable } from '@/utils/useTable'
-import { computed, onMounted, provide, ref, unref } from 'vue'
+import { computed, onMounted, ref, unref } from 'vue'
 import { statusOpts, useUserDetailModal, useUserStatusModal } from './User.data'
 import { useRouter } from 'vue-router'
-import { TableInstance } from '@/types/component/table'
-import UserDetail from './components/UserDetail.vue'
+import { TableColumn, TableInstance } from '@/types/component/table'
 import { RES_CODE_SUEECSS } from '@/constants'
 import { ElMessage } from 'element-plus'
 
@@ -121,14 +120,18 @@ function addUser() {
 
   useUserDetailModal({
     title: '新增用户',
-    componentProps: { userData: userDetailForm.value },
-    onCancel: () => {},
-    onConfirm: () => {
-      createUserApi(userDetailForm.value).then((res) => {
-        if (res.code === RES_CODE_SUEECSS) {
-          ElMessage.success('保存成功')
-        }
-      })
+    componentProps: {
+      userData: userDetailForm.value,
+      onConfirm: () => {
+        createUserApi(userDetailForm.value).then((res) => {
+          if (res.code === RES_CODE_SUEECSS) {
+            ElMessage.success('保存成功')
+          }
+        })
+      }
+    },
+    opts: {
+      showConfirmButton: false
     }
   })
 }
@@ -138,14 +141,18 @@ function editRow(row) {
 
   useUserDetailModal({
     title: '编辑用户',
-    componentProps: { userData: userDetailForm.value },
-    onCancel: () => {},
-    onConfirm: () => {
-      updateUserApi(userDetailForm.value).then((res) => {
-        if (res.code === RES_CODE_SUEECSS) {
-          ElMessage.success('保存成功')
-        }
-      })
+    componentProps: {
+      userData: userDetailForm.value,
+      onConfirm: () => {
+        return updateUserApi(userDetailForm.value).then((res) => {
+          if (res.code === RES_CODE_SUEECSS) {
+            ElMessage.success('保存成功')
+          }
+        })
+      }
+    },
+    opts: {
+      showConfirmButton: false
     }
   })
 }
@@ -155,14 +162,18 @@ function setStatusForModal(row) {
 
   useUserStatusModal({
     title: '修改用户状态',
-    componentProps: { userData: userDetailForm.value },
-    onCancel: () => {},
-    onConfirm: () => {
-      updateUserApi(userDetailForm.value).then((res) => {
-        if (res.code === RES_CODE_SUEECSS) {
-          ElMessage.success('保存成功')
-        }
-      })
+    componentProps: {
+      userData: userDetailForm.value,
+      onConfirm: () => {
+        updateUserApi(userDetailForm.value).then((res) => {
+          if (res.code === RES_CODE_SUEECSS) {
+            ElMessage.success('保存成功')
+          }
+        })
+      }
+    },
+    opts: {
+      showConfirmButton: false
     }
   })
 }

@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { PropType } from 'vue'
+import { PropType, ref } from 'vue'
 import { DynamicForm } from '@/components/DynamicForm'
 import type { DynamicFormConfig } from '@/components/DynamicForm/src/types'
 import { useVModel } from '@vueuse/core'
+import { DynamicFormInstance } from '@/types/component/dynamicForm'
+import { debounce } from 'lodash-es'
+import { ElMessageBox } from 'element-plus'
 
 const roleFormConfig: DynamicFormConfig[] = [
   {
@@ -71,12 +74,34 @@ interface UserData {
 const props = defineProps({
   userData: {
     type: Object as PropType<UserData | {}>
+  },
+  onConfirm: {
+    type: Function,
+    required: true
   }
 })
 
 const data = useVModel(props, 'userData')
+
+const formRef = ref<DynamicFormInstance>()
+
+const submitData = debounce(() => {
+  let ref = formRef.value?.getFormRef()
+
+  ref?.validate(async (valid) => {
+    if (valid) {
+      await props?.onConfirm()
+      onCancel()
+    }
+  })
+}, 300)
+
+function onCancel() {
+  ElMessageBox.close()
+}
 </script>
 
 <template>
-  <DynamicForm ref="roleFormRef" :form-config="roleFormConfig" :model="data" />
+  <DynamicForm ref="formRef" :form-config="roleFormConfig" :model="data" />
+  <ModalFooter @on-cancel="onCancel" @on-confirm="submitData" />
 </template>

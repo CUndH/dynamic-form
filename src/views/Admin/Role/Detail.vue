@@ -8,6 +8,7 @@ import { ElMessage } from 'element-plus'
 import { computed, onMounted, provide, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import AddMember from './components/AddMember.vue'
+import { TableColumn } from '@/types/component/table'
 
 const { getPrefixCls } = useDesign()
 
@@ -221,91 +222,93 @@ const operationTableColumns: TableColumn[] = [
       </div>
     </div>
 
-    <el-tabs v-model="activeName" class="mt-5">
-      <el-tab-pane label="操作权限" name="1">
-        <div class="bg-white py-5 px-10">
-          <el-checkbox-group v-model:modelValue="checkedOperationList">
-            <table v-for="item in operationList" :key="item.id" class="w-full text-left my-10">
-              <thead>
-                <tr>
-                  <th colspan="3" class="p-5 bg-gray-100">
-                    <el-checkbox>{{ item.name }}</el-checkbox>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td v-for="subItem in item.list" :key="subItem.id" class="p-5">
-                    <el-checkbox :label="subItem.id">
-                      {{ subItem.name }}
-                    </el-checkbox>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </el-checkbox-group>
-          <el-divider />
-          <div class="text-center">
-            <el-button type="primary" large>保存</el-button>
+    <div class="bg-white p-5 mt-5 rounded-xl">
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="操作权限" name="1">
+          <div class="bg-white py-5 px-10">
+            <el-checkbox-group v-model:modelValue="checkedOperationList">
+              <table v-for="item in operationList" :key="item.id" class="w-full text-left my-10">
+                <thead>
+                  <tr>
+                    <th colspan="3" class="p-5 bg-gray-100">
+                      <el-checkbox>{{ item.name }}</el-checkbox>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td v-for="subItem in item.list" :key="subItem.id" class="p-5">
+                      <el-checkbox :label="subItem.id">
+                        {{ subItem.name }}
+                      </el-checkbox>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </el-checkbox-group>
+            <el-divider />
+            <div class="text-center">
+              <el-button type="primary" large>保存</el-button>
+            </div>
           </div>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="成员列表" name="2">
-        <Table
-          v-model:pageSize="userTableObject.size"
-          v-model:currentPage="userTableObject.current"
-          :class="`${prefixCls}-table`"
-          :columns="userTableColumns"
-          :data="userTableObject.tableList"
-          :loading="userTableObject.loading"
-          :border="true"
-          :stripe="true"
-          selection
-          :pagination="{
-            total: userTableObject.total
-          }"
-          @register="userTableRegister"
-        >
-          <template #action="data">
-            <el-button
-              :class="`${prefixCls}-table-button`"
-              type="danger"
-              plain
-              @click="handleDelete(data.row)"
-            >
-              <template #icon>
-                <Icon icon="ep:delete" :size="16" />
-              </template>
-              删除
-            </el-button>
-          </template>
-          <template #empty>
-            <div :class="`${prefixCls}-table-empty`">暂无数据</div>
-          </template>
-        </Table>
-      </el-tab-pane>
-      <el-tab-pane label="操作记录" name="3">
-        <Table
-          v-model:pageSize="operationTableObject.size"
-          v-model:currentPage="operationTableObject.current"
-          :class="`${prefixCls}-table`"
-          :columns="operationTableColumns"
-          :data="operationTableObject.tableList"
-          :loading="operationTableObject.loading"
-          :border="true"
-          :stripe="true"
-          :selection="false"
-          :pagination="{
-            total: operationTableObject.total
-          }"
-          @register="operationTableRegister"
-        >
-          <template #empty>
-            <div :class="`${prefixCls}-table-empty`">暂无数据</div>
-          </template>
-        </Table>
-      </el-tab-pane>
-    </el-tabs>
+        </el-tab-pane>
+        <el-tab-pane label="成员列表" name="2">
+          <Table
+            v-model:pageSize="userTableObject.size"
+            v-model:currentPage="userTableObject.current"
+            :class="`${prefixCls}-table`"
+            :columns="userTableColumns"
+            :data="userTableObject.tableList"
+            :loading="userTableObject.loading"
+            :border="true"
+            :stripe="true"
+            selection
+            :pagination="{
+              total: userTableObject.total
+            }"
+            @register="userTableRegister"
+          >
+            <template #action="data">
+              <el-button
+                :class="`${prefixCls}-table-button`"
+                type="danger"
+                plain
+                @click="handleDelete(data.row)"
+              >
+                <template #icon>
+                  <Icon icon="ep:delete" :size="16" />
+                </template>
+                删除
+              </el-button>
+            </template>
+            <template #empty>
+              <div :class="`${prefixCls}-table-empty`">暂无数据</div>
+            </template>
+          </Table>
+        </el-tab-pane>
+        <el-tab-pane label="操作记录" name="3">
+          <Table
+            v-model:pageSize="operationTableObject.size"
+            v-model:currentPage="operationTableObject.current"
+            :class="`${prefixCls}-table`"
+            :columns="operationTableColumns"
+            :data="operationTableObject.tableList"
+            :loading="operationTableObject.loading"
+            :border="true"
+            :stripe="true"
+            :selection="false"
+            :pagination="{
+              total: operationTableObject.total
+            }"
+            @register="operationTableRegister"
+          >
+            <template #empty>
+              <div :class="`${prefixCls}-table-empty`">暂无数据</div>
+            </template>
+          </Table>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
 
     <AddMember :data="addMemberData" />
   </div>

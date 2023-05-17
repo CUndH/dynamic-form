@@ -4,10 +4,13 @@ import { getRoleListApi } from '@/api/role'
 import { useDesign } from '@/utils/useDesign'
 import { stringFormatter } from '@/utils/useFormatter'
 import { useTable } from '@/utils/useTable'
-import { computed, onMounted, provide, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import UserDetail from './components/UserDetail.vue'
 import defaultAvatar from '@/assets/images/avatar.png'
+import { updateUserApi } from '@/api/user'
+import { useUserDetailModal } from './User.data'
+import { RES_CODE_SUEECSS } from '@/constants'
+import { ElMessage } from 'element-plus'
 
 const { getPrefixCls } = useDesign()
 
@@ -34,17 +37,23 @@ onMounted(() => {
   getOperationTableList()
 })
 
-const userDetailVisible = ref(false)
-
-provide('userDetailVisible', userDetailVisible)
-
 const userDetailForm = ref({})
-
-provide('userForm', userDetailForm)
 
 function setDetailForModal() {
   userDetailForm.value = formData
-  userDetailVisible.value = true
+
+  useUserDetailModal({
+    title: '编辑用户',
+    componentProps: { userData: userDetailForm.value },
+    onCancel: () => {},
+    onConfirm: () => {
+      updateUserApi(userDetailForm.value).then((res) => {
+        if (res.code === RES_CODE_SUEECSS) {
+          ElMessage.success('保存成功')
+        }
+      })
+    }
+  })
 }
 const activeName = ref('1')
 
@@ -101,7 +110,7 @@ const loginTableColumns: TableColumn[] = [
     align: 'left',
     formatter: (row) => stringFormatter(row, 'time'),
     'min-width': 300
-  },
+  }
 ]
 
 function getOperationTableCallBack(tableObject, res: IResponse) {
@@ -162,7 +171,7 @@ const authOfPrjList = ref([])
   <div :class="`${prefixCls}`">
     <div :class="`${prefixCls}-header bg-white`">
       <div :class="`${prefixCls}-header-left`">
-        <div class="ml-50px">
+        <div class="ml-20px">
           <img
             class="w-50px h-50px mr-10 border-0 rounded-1/2"
             :src="formData.avatar || defaultAvatar"
@@ -173,9 +182,7 @@ const authOfPrjList = ref([])
             <span class="font-16px font-bold mr-5">{{ formData.realName }}</span>
             <el-text type="success">在线</el-text>
           </div>
-          <div class="font-bold text-20px mt-2 mb-4">
-            {{ formData.department }}/{{ formData.roleName }}
-          </div>
+          <div class="text-13px mt-5 mb-4">{{ formData.department }}/{{ formData.roleName }}</div>
         </div>
       </div>
       <div :class="`${prefixCls}-header-right`">
@@ -185,147 +192,161 @@ const authOfPrjList = ref([])
           </template>
           编辑用户
         </el-button>
-        <el-button type="default" plain>
+        <el-button>
           <template #icon>
-            <Icon icon="ep:edit" :size="16" />
+            <Icon icon="mdi:user-group" :size="16" />
           </template>
           修改部门
         </el-button>
-        <el-button type="default" plain>
+        <el-button>
           <template #icon>
-            <Icon icon="ep:edit-pen" :size="16" />
+            <Icon icon="ic:baseline-supervised-user-circle" :size="16" />
           </template>
-          编辑角色
+          修改角色
         </el-button>
-        <el-button type="default" plain>
+        <el-button>
           <template #icon>
-            <Icon icon="ep:setting" :size="16" />
+            <Icon icon="uiw:setting" :size="16" />
           </template>
           设置状态
+        </el-button>
+        <el-button>
+          <template #icon>
+            <Icon icon="ion:finger-print" :size="16" />
+          </template>
+          重置密码
+        </el-button>
+        <el-button>
+          <template #icon>
+            <Icon icon="material-symbols:upload-rounded" :size="16" />
+          </template>
+          导入数据
         </el-button>
       </div>
     </div>
 
-    <el-tabs v-model="activeName" class="mt-5">
-      <el-tab-pane label="登录日志" name="1">
-        <Table
-          v-model:pageSize="loginTableObject.size"
-          v-model:currentPage="loginTableObject.current"
-          :class="`${prefixCls}-table`"
-          :columns="loginTableColumns"
-          :data="loginTableObject.tableList"
-          :loading="loginTableObject.loading"
-          :border="true"
-          :stripe="true"
-          :selection="false"
-          :pagination="{
-            total: loginTableObject.total
-          }"
-          @register="loginTableRegister"
-        >
-          <template #empty>
-            <div :class="`${prefixCls}-table-empty`">暂无数据</div>
-          </template>
-        </Table>
-      </el-tab-pane>
-      <el-tab-pane label="操作记录" name="2">
-        <Table
-          v-model:pageSize="operationTableObject.size"
-          v-model:currentPage="operationTableObject.current"
-          :class="`${prefixCls}-table`"
-          :columns="operationTableColumns"
-          :data="operationTableObject.tableList"
-          :loading="operationTableObject.loading"
-          :border="true"
-          :stripe="true"
-          :selection="false"
-          :pagination="{
-            total: operationTableObject.total
-          }"
-          @register="operationTableRegister"
-        >
-          <template #empty>
-            <div :class="`${prefixCls}-table-empty`">暂无数据</div>
-          </template>
-        </Table>
-      </el-tab-pane>
-      <el-tab-pane label="操作权限" name="3">
-        <div class="bg-white py-5 px-10">
-          <el-checkbox-group v-model:modelValue="checkedOperationList">
-            <table v-for="item in operationList" :key="item.id" class="w-full text-left my-10">
-              <thead>
-                <tr>
-                  <th colspan="3" class="p-5 bg-gray-100">
-                    <el-checkbox>{{ item.name }}</el-checkbox>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td v-for="subItem in item.list" :key="subItem.id" class="p-5">
-                    <el-checkbox :label="subItem.id">
-                      {{ subItem.name }}
-                    </el-checkbox>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </el-checkbox-group>
-          <el-divider />
-          <div class="text-center">
-            <el-button type="primary" large>保存</el-button>
-          </div>
-        </div>
-      </el-tab-pane>
-      <el-tab-pane label="项目权限" name="4">
-        <div :class="`${prefixCls}-project-auth bg-white p-20`">
-          <div>
-            <span class="font-bold">数据权限</span>
-            <span>（设置该角色的用户可以操作的数据的范围）</span>
-          </div>
-          <div class="mt-12">
-            <el-checkbox-group v-model:modelValue="authOfPrjList">
-              <el-row>
-                <el-col :span="3">
-                  <el-checkbox label="1">个人</el-checkbox>
-                </el-col>
-                <el-col :span="20" class="pt-3px font-12px text-[#aaa]"
-                  >只能操作自己和下属的数据</el-col
-                >
-              </el-row>
-              <el-row>
-                <el-col :span="3">
-                  <el-checkbox label="2">所属部门</el-checkbox>
-                </el-col>
-                <el-col :span="20" class="pt-3px font-12px text-[#aaa]"
-                  >能操作自己、下属、和自己所属部门的数据</el-col
-                >
-              </el-row>
-              <el-row>
-                <el-col :span="3">
-                  <el-checkbox label="3">所属部门及下属部门</el-checkbox>
-                </el-col>
-                <el-col :span="20" class="pt-3px font-12px text-[#aaa]"
-                  >所属部门及下属部门 能操作自己、下属和自己所属部门及其子部门的数据</el-col
-                >
-              </el-row>
-              <el-row>
-                <el-col :span="3">
-                  <el-checkbox label="4">全公司</el-checkbox>
-                </el-col>
-                <el-col :span="20" class="pt-3px font-12px text-[#aaa]">能操作全公司的数据</el-col>
-              </el-row>
+    <div class="bg-white p-5 mt-5 rounded-xl">
+      <el-tabs v-model="activeName">
+        <el-tab-pane label="登录日志" name="1">
+          <Table
+            v-model:pageSize="loginTableObject.size"
+            v-model:currentPage="loginTableObject.current"
+            :class="`${prefixCls}-table`"
+            :columns="loginTableColumns"
+            :data="loginTableObject.tableList"
+            :loading="loginTableObject.loading"
+            :border="true"
+            :stripe="true"
+            :selection="false"
+            :pagination="{
+              total: loginTableObject.total
+            }"
+            @register="loginTableRegister"
+          >
+            <template #empty>
+              <div :class="`${prefixCls}-table-empty`">暂无数据</div>
+            </template>
+          </Table>
+        </el-tab-pane>
+        <el-tab-pane label="操作记录" name="2">
+          <Table
+            v-model:pageSize="operationTableObject.size"
+            v-model:currentPage="operationTableObject.current"
+            :class="`${prefixCls}-table`"
+            :columns="operationTableColumns"
+            :data="operationTableObject.tableList"
+            :loading="operationTableObject.loading"
+            :border="true"
+            :stripe="true"
+            :selection="false"
+            :pagination="{
+              total: operationTableObject.total
+            }"
+            @register="operationTableRegister"
+          >
+            <template #empty>
+              <div :class="`${prefixCls}-table-empty`">暂无数据</div>
+            </template>
+          </Table>
+        </el-tab-pane>
+        <el-tab-pane label="操作权限" name="3">
+          <div class="bg-white py-5 px-10">
+            <el-checkbox-group v-model:modelValue="checkedOperationList">
+              <table v-for="item in operationList" :key="item.id" class="w-full text-left my-10">
+                <thead>
+                  <tr>
+                    <th colspan="3" class="p-5 bg-gray-100">
+                      <el-checkbox>{{ item.name }}</el-checkbox>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td v-for="subItem in item.list" :key="subItem.id" class="p-5">
+                      <el-checkbox :label="subItem.id">
+                        {{ subItem.name }}
+                      </el-checkbox>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </el-checkbox-group>
+            <el-divider />
+            <div class="text-center">
+              <el-button type="primary" large>保存</el-button>
+            </div>
           </div>
-          <el-divider />
-          <div class="text-center">
-            <el-button type="primary" large>保存</el-button>
+        </el-tab-pane>
+        <el-tab-pane label="项目权限" name="4">
+          <div :class="`${prefixCls}-project-auth bg-white p-20`">
+            <div>
+              <span class="font-bold">数据权限</span>
+              <span>（设置该角色的用户可以操作的数据的范围）</span>
+            </div>
+            <div class="mt-12">
+              <el-checkbox-group v-model:modelValue="authOfPrjList">
+                <el-row>
+                  <el-col :span="3">
+                    <el-checkbox label="1">个人</el-checkbox>
+                  </el-col>
+                  <el-col :span="20" class="pt-3px font-12px text-[#aaa]"
+                    >只能操作自己和下属的数据</el-col
+                  >
+                </el-row>
+                <el-row>
+                  <el-col :span="3">
+                    <el-checkbox label="2">所属部门</el-checkbox>
+                  </el-col>
+                  <el-col :span="20" class="pt-3px font-12px text-[#aaa]"
+                    >能操作自己、下属、和自己所属部门的数据</el-col
+                  >
+                </el-row>
+                <el-row>
+                  <el-col :span="3">
+                    <el-checkbox label="3">所属部门及下属部门</el-checkbox>
+                  </el-col>
+                  <el-col :span="20" class="pt-3px font-12px text-[#aaa]"
+                    >所属部门及下属部门 能操作自己、下属和自己所属部门及其子部门的数据</el-col
+                  >
+                </el-row>
+                <el-row>
+                  <el-col :span="3">
+                    <el-checkbox label="4">全公司</el-checkbox>
+                  </el-col>
+                  <el-col :span="20" class="pt-3px font-12px text-[#aaa]"
+                    >能操作全公司的数据</el-col
+                  >
+                </el-row>
+              </el-checkbox-group>
+            </div>
+            <el-divider />
+            <div class="text-center">
+              <el-button type="primary" large>保存</el-button>
+            </div>
           </div>
-        </div>
-      </el-tab-pane>
-    </el-tabs>
-
-    <UserDetail />
+        </el-tab-pane>
+      </el-tabs>
+    </div>
   </div>
 </template>
 

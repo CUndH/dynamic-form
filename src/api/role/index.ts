@@ -23,7 +23,7 @@ export const addRoleApi = (params): Promise<IResponse> => {
   })
 }
 
-export const addMemberApi = (params): Promise<IResponse> => {
+export const addUserApi = (params): Promise<IResponse> => {
   return request.post({
     url: REQUEST_ORIGIN + '/member/add',
     params

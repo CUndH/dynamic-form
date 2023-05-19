@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import { getUserListApi } from '@/api/member'
-import { deleteUserByRoleId, getRoleApi, getRoleListApi } from '@/api/role'
+import { addRoleApi, addUserApi, deleteUserByRoleId, getRoleApi, getRoleListApi, setStatusByRoleId } from '@/api/role'
 import { useDesign } from '@/utils/useDesign'
 import { stringFormatter } from '@/utils/useFormatter'
 import { useTable } from '@/utils/useTable'
 import { ElMessage } from 'element-plus'
-import { computed, onMounted, provide, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
-import AddMember from './components/AddMember.vue'
 import { TableColumn } from '@/types/component/table'
+import { useAddRoleModal, useAddUserModal, useSetRoleStatusModal } from './Role.data'
+import { RES_CODE_SUEECSS } from '@/constants'
 
 const { getPrefixCls } = useDesign()
 
@@ -41,15 +42,62 @@ onMounted(() => {
   getOperationTableList()
 })
 
-const addMemberVisible = ref(false)
+function addUser() {
+  useAddUserModal({
+    title: '添加人员',
+    componentProps: {
+      addUserData: formData.value,
+      onConfirm() {
+        addUserApi(formData.value).then((res) => {
+          if (res.code === RES_CODE_SUEECSS) {
+            ElMessage.success('保存成功')
+          }
+        })
+      }
+    },
+    opts: {
+      showConfirmButton: false
+    }
+  })
+}
 
-const addMemberData = ref({})
 
-provide('addMemberVisible', addMemberVisible)
+function editRole() {
+  useAddRoleModal({
+    title: '添加角色',
+    componentProps: {
+      roleData: {},
+      onConfirm() {
+        addRoleApi(formData.value).then((res) => {
+          if (res.code === RES_CODE_SUEECSS) {
+            ElMessage.success('保存成功')
+          }
+        })
+      }
+    },
+    opts: {
+      showConfirmButton: false
+    }
+  })
+}
 
-function addMember() {
-  addMemberData.value = formData
-  addMemberVisible.value = true
+function setRoleStatus() {
+  useSetRoleStatusModal({
+    title: '设置状态',
+    componentProps: {
+      roleData: formData.value,
+      onConfirm() {
+        setStatusByRoleId(formData.value).then((res) => {
+          if (res.code !== 0) {
+            ElMessage.success('保存成功')
+          }
+        })
+      }
+    },
+    opts: {
+      showConfirmButton: false
+    }
+  })
 }
 
 const activeName = ref('1')
@@ -195,19 +243,19 @@ const operationTableColumns: TableColumn[] = [
         </div>
       </div>
       <div :class="`${prefixCls}-header-right`">
-        <el-button type="primary" plain @click="addMember">
+        <el-button type="primary" plain @click="addUser">
           <template #icon>
             <Icon icon="ep:plus" :size="16" />
           </template>
           添加用户
         </el-button>
-        <el-button type="default" plain>
+        <el-button type="default" plain @click="editRole">
           <template #icon>
             <Icon icon="ep:edit-pen" :size="16" />
           </template>
           编辑角色
         </el-button>
-        <el-button type="default" plain>
+        <el-button type="default" plain @click="setRoleStatus">
           <template #icon>
             <Icon icon="ep:setting" :size="16" />
           </template>
@@ -309,8 +357,6 @@ const operationTableColumns: TableColumn[] = [
         </el-tab-pane>
       </el-tabs>
     </div>
-
-    <AddMember :data="addMemberData" />
   </div>
 </template>
 

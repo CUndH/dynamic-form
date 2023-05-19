@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { useDesign } from '@/utils/useDesign'
-import { computed, onMounted, provide, ref, unref } from 'vue'
+import { computed, onMounted, ref, unref } from 'vue'
 import { useTable } from '@/utils/useTable'
 import { getUserListApi } from '@/api/member'
 import { stringFormatter } from '@/utils/useFormatter'
-import SetMemberStatus from './components/SetMemberStatus.vue'
 import { useRouter } from 'vue-router'
 import { TableColumn } from '@/types/component/table'
-import { useAddRoleModal, useAddUserModal } from './Role.data'
-import { addRoleApi, addUserApi } from '@/api/role'
+import { useAddRoleModal, useAddUserModal, useSetRoleStatusModal } from './Role.data'
+import { addRoleApi, addUserApi, setStatusByRoleId } from '@/api/role'
 import { RES_CODE_SUEECSS } from '@/constants'
 import { ElMessage } from 'element-plus'
 
@@ -146,13 +145,24 @@ function addUser(row) {
 
 const curRoleId = ref('')
 
-const setStatusVisible = ref(false)
-
-provide('setStatusVisible', setStatusVisible)
-
 function setRoleStatus(row) {
-  setStatusVisible.value = true
   curRoleId.value = row.id
+  useSetRoleStatusModal({
+    title: '设置状态',
+    componentProps: {
+      roleData: addUserData.value,
+      onConfirm() {
+        setStatusByRoleId(addUserData.value).then((res) => {
+          if (res.code !== 0) {
+            ElMessage.success('保存成功')
+          }
+        })
+      }
+    },
+    opts: {
+      showConfirmButton: false
+    }
+  })
 }
 
 const { push } = useRouter()
@@ -258,7 +268,6 @@ function goDetailPage(row) {
       </template>
     </ContentWrap>
   </div>
-  <SetMemberStatus :roleId="curRoleId" />
 </template>
 
 <style lang="scss" scoped>

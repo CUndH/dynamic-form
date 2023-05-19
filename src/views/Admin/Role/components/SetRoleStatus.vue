@@ -1,27 +1,29 @@
 <script setup lang="ts">
-import { PropType, ref } from 'vue'
 import { DynamicForm } from '@/components/DynamicForm'
 import type { DynamicFormConfig } from '@/components/DynamicForm/src/types'
-import { debounce } from 'lodash-es'
-import { DynamicFormInstance } from '@/types/component/dynamicForm'
 import { ElMessageBox } from 'element-plus'
+import { PropType, ref } from 'vue'
+import { DynamicFormInstance } from '@/types/component/dynamicForm'
+import { debounce } from 'lodash-es'
 
-const roleFormConfig: DynamicFormConfig[] = [
+const statusFormConfig: DynamicFormConfig[] = [
   {
     label: '',
     colsNumber: 1,
     config: [
       {
-        label: '角色名称',
+        label: '选择状态',
         labelWidth: '10rem',
-        dynamicFormProp: 'name',
-        type: 'input',
-        required: true
+        dynamicFormProp: 'status',
+        type: 'radio',
+        required: true,
+        border: true,
+        fetchFunc: () => [{ text: '启用', label: 1 }, { text: '禁用', label: 0 }]
       },
       {
-        label: '角色描述',
+        label: '备注内容',
         labelWidth: '10rem',
-        dynamicFormProp: 'describe',
+        dynamicFormProp: 'remark',
         type: 'textarea',
         rows: 5,
         maxlength: 100,
@@ -32,20 +34,19 @@ const roleFormConfig: DynamicFormConfig[] = [
   }
 ]
 
-interface RoleData {
-  roleName: string;
-  roleDescribe: string;
-}
-
 const props = defineProps({
   roleData: {
-    type: Object as PropType<RoleData | {}>
+    type: Object as PropType<{
+      roleId: string;
+      status: number;
+    }>
   },
   onConfirm: {
     type: Function,
     required: true
   }
 })
+
 const formRef = ref<DynamicFormInstance>()
 
 const submitData = debounce(() => {
@@ -65,6 +66,6 @@ function onCancel() {
 </script>
 
 <template>
-  <DynamicForm ref="roleFormRef" :form-config="roleFormConfig" :model="props.roleData" />
+  <DynamicForm ref="formRef" :form-config="statusFormConfig" :model="props.roleData" />
   <ModalFooter @on-cancel="onCancel" @on-confirm="submitData" />
 </template>

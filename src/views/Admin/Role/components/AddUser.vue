@@ -84,7 +84,7 @@ function onCancel() {
 
 <template>
   <div>
-    <DynamicForm ref="userFormRef" :form-config="userFormConfig" :model="props.data">
+    <DynamicForm ref="userFormRef" :form-config="userFormConfig" :model="props.addUserData">
       <template #userId>
         <el-select v-model="userId" placeholder="Select">
           <el-option-group

@@ -44,14 +44,18 @@ function setDetailForModal() {
 
   useUserDetailModal({
     title: '编辑用户',
-    componentProps: { userData: userDetailForm.value },
-    onCancel: () => {},
-    onConfirm: () => {
-      updateUserApi(userDetailForm.value).then((res) => {
-        if (res.code === RES_CODE_SUEECSS) {
-          ElMessage.success('保存成功')
-        }
-      })
+    componentProps: {
+      userData: userDetailForm.value,
+      onConfirm: () => {
+        return updateUserApi(userDetailForm.value).then((res) => {
+          if (res.code === RES_CODE_SUEECSS) {
+            ElMessage.success('保存成功')
+          }
+        })
+      }
+    },
+    opts: {
+      showConfirmButton: false
     }
   })
 }

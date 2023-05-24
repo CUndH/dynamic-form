@@ -86,12 +86,15 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
                   <div class="user-avatar mr-20px">
                     <img class="border-none" src="@/assets/images/avatar.png" alt="" />
                   </div>
+                  <div>
+                    {{ userInfo && userInfo.name ? userInfo.name : userInfo.username || '管理员' }}
+                  </div>
                   <Icon class="dropdown-arrow" :size="24" icon="material-symbols:arrow-drop-down" />
                 </div>
                 <template #dropdown>
                   <el-dropdown-menu :class="`${prefixCls}-dropdown`">
                     <div class="user-name">
-                      {{ userInfo ? userInfo.nickname || userInfo.username : '管理员' }}
+                      {{ userInfo && userInfo.name ? userInfo.name : userInfo.username || '管理员' }}
                     </div>
                     <el-divider class="mt-10px mb-0" />
                     <el-dropdown-item command="resetPassword">

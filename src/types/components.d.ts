@@ -22,9 +22,11 @@ declare module '@vue/runtime-core' {
     Menu: typeof import('./../components/Menu/src/Menu.vue')['default']
     MenuItem: typeof import('./../components/Menu/src/MenuItem.vue')['default']
     Modal: typeof import('./../components/Modal/src/Modal.vue')['default']
+    ModalFooter: typeof import('./../components/ModalFooter/src/ModalFooter.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     Table: typeof import('./../components/Table/src/Table.vue')['default']
     TagsView: typeof import('./../components/TagsView/src/TagsView.vue')['default']
+    TreeSelector: typeof import('./../components/TreeSelector/src/TreeSelector.vue')['default']
   }
 }

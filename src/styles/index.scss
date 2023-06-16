@@ -1,0 +1,106 @@
+@import './base.css';
+
+@font-face {
+  font-family: 'DIN-Bold';
+  src: url('./fonts/DIN-Bold.otf') format('truetype');
+  font-display: fallback;
+}
+@font-face {
+  font-family: 'DIN-Regular';
+  src: url('./fonts/DIN-Regular.otf') format('truetype');
+  font-display: fallback;
+}
+
+.DIN {
+  font-family: DIN-Bold, Verdana, Tahoma, sans-serif;
+}
+.DIN-Regular {
+  font-family: DIN-Regular, Verdana, Tahoma, sans-serif;
+}
+
+@media screen and (max-width: 1280px) {
+  html {
+    //font-size: 6px;
+    font-size: 7px;
+  }
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1360px) {
+  html {
+    //font-size: 6.67px;
+    font-size: 7px;
+  }
+}
+
+@media screen and (min-width: 1360px) and (max-width: 1600px) {
+  html {
+    font-size: 8px;
+  }
+}
+
+@media screen and (min-width: 1600px) and (max-width: 1920px) {
+  html {
+    font-size: 9px;
+  }
+}
+
+@media screen and (min-width: 1920px) and (max-width: 2560px) {
+  html {
+    font-size: 10px;
+  }
+}
+
+@media screen and (min-width: 2560px) {
+  html {
+    font-size: 12px;
+  }
+}
+
+.el-sub-menu .el-menu-item {
+  min-width: 20rem;
+}
+
+.el-popper {
+  max-width: 30rem;
+  .el-select__collapse-tag {
+    .el-tag {
+      height: auto;
+    }
+  }
+  .el-select__tags-text {
+    max-width: 100%;
+    white-space: normal;
+    word-wrap: normal;
+    line-height: 1.6rem;
+  }
+}
+
+:root {
+  --main-bg-color: #E4EDEA;
+  --layout-logo-bg: #E4EDEA;
+  --layout-menu-active-bg: #000;
+  --layout-menu-hover-color: #fff;
+  --layout-menu-width: 72px;
+  --el-menu-item-height: 6rem;
+  --tool-header-height: 6.4rem;
+  --content-bg: #E4EDEA;
+  --tags-view-height: 32px;
+  --color-normal: #04113F;
+}
+
+// 头部搜索栏共用样式
+.search-tool-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  .tool-item {
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+    margin-bottom: 12px;
+    .label {
+      margin-right: 5px;
+      white-space: nowrap;
+      color: var(--content-second);
+    }
+  }
+}

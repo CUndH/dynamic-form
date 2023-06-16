@@ -75,18 +75,7 @@
   }
 }
 
-:root {
-  --main-bg-color: #E4EDEA;
-  --layout-logo-bg: #E4EDEA;
-  --layout-menu-active-bg: #000;
-  --layout-menu-hover-color: #fff;
-  --layout-menu-width: 72px;
-  --el-menu-item-height: 6rem;
-  --tool-header-height: 6.4rem;
-  --content-bg: #E4EDEA;
-  --tags-view-height: 32px;
-  --color-normal: #04113F;
-}
+
 
 // 头部搜索栏共用样式
 .search-tool-wrap {
@@ -104,3 +93,5 @@
     }
   }
 }
+
+

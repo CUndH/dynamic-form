@@ -35,6 +35,7 @@ $prefix-cls: '#{$vNamespace}-header';
     justify-content: flex-start;
     align-items: center;
     font-size: 2.8rem;
+    padding-left: 12px;
   }
   &-right-content {
     display: flex;

@@ -8,6 +8,15 @@ const Layout = () => import('@/components/Layout/src/Layout.vue')
 
 export const constantRoutes: AppRouteRecordRaw[] = [
   {
+    path: '/login',
+    name: 'Login',
+    component: () => import('@/views/Login/Login.vue'),
+    meta: {
+      hidden: true,
+      noTagsView: true
+    }
+  },
+  {
     path: '/redirect',
     name: 'Redirect',
     children: [
@@ -22,21 +31,6 @@ export const constantRoutes: AppRouteRecordRaw[] = [
       hidden: true,
       noTagsView: true
     }
-  }
-]
-
-// 前端异步菜单
-export const presetRoutes: AppRouteRecordRaw[] = [
-  {
-    path: '/',
-    name: 'Index',
-    alias: '/index',
-    component: () => import('@/views/Index.vue'),
-    meta: {
-      title: '主页',
-      icon: 'material-symbols:home',
-      noCache: true
-    }
   },
   {
     path: '/404',
@@ -48,6 +42,31 @@ export const presetRoutes: AppRouteRecordRaw[] = [
       noCache: true
     }
   }
+]
+
+// 前端异步菜单
+export const presetRoutes: AppRouteRecordRaw[] = [
+  {
+    path: '/',
+    name: 'Index',
+    component: Layout,
+    redirect: '',
+    meta: {
+      title: '驾驶舱',
+    },
+    children: [
+      {
+        path: '',
+        name: 'Index',
+        component: () => import('@/views/Index/Index.vue'),
+        meta: {
+          title: '驾驶舱',
+          icon: 'material-symbols:home',
+          noCache: true
+        }
+      }
+    ]
+  },
 ]
 
 // 模拟异步获取菜单
@@ -76,7 +95,7 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
         component: () => import('@/views/Admin/User/Detail.vue'),
         meta: {
           title: '用户详情',
-          hidden: true,
+          hidden: true
         }
       },
       {
@@ -93,7 +112,7 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
         component: () => import('@/views/Admin/Role/Detail.vue'),
         meta: {
           title: '角色详情',
-          hidden: true,
+          hidden: true
         }
       },
       {

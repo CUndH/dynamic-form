@@ -1,16 +1,10 @@
 <script setup lang="ts">
-import { inject, Ref, ref, unref } from 'vue'
+import { PropType, ref } from 'vue'
 import { DynamicForm } from '@/components/DynamicForm'
 import type { DynamicFormConfig } from '@/components/DynamicForm/src/types'
-import { addRoleApi } from '@/api/role'
-import { ElMessage } from 'element-plus'
-
-const COMPONENT_PREFIX = 'add-role-dialog'
-
-const roleData = ref({
-  name: '',
-  describe: ''
-})
+import { debounce } from 'lodash-es'
+import { DynamicFormInstance } from '@/types/component/dynamicForm'
+import { ElMessageBox } from 'element-plus'
 
 const roleFormConfig: DynamicFormConfig[] = [
   {
@@ -22,7 +16,7 @@ const roleFormConfig: DynamicFormConfig[] = [
         labelWidth: '10rem',
         dynamicFormProp: 'name',
         type: 'input',
-        required: true,
+        required: true
       },
       {
         label: '角色描述',
@@ -38,43 +32,39 @@ const roleFormConfig: DynamicFormConfig[] = [
   }
 ]
 
-function resetRoleData() {
-  roleData.value = {
-    name: '',
-    describe: ''
+interface RoleData {
+  roleName: string;
+  roleDescribe: string;
+}
+
+const props = defineProps({
+  roleData: {
+    type: Object as PropType<RoleData | {}>
+  },
+  onConfirm: {
+    type: Function,
+    required: true
   }
-}
+})
+const formRef = ref<DynamicFormInstance>()
 
-const addRoleVisible = inject<Ref<boolean>>('addRoleVisible')
+const submitData = debounce(() => {
+  let ref = formRef.value?.getFormRef()
 
-function modalCancel() {
-  resetRoleData()
-  addRoleVisible!.value = false
-}
-
-function submitData() {
-  addRoleApi(unref(roleData)).then(res => {
-    if (res.code !== 0) {
-      ElMessage.success('保存成功');
-      modalCancel();
+  ref?.validate(async (valid) => {
+    if (valid) {
+      await props?.onConfirm()
+      onCancel()
     }
   })
+}, 300)
+
+function onCancel() {
+  ElMessageBox.close()
 }
 </script>
 
 <template>
-  <Modal
-    title="新建角色"
-    :class="`${COMPONENT_PREFIX}`"
-    :close-on-click-modal="false"
-    v-model:visible="addRoleVisible"
-    align-center
-    :width="'25%'"
-    @cancel="modalCancel"
-    @ok="submitData"
-  >
-    <template #content>
-      <DynamicForm ref="roleFormRef" :form-config="roleFormConfig" :model="roleData" />
-    </template>
-  </Modal>
+  <DynamicForm ref="roleFormRef" :form-config="roleFormConfig" :model="props.roleData" />
+  <ModalFooter @on-cancel="onCancel" @on-confirm="submitData" />
 </template>

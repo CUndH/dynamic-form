@@ -80,7 +80,6 @@ const refreshSelectedTag = async (view?: RouteLocationNormalizedLoaded) => {
     path: '/redirect' + path,
     query: query
   });
-  console.log(tagsViewStore.getCachedViews);
 };
 
 // 关闭左侧
@@ -262,7 +261,7 @@ watch(
             v-for="item in visitedViews"
             :ref="itemRefs.set"
             :key="item.fullPath"
-            :popper-clazz="`router-${item.name}`"
+            :popper-clazz="`router-${String(item.name)}`"
             :schema="[
               {
                 icon: 'ant-design:sync-outlined',
@@ -459,15 +458,15 @@ $prefix-cls: '#{$vNamespace}-tags-view';
     padding-right: 25px;
     margin-right: 10px;
     cursor: pointer;
-    color: var(--color-normal);
+    color: var(--tags-view-color);
     font-size: 1.4rem;
     border-radius: 4px;
     padding: 10px 22px 8px 12px;
-    background-color: #fff;
+    background-color: var(--tags-view-bg);
     transition: all linear 0.2s;
     &--close {
       position: absolute;
-      top: 49%;
+      top: 50%;
       right: 5px;
       transform: translate(0, -50%);
     }
@@ -486,13 +485,12 @@ $prefix-cls: '#{$vNamespace}-tags-view';
   }
 
   &__item.is-active {
-    color: var(--layout-menu-hover-color);
-    background-color: var(--el-color-primary);
+    color: var(--tags-view-active-color);
     padding-right: 12px;
     .#{$prefix-cls}__item--close {
       display: none;
       :deep(span) {
-        color: var(--layout-menu-hover-color);
+        // color: var(--color-theme);
       }
     }
   }

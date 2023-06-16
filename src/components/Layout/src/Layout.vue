@@ -55,7 +55,7 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
     <div :class="`${prefixCls}-menu ${menuCollapse ? 'is-collapse' : ''}`">
       <div :class="`${prefixCls}-menu-logo`">
         <p :class="`${prefixCls}-menu-logo-title`">
-          {{ menuCollapse ? '环鸿' : '环鸿' }}
+          {{ menuCollapse ? 'ADMIN' : 'VUE3 ADMIN' }}
         </p>
       </div>
       <div :class="`${prefixCls}-menu-wrap`">

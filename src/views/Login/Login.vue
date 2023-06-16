@@ -54,7 +54,7 @@
       <div class="flex-1 flex flex-col h-full items-center justify-center relative">
         <div class="h-[80%] w-full flex flex-col items-center">
           <div class="text-26px font-bold tracking-wide text-[#409eff] h-80px">
-            环鸿
+            Vue3 Template
           </div>
           <div class="w-full px-80px flex-1 flex flex-col justify-between">
             <el-form :model="form" ref="formRef" :rules="rules">

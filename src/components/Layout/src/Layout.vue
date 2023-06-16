@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import { useDesign } from '@/utils/useDesign'
 import { ref, computed } from 'vue'
-// import { Header } from '@/components/Header'
-// import { TagsView } from '@/components/TagsView'
-// import { Menu } from '@/components/Menu'
-// import { Icon } from '@/components/Icon'
 import eventBus, { EventTypeName } from '@/utils/eventBus'
 import { useTagsViewStore } from '@/store/modules/tagsView'
+import { useUserStore } from '@/store/modules/user'
 
 const { getPrefixCls } = useDesign()
 
@@ -22,6 +19,7 @@ const handleCommandDropdown = (command: string) => {
   switch (command) {
     case 'logout':
       // todo logout
+      userStore.logOut()
       break
     case 'resetPassword':
       // todo resetPassword
@@ -36,6 +34,8 @@ const userInfo = {} as any
 const isRouterLoading = ref(false)
 
 const tagsViewStore = useTagsViewStore()
+
+const userStore = useUserStore()
 
 const getCaches = computed((): string[] => {
   return tagsViewStore.getCachedViews
@@ -55,10 +55,12 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
     <div :class="`${prefixCls}-menu ${menuCollapse ? 'is-collapse' : ''}`">
       <div :class="`${prefixCls}-menu-logo`">
         <p :class="`${prefixCls}-menu-logo-title`">
-          {{ menuCollapse ? 'ADMIN' : 'VUE3 ADMIN' }}
+          {{ menuCollapse ? '环鸿' : '环鸿' }}
         </p>
       </div>
-      <Menu :class="`${prefixCls}-menu-content`" :is-collapse="menuCollapse" />
+      <div :class="`${prefixCls}-menu-wrap`">
+        <Menu :class="`${prefixCls}-menu-content`" :is-collapse="menuCollapse" />
+      </div>
     </div>
     <div :class="`${prefixCls}-main`">
       <div :class="`${prefixCls}-header`">
@@ -72,7 +74,7 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
               :class="`${prefixCls}-collapse-switch`"
               @click="toggleCollapse"
             />
-            <Breadcrumb class="ml-24px" />
+            <Breadcrumb style="margin-left: 12px" />
           </template>
           <template #right>
             <div :class="`${prefixCls}-header-right`">
@@ -84,7 +86,7 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
               >
                 <div class="user-dropdown">
                   <div class="user-avatar mr-20px">
-                    <img class="border-none" src="@/assets/images/avatar.png" alt="" />
+                    <img class="border-none" src="@/assets/image/avatar.jpg" alt="" />
                   </div>
                   <div>
                     {{ userInfo && userInfo.name ? userInfo.name : userInfo.username || '管理员' }}
@@ -94,7 +96,9 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
                 <template #dropdown>
                   <el-dropdown-menu :class="`${prefixCls}-dropdown`">
                     <div class="user-name">
-                      {{ userInfo && userInfo.name ? userInfo.name : userInfo.username || '管理员' }}
+                      {{
+                        userInfo && userInfo.name ? userInfo.name : userInfo.username || '管理员'
+                      }}
                     </div>
                     <el-divider class="mt-10px mb-0" />
                     <el-dropdown-item command="resetPassword">
@@ -152,7 +156,7 @@ $prefix-cls: '#{$vNamespace}-layout';
   &-header {
     height: var(--tool-header-height);
     flex-shrink: 0;
-    background-color: var(--main-bg-color);
+    background-color: var(--tool-header-bg);
     color: var(--el-color-primary);
     // border-bottom: 1px solid #a8abb3;
 
@@ -184,34 +188,90 @@ $prefix-cls: '#{$vNamespace}-layout';
       }
     }
   }
-  &-main {
-    width: calc(100% - 22rem);
+  &-alarm {
+    width: 100%;
+    height: 3.2rem;
+    box-sizing: border-box;
     overflow: hidden;
-    // max-height: calc(100% - 6.4rem);
-    // height: calc(100% - 9.6rem);
-  }
-  &-menu {
-    width: 22rem;
-    height: 100%;
-    flex-shrink: 0;
-    background-color: var(--main-bg-color);
     transition: all var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier);
     -webkit-transition: all var(--el-transition-duration)
       var(--el-transition-function-ease-in-out-bezier);
     -o-transition: all var(--el-transition-duration)
       var(--el-transition-function-ease-in-out-bezier);
-    &.is-collapse {
-      width: var(--layout-menu-width);
+    &.is-hidden {
+      height: 0;
     }
-    &-content {
-      height: 100%;
-      overflow-y: auto;
-    }
-    &-footer {
-      height: 20%;
-      padding-bottom: 5%;
+    &-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 4rem;
       box-sizing: border-box;
+      color: white;
+      background-color: white;
+      &.hint {
+        background-color: #4a70ff;
+      }
+      &.warning,
+      &.minor {
+        background-color: var(--el-color-warning);
+      }
+      &.important,
+      &.serious {
+        background-color: var(--el-color-danger);
+      }
+      .alarm-content {
+        display: inline-flex;
+        align-items: center;
+        font-size: 1.8rem;
+        line-height: 3.2rem;
+      }
+      .alarm-toolbar {
+        display: flex;
+        line-height: 3.2rem;
+        font-size: 0;
+        align-items: center;
+        justify-content: space-between;
+        &-icon {
+          margin: 0 0.2rem;
+          cursor: pointer;
+          &:hover {
+            background-color: rgba(121, 121, 121, 0.3);
+          }
+          &.is-disabled {
+            visibility: hidden;
+          }
+        }
+      }
     }
+  }
+  &-main {
+    // width: calc(100% - 22rem);
+    overflow: hidden;
+    flex: 1;
+    // max-height: calc(100% - 6.4rem);
+    // height: calc(100% - 9.6rem);
+  }
+  &-menu {
+    width: var(--layout-menu-width);
+    height: 100%;
+    flex-shrink: 0;
+    background: var(--main-bg-color);
+    transition: all var(--el-transition-duration) var(--el-transition-function-ease-in-out-bezier);
+    -webkit-transition: all var(--el-transition-duration)
+      var(--el-transition-function-ease-in-out-bezier);
+    -o-transition: all var(--el-transition-duration)
+      var(--el-transition-function-ease-in-out-bezier);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    &.is-collapse {
+      width: var(--layout-menu-collapse-width);
+      &-wrap {
+        padding-bottom: var(--layout-menu-collapse-width);
+      }
+    }
+
     &-logo {
       display: flex;
       align-items: center;
@@ -224,27 +284,59 @@ $prefix-cls: '#{$vNamespace}-layout';
       background-color: var(--layout-logo-bg);
       &-title {
         white-space: nowrap;
+        color: var(--layout-logo-color);
       }
     }
+    &-wrap {
+      flex: 1;
+      padding-bottom: var(--layout-menu-width);
+      overflow-y: auto;
+      background-image: url('@/assets/image/layoutMenu/normal-menu-bottom.png');
+      background-repeat: no-repeat;
+      background-position: 50% 99%;
+      background-size: 95% auto;
+    }
+    &-content {
+      height: 100%;
+      overflow-y: auto;
+    }
+    &-footer {
+      height: 20%;
+      padding-bottom: 5%;
+      box-sizing: border-box;
+    }
+
+    // 露出底部背景图片
+    > ::v-deep(.el-menu) {
+    }
     ::v-deep(.el-menu) {
-      background-color: var(--main-bg-color);
+      background: transparent;
+      &.el-menu--collapse {
+        width: 72px;
+      }
       .el-menu-item {
-        color: var(--color-normal);
+        color: var(--layout-menu-color);
         &.is-active {
-          background-color: #000000;
-          color: var(--layout-menu-hover-color);
+          background: var(--layout-menu-active-bg);
+          color: var(--layout-menu-active-color);
         }
         &:hover {
-          background-color: var(--color-normal);
+          background-color: var(--layout-menu-hover-bg);
           color: var(--layout-menu-hover-color);
         }
       }
       .el-sub-menu {
+        &.is-active {
+          background: var(--layout-menu-hover-bg) !important;
+          > .el-menu {
+            background: var(--layout-menu-hover-bg) !important;
+          }
+        }
         .el-sub-menu__title {
-          color: var(--color-normal);
+          color: var(--layout-menu-color);
           &:hover {
             color: var(--layout-menu-hover-color);
-            background-color: var(--color-normal);
+            background-color: var(--layout-menu-hover-bg);
           }
         }
       }
@@ -288,6 +380,8 @@ $prefix-cls: '#{$vNamespace}-layout';
   &-copyright {
     font-size: 12px;
     box-sizing: border-box;
+    text-align: center;
+    margin: 3px 0;
   }
   &-logo,
   &-logo-collapse {
@@ -298,7 +392,7 @@ $prefix-cls: '#{$vNamespace}-layout';
     opacity: 1;
   }
   &-collapse-switch {
-    padding-left: 30px;
+    padding-left: 12px;
     color: var(--color-normal);
     cursor: pointer;
   }

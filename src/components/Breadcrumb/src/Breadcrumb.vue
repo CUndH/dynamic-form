@@ -33,11 +33,11 @@ export default defineComponent({
       levelList.value = filter<AppRouteRecordRaw>(unref(menuRouters), (node: AppRouteRecordRaw) => {
         return node.path === currentPath;
       });
-      console.log(levelList.value)
     };
 
     const renderBreadcrumb = () => {
       const breadcrumbList = treeToList<AppRouteRecordRaw[]>(unref(levelList));
+      console.log(breadcrumbList)
       return breadcrumbList.map((v) => {
         const disabled = v.redirect === 'noredirect';
         const meta = v.meta as RouteMeta;

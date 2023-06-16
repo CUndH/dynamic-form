@@ -28,5 +28,8 @@ declare module '@vue/runtime-core' {
     Table: typeof import('./../components/Table/src/Table.vue')['default']
     TagsView: typeof import('./../components/TagsView/src/TagsView.vue')['default']
     TreeSelector: typeof import('./../components/TreeSelector/src/TreeSelector.vue')['default']
+    Verify: typeof import('./../components/Verifition/Verify.vue')['default']
+    VerifyPoints: typeof import('./../components/Verifition/Verify/VerifyPoints.vue')['default']
+    VerifySlide: typeof import('./../components/Verifition/Verify/VerifySlide.vue')['default']
   }
 }

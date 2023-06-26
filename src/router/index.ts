@@ -48,11 +48,11 @@ export const constantRoutes: AppRouteRecordRaw[] = [
 export const presetRoutes: AppRouteRecordRaw[] = [
   {
     path: '/',
-    name: 'Index',
+    name: 'Layout',
     component: Layout,
     redirect: '',
     meta: {
-      title: '驾驶舱',
+      title: '驾驶舱'
     },
     children: [
       {
@@ -66,7 +66,7 @@ export const presetRoutes: AppRouteRecordRaw[] = [
         }
       }
     ]
-  },
+  }
 ]
 
 // 模拟异步获取菜单

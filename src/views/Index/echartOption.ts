@@ -1,10 +1,11 @@
+import * as echarts from 'echarts'
 // 访问用户数趋势折现图
 export function UserTrendOption() {
   const xData: number[] = []
   const yData: number[] = []
-  for(let i = 0; i < 30; i++) {
+  for (let i = 0; i < 30; i++) {
     xData.push(i)
-    yData.push(Math.floor(Math.random()*100))
+    yData.push(Math.floor(Math.random() * 100))
   }
   return {
     grid: {
@@ -15,28 +16,6 @@ export function UserTrendOption() {
     },
     tooltip: {
       trigger: 'axis',
-      axisPointer: {
-        type: 'shadow',
-        shadowStyle: {
-          color: {
-            type: 'linear',
-            x: 0,
-            y: 0,
-            x2: 0,
-            y2: 1,
-            colorStops: [
-              {
-                offset: 0,
-                color: 'rgba(17, 138, 247, 0.3)' // 0% 处的颜色
-              },
-              {
-                offset: 1,
-                color: 'rgba(255, 255, 255, 0.1)' // 100% 处的颜色
-              }
-            ]
-          }
-        }
-      },
       textStyle: {
         color: '#fff'
       },
@@ -62,12 +41,25 @@ export function UserTrendOption() {
         data: yData,
         type: 'line',
         name: '',
+        symbolSize: 8,
+        showSymbol: false,
         lineStyle: {
           width: 4,
-          color: '#118AF7',
-          shadowColor: 'rgba(17, 138, 247, 1)',
+          shadowColor: 'rgba(0, 0, 0, 0.3)',
           shadowBlur: 12,
           shadowOffsetY: 16
+        },
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: 'rgba(140, 131, 247, 1)'
+            },
+            {
+              offset: 1,
+              color: 'rgba(252, 252, 252, 0.5)'
+            }
+          ])
         },
         smooth: true
       }
@@ -78,20 +70,25 @@ export function UserTrendOption() {
 // 业务数情况饼图
 export function getCountsPieOption() {
   // ${t('common.defaultUnit')}
-  const data = [{
-    name: '工艺计算数',
-    value: 48
-  },{
-    name: '换算数量',
-    value: 36
-  },{
-    name: '标规数量',
-    value: 12
-  },{
-    name: '物性数量',
-    value: 24
-  }]
-  const legendData = data.map(item => item.name)
+  const data = [
+    {
+      name: '工艺计算数',
+      value: 48
+    },
+    {
+      name: '换算数量',
+      value: 36
+    },
+    {
+      name: '标规数量',
+      value: 12
+    },
+    {
+      name: '物性数量',
+      value: 24
+    }
+  ]
+  const legendData = data.map((item) => item.name)
   const option = {
     grid: {
       bottom: 0,
@@ -111,9 +108,9 @@ export function getCountsPieOption() {
       icon: 'round',
       data: legendData,
       formatter: function (value) {
-        const target = data.find((item) => item.name === value);
-        const html = `${value} ${target && target.value}`;
-        return html;
+        const target = data.find((item) => item.name === value)
+        const html = `${value} ${target && target.value}`
+        return html
       }
     },
     series: [
@@ -139,8 +136,8 @@ export function getCountsPieOption() {
             fontSize: '14',
             fontWeight: 'bold',
             formatter: (params) => {
-              const html = `${params.percent}%\n${params.name}`;
-              return html;
+              const html = `${params.percent}%\n${params.name}`
+              return html
             }
           }
         },
@@ -161,7 +158,6 @@ export function getCountsPieOption() {
             show: false
           }
         },
-
         animation: false,
         tooltip: {
           show: false
@@ -178,9 +174,9 @@ export function getCountsPieOption() {
         ]
       }
     ]
-  };
-  if (data.length > 12) {
-    option.legend.type = 'scroll';
   }
-  return option;
+  if (data.length > 12) {
+    option.legend.type = 'scroll'
+  }
+  return option
 }

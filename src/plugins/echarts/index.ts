@@ -1,6 +1,8 @@
 import { use, ComposeOption } from 'echarts/core'
-import ECharts, { THEME_KEY } from 'vue-echarts'
+import * as echarts from 'echarts/core'
+import ECharts from 'vue-echarts'
 import { CanvasRenderer } from 'echarts/renderers'
+import { themeConfigs } from '@/config/app'
 import {
   LineChart,
   BarChart,
@@ -58,9 +60,16 @@ type ECOption = ComposeOption<
   | DatasetComponentOption
 >
 
-export function setupPluginVueEchart(app: App<Element>, theme = 'light') {
-  app.provide(THEME_KEY, theme)
+export function setupPluginVueEchart(app: App<Element>) {
   app.component('VChart', ECharts)
 }
 
+// 为echart注册几种颜色主题
+themeConfigs.forEach((item) => {
+  echarts.registerTheme(item.label, item.echartTheme)
+})
+
 export { ECOption }
+
+// 这导出是暂保留之前echarts封装模式
+export default echarts

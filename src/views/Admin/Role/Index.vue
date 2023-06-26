@@ -173,7 +173,7 @@ function goDetailPage(row) {
 </script>
 
 <template>
-  <div :class="`${prefixCls}-list-header`">
+  <div :class="`${prefixCls}-list-header h-full`">
     <ContentWrap class="bg-[#fff] w-full">
       <template #content>
         <div class="search-tool-wrap">

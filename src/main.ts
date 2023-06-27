@@ -14,7 +14,7 @@ import { setupCommonDirectives } from './directives'
 import { setupGlobCom } from '@/components'
 // 注册Vue-Echarts
 import { setupPluginVueEchart } from '@/plugins/echarts'
-import 'element-plus/dist/index.css'
+// import 'element-plus/dist/index.css'
 // 初始样式
 import '@/styles/index.scss'
 // 渐变主题

@@ -53,7 +53,7 @@ export function UserTrendOption() {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             {
               offset: 0,
-              color: 'rgba(140, 131, 247, 1)'
+              color: 'rgba(204, 204, 204, 0.5)'
             },
             {
               offset: 1,

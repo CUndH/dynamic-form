@@ -17,7 +17,7 @@ const handleDateChange = (_type: string, _val: string) => {}
 
 const themeKey = inject('echartTheme')
 
-const loopSystemTheme = inject('loopSystemTheme')
+const loopSystemTheme = inject('loopSystemTheme') as Function
 
 const testSwitchTheme = () => {
   loopSystemTheme && loopSystemTheme()
@@ -25,9 +25,9 @@ const testSwitchTheme = () => {
 </script>
 
 <template>
-  <div class="box p-20px h-full !mb-0">
-    <div class="box-header w-full">
-      <div class="title truncate">访问用户数走势</div>
+  <div class="box py-20px h-full !mr-0 mb-12px">
+    <div class="box-header w-full px-20px">
+      <div class="title truncate">能耗使用情况</div>
       <div class="tool-wrap">
         <el-button type="primary" @click="testSwitchTheme">默认按钮</el-button>
         <!--        <ComplexDatePick-->

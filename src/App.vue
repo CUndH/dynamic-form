@@ -39,11 +39,14 @@ const loopSystemTheme = () => {
   }
 }
 
-setSystemTheme('linear-gradient(0, #8C83F7 0%, #F589CF 100%)')
+const themeColor = 'linear-gradient(0, #8C83F7 0%, #F589CF 100%)'
+
+setSystemTheme(themeColor)
 
 provide('echartTheme', appStore.getTheme)
 provide('setSystemTheme', setSystemTheme)
 provide('loopSystemTheme', loopSystemTheme)
+provide('themeColor', themeColor)
 
 // const { currentRoute } = useRouter()
 

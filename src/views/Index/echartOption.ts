@@ -11,7 +11,7 @@ export function UserTrendOption() {
     grid: {
       bottom: 35,
       left: 50,
-      right: 40,
+      right: 20,
       top: 16
     },
     tooltip: {
@@ -25,7 +25,13 @@ export function UserTrendOption() {
       type: 'category',
       data: xData,
       splitLine: {
-        show: true
+        show: false
+      },
+      axisLine: {
+        show: false
+      },
+      axisTick: {
+        show: false
       },
       boundaryGap: false
     },
@@ -41,7 +47,7 @@ export function UserTrendOption() {
         data: yData,
         type: 'line',
         name: '',
-        symbolSize: 8,
+        symbolSize: 12,
         showSymbol: false,
         lineStyle: {
           width: 4,
@@ -68,26 +74,8 @@ export function UserTrendOption() {
 }
 
 // 业务数情况饼图
-export function getCountsPieOption() {
+export function getCountsPieOption(data: IPieData[]) {
   // ${t('common.defaultUnit')}
-  const data = [
-    {
-      name: '工艺计算数',
-      value: 48
-    },
-    {
-      name: '换算数量',
-      value: 36
-    },
-    {
-      name: '标规数量',
-      value: 12
-    },
-    {
-      name: '物性数量',
-      value: 24
-    }
-  ]
   const legendData = data.map((item) => item.name)
   const option = {
     grid: {
@@ -98,14 +86,18 @@ export function getCountsPieOption() {
     legend: {
       show: true,
       orient: 'horizontal',
-      top: 16,
-      left: '5%',
+      top: 'middle',
+      left: '180px',
       type: 'plain',
+      itemGap: 40,
+      width: '70%',
+      itemWidth: 12,
+      itemHeight: 12,
       textStyle: {
         color: '#003564',
         fontSize: 14
       },
-      icon: 'round',
+      icon: 'rect',
       data: legendData,
       formatter: function (value) {
         const target = data.find((item) => item.name === value)
@@ -117,7 +109,7 @@ export function getCountsPieOption() {
       // 主要展示层的
       {
         radius: ['40%', '72%'],
-        center: ['50%', '50%'],
+        center: ['80px', '50%'],
         type: 'pie',
         itemStyle: {
           normal: {
@@ -146,7 +138,7 @@ export function getCountsPieOption() {
       // 边框的设置
       {
         radius: ['65%', '75%'],
-        center: ['50%', '50%'],
+        center: ['80px', '50%'],
         type: 'pie',
         label: {
           emphasis: {

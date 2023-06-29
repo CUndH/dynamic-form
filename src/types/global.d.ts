@@ -63,3 +63,8 @@ declare interface DictItemRes {
 }
 
 declare type Subtract<T, K> = Pick<T, Exclude<keyof T, keyof K>>
+
+declare interface IPieData {
+  name: string,
+  value: number
+}

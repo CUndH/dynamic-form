@@ -6,7 +6,6 @@
   flex-direction: column;
   margin-right: 15px;
   overflow: hidden;
-  margin-bottom: 9px;
   &:last-child {
     margin-right: 0;
   }
@@ -19,7 +18,6 @@
     border-bottom: 1px solid var(--border-color);
     .title {
       font-size: 18px;
-      font-weight: bold;
       color: var(--color-normal);
     }
   }
@@ -27,4 +25,8 @@
     flex: 1;
     overflow: hidden;
   }
+}
+
+button {
+  box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.3);
 }

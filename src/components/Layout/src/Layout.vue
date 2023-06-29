@@ -150,6 +150,7 @@ $prefix-cls: '#{$vNamespace}-layout';
 .#{$prefix-cls} {
   width: 100%;
   height: 100vh;
+  min-height: 900px;
   box-sizing: border-box;
   background-color: #f0f3f6;
   display: flex;
@@ -347,6 +348,7 @@ $prefix-cls: '#{$vNamespace}-layout';
     flex-direction: column;
     width: 100%;
     height: calc(100vh - var(--tool-header-height));
+    min-height: 850px;
     box-sizing: border-box;
     flex-grow: 1;
     padding: 0 12px;

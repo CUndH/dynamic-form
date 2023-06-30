@@ -46,7 +46,6 @@ setSystemTheme(themeColor)
 provide('echartTheme', appStore.getTheme)
 provide('setSystemTheme', setSystemTheme)
 provide('loopSystemTheme', loopSystemTheme)
-provide('themeColor', themeColor)
 
 // const { currentRoute } = useRouter()
 

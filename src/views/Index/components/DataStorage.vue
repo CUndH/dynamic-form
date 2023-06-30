@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import DataStorageItem from '../components/DataStorageItem.vue'
+import { useAppStore } from '@/store/modules/app'
 
 interface IDataStorages {
   left: string
@@ -25,8 +27,10 @@ const dataStorages: IDataStorages[] = [
   }
 ]
 
-// 这里尝试过修改gradient.scss，就像左下角的图片一样，但是不生效
-const themeName = document.getElementsByTagName('html')[0].getAttribute('class')
+const appStore = useAppStore()
+const themeName = computed(() => {
+  return appStore.getTheme.mainBgColor
+})
 </script>
 
 <template>

@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { themeConfigs } from '@/config/app';
 import { useDesign } from '@/utils/useDesign';
-import { defineProps, inject, ref, toRefs } from 'vue'
+import { defineProps, ref, toRefs } from 'vue'
 
 const props = defineProps({
   index: {
@@ -27,39 +26,36 @@ const props = defineProps({
   categoryValue:{
     type: String,
     default: '-'
+  },
+  color: {
+    type: String,
+    default: 'var(--color-primary)'
   }
 })
 
 const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('homepage-count-item')
 
-const color = ref('normal')
+const categoryValueColor = ref('normal')
 const prop = toRefs(props)
 let data = prop.categoryValue.value
 if (props.categoryValue.length > 1) {
   if (Boolean(Number(data.slice(0, -1)))) {
     if (Number(data.slice(0, -1)) > 0) {
-      color.value = 'success'
+      categoryValueColor.value = 'success'
       if (data.slice(0, 1) !== '+') {
         data = '+' + data
       }
     } else if (Number(data.slice(0, -1)) < 0) {
-      color.value = 'danger'
+      categoryValueColor.value = 'danger'
     }
   }
-}
-
-const themeColor = inject('themeColor') as String
-const target = themeConfigs.find((item) => item.label === themeColor)
-const colors: String[] = []
-if (target) {
-  colors.push(...target.echartTheme.color)
 }
 </script>
 
 <template>
   <div :class="`${prefixCls}`" class="flex items-center w-[calc(50%-40px)] max-w-[calc(50%-40px)] py-[calc(2%)] h-[calc(33.34%)] max-h-80px">
-    <div :class="`${prefixCls}-icon`" :style="{ backgroundColor: colors.length > 0 ? colors[index % colors.length] : 'var(--color-primary)' }" class="flex items-center justify-center">
+    <div :class="`${prefixCls}-icon`" :style="{ backgroundColor: color }" class="flex items-center justify-center">
       <img :src="`src/assets/images/homepage/${icon}`" />
     </div>
 
@@ -70,7 +66,7 @@ if (target) {
 
     <div :class="`${prefixCls}-category`" class="w-80px px-20px truncate">
       <div :class="`${prefixCls}-category-label`">{{ category }}</div>
-      <div :class="[`${prefixCls}-category-value`, `${prefixCls}-category-value-${color}`]">{{ data }}</div>
+      <div :class="[`${prefixCls}-category-value`, `${prefixCls}-category-value-${categoryValueColor}`]">{{ data }}</div>
     </div>
   </div>
 </template>

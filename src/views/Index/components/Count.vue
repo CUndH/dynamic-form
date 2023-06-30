@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { useAppStore } from '@/store/modules/app'
 import CountItem from '../components/CountItem.vue'
+import { computed } from 'vue'
+import { themeConfigs } from '@/config/app'
 
 interface ICounts {
   label: string
@@ -43,6 +46,17 @@ const counts: ICounts[] = [
     categoryValue: '+12%'
   }
 ]
+
+const appStore = useAppStore()
+const colors = computed(() => {
+  const theme = appStore.getTheme.mainBgColor
+  const target = themeConfigs.find((item) => item.label === theme)
+  if (target) {
+    return target.echartTheme.color
+  } else {
+    return []
+  }
+})
 </script>
 
 <template>
@@ -61,6 +75,7 @@ const counts: ICounts[] = [
         :icon="count.icon"
         :category="count.category"
         :categoryValue="count.categoryValue"
+        :color="colors.length > 0 ? colors[index % colors.length] : ''"
         :style="{ boxShadow: index > counts.length - 3 ? 'none' : 'inset 0px -1px 0px 0px rgba(220, 223, 230, 0.61)' }"
       />
     </div>

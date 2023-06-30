@@ -59,7 +59,7 @@ $prefix-chart: '#{$vNamespace}-homepage-area-alarm-item';
   }
 
   &.haveBg &-level {
-    background-color: rgba(var(--el-color-primary-rgb), 0.2);
+    background-color: rgba(var(--el-color-primary-rgb), 0.1);
   }
 }
 </style>

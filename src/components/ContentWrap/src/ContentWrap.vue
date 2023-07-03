@@ -30,7 +30,10 @@ const title = route.meta.title
 
 <template>
   <div class="flex flex-col overflow-hidden h-full rounded-4px" :key="title">
-    <!-- <div class="flex px-12px justify-between items-center h-40px leading-40px my-8px mx-0 box-border rounded-5px">
+    <div
+      v-if="showTitle"
+      class="flex px-12px justify-between items-center h-40px leading-40px my-8px mx-0 box-border rounded-5px"
+    >
       <div class="text-2.2rem font-bold tracking-normal text-[var(--content-title)]">
         <slot name="prefix-title"></slot>
         <span v-if="!hideDefaultTitle">{{ title }}</span>
@@ -38,8 +41,8 @@ const title = route.meta.title
       <div class="flex items-center -sm:hidden">
         <slot name="extra"></slot>
       </div>
-    </div> -->
-    <div class="flex flex-col flex-1 overflow-y-auto h-100% p-0">
+    </div>
+    <div class="flex flex-col flex-1 overflow-y-auto h-100% pb-10px pt-0">
       <slot name="content"></slot>
     </div>
   </div>

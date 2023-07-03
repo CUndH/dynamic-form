@@ -76,7 +76,10 @@ const colors = computed(() => {
         :category="count.category"
         :categoryValue="count.categoryValue"
         :color="colors.length > 0 ? colors[index % colors.length] : ''"
-        :style="{ boxShadow: index > counts.length - 3 ? 'none' : 'inset 0px -1px 0px 0px rgba(220, 223, 230, 0.61)' }"
+        :style="{
+          boxShadow:
+            index > counts.length - 3 ? 'none' : 'inset 0px -1px 0px 0px rgba(220, 223, 230, 0.61)'
+        }"
       />
     </div>
   </div>

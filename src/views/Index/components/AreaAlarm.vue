@@ -44,9 +44,9 @@ const areaAlarms: IAreaAlarms[] = [
       <!-- 表头 -->
       <div :class="`${prefixCls}-item-title`" class="flex justify-between h-[calc(25%)]">
         <div class="flex w-[calc(20%)]">
-          <div class="flex pl-15px w-[calc(25%)] truncate">序号</div>
-          <div class="flex pl-15px w-[calc(50%)] truncate">告警级别</div>
-          <div class="flex pl-15px w-[calc(25%)] truncate"></div>
+          <div class="pl-15px w-[calc(25%)] truncate">序号</div>
+          <div class="pl-15px w-[calc(50%)] truncate">告警级别</div>
+          <div class="pl-15px w-[calc(25%)] truncate"></div>
         </div>
         <div class="pl-15px w-[calc(20%)] truncate">位置详情</div>
         <div class="pl-15px w-[calc(20%)] truncate">内容详情</div>
@@ -71,7 +71,6 @@ const areaAlarms: IAreaAlarms[] = [
 $prefix-chart: '#{$vNamespace}-homepage-area-alarm-item-title';
 
 .#{$prefix-chart} {
-  
   & > div {
     line-height: 40px;
     font-size: 14px;

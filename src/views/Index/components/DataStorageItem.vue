@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { useDesign } from '@/utils/useDesign';
+import { useDesign } from '@/utils/useDesign'
 import { defineProps } from 'vue'
 defineProps({
   left: {
     type: String,
-    required: true,
+    required: true
   },
   right: {
     type: String,
-    required: true,
+    required: true
   }
 })
 
@@ -28,14 +28,14 @@ const prefixCls = getPrefixCls('homepage-data-storage-item')
 $prefix-chart: '#{$vNamespace}-homepage-data-storage-item';
 
 .#{$prefix-chart} {
-  border: 1px solid #DCDFE6;
+  border: 1px solid #dcdfe6;
   border-bottom: none;
   * {
     text-align: center;
     line-height: 40px;
   }
   &-left {
-    border-right: 1px solid #DCDFE6;
+    border-right: 1px solid #dcdfe6;
     background-color: rgba(var(--el-color-primary-rgb), 0.1);
   }
   &-right {

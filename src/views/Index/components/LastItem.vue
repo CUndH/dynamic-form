@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useDesign } from '@/utils/useDesign';
+import { useDesign } from '@/utils/useDesign'
 import { defineProps } from 'vue'
 defineProps({
   index: {
@@ -8,15 +8,15 @@ defineProps({
   },
   area: {
     type: String,
-    required: true,
+    required: true
   },
   usage: {
     type: Number,
-    required: true,
+    required: true
   },
   value: {
     type: String,
-    required: true,
+    required: true
   }
 })
 
@@ -29,12 +29,7 @@ const prefixCls = getPrefixCls('homepage-last-item')
     <div :class="`${prefixCls}-index`" class="pl-15px w-[calc(15%)] truncate">{{ index + 1 }}</div>
     <div :class="`${prefixCls}-area`" class="pl-15px w-[calc(30%)] truncate">{{ area }}</div>
     <div :class="`${prefixCls}-usage`" class="px-15px w-[calc(36%)] truncate">
-      <el-progress
-        :show-text="false"
-        :stroke-width="12"
-        :percentage="usage"
-        status="primary"
-      />
+      <el-progress :show-text="false" :stroke-width="12" :percentage="usage" status="primary" />
     </div>
     <div :class="`${prefixCls}-value`" class="pl-15px w-[calc(19%)] truncate">{{ value }}</div>
   </div>

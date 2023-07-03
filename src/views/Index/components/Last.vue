@@ -15,17 +15,17 @@ const lasts: ILasts[] = [
   {
     area: '车床工艺3车间',
     usage: 70,
-    value: '337',
+    value: '337'
   },
   {
     area: '空压2机组',
     usage: 80,
-    value: '432',
+    value: '432'
   },
   {
     area: '冰机系统3号机组',
     usage: 50,
-    value: '970',
+    value: '970'
   }
 ]
 </script>
@@ -62,7 +62,6 @@ const lasts: ILasts[] = [
 $prefix-chart: '#{$vNamespace}-homepage-last-item-title';
 
 .#{$prefix-chart} {
-  
   & > div {
     line-height: 40px;
     font-size: 14px;

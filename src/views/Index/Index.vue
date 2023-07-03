@@ -16,14 +16,15 @@ const prefixCls = getPrefixCls('homepage')
   <contentWrap :showTitle="false" :needPadding="false">
     <template #content>
       <div :class="`${prefixCls}-wrap`" class="flex h-full">
-        <div :class="`${prefixCls}-wrap`" class="flex flex-col flex-1 h-full overflow-hidden pr-6px">
-
+        <div
+          :class="`${prefixCls}-wrap`"
+          class="flex flex-col flex-1 h-full overflow-hidden pr-6px"
+        >
           <!-- 左上 -->
           <UserTrend :class="`${prefixCls}-wrap-top`" />
 
           <!-- 左中 -->
           <div :class="`${prefixCls}-wrap-middle`" class="flex justify-between mb-12px">
-
             <!-- 左中左 -->
             <div class="box w-[calc(50%-8px)] max-w-[calc(50%-8px)] pt-10px">
               <!-- 这里用的div，DataStorageItem宽度设置的51%，展示一列，减小宽度即可展示两列 -->
@@ -42,8 +43,10 @@ const prefixCls = getPrefixCls('homepage')
           </div>
         </div>
 
-        <div :class="`${prefixCls}-wrap ${prefixCls}-wrap-right`" class="flex flex-col h-full overflow-hidden pl-6px">
-
+        <div
+          :class="`${prefixCls}-wrap ${prefixCls}-wrap-right`"
+          class="flex flex-col h-full overflow-hidden pl-6px"
+        >
           <!-- 右上 -->
           <div :class="`${prefixCls}-wrap-top`" class="box mb-12px !mr-0 py-20px">
             <Count />

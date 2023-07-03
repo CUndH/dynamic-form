@@ -456,7 +456,6 @@ $prefix-cls: '#{$vNamespace}-tags-view';
   }
 
   &__item {
-    padding-right: 25px;
     margin-right: 10px;
     cursor: pointer;
     color: var(--tags-view-color);

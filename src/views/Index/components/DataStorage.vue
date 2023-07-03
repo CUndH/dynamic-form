@@ -37,7 +37,10 @@ const themeName = computed(() => {
   <div class="box-header w-full px-20px">
     <div class="title truncate">能耗数据存储（{{ dataStorages.length }}）</div>
     <div class="tool-wrap">
-      <img v-if="themeName?.includes('gradient')" src="src/assets/images/homepage/bar_gradient.png" />
+      <img
+        v-if="themeName?.includes('gradient')"
+        src="src/assets/images/homepage/bar_gradient.png"
+      />
       <img v-else src="src/assets/images/homepage/bar_normal.png" />
     </div>
   </div>

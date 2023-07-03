@@ -27,7 +27,7 @@ Lodash， Echarts， Element-plus，dayjs，mockjs
 
 # 其它改变或考虑
 
-`1` 效果图没有顶上的一行文字，已删除。
+`1` 效果图没有顶上的一行文字，已删除。 (ContentWrap的showTitle没有添加逻辑，已处理)
 
 `2` 考虑到屏幕尺寸太小时变形严重，写死了固定的最小高度。
 

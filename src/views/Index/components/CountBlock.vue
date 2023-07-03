@@ -35,7 +35,10 @@ defineProps({
         <span class="text-16px ml-4px text-[var(--color-lighter)]">{{ unit }}</span>
       </div>
     </div>
-    <div class="extra flex py-10px border-[var(--border-color)]" :class="{ 'border-t-1': extraTitle }">
+    <div
+      class="extra flex py-10px border-[var(--border-color)]"
+      :class="{ 'border-t-1': extraTitle }"
+    >
       <span class="mr-6px">{{ extraTitle }}:</span>
       <span>{{ extraValue }}</span>
     </div>

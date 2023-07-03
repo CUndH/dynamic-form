@@ -16,7 +16,7 @@ const data: IPieData[] = [
   }
 ]
 
-let devices = data.reduce((devices, datum) => (devices += datum.value), 0)
+let devices = data.reduce((devices, datum) => (devices + datum.value), 0)
 </script>
 
 <template>

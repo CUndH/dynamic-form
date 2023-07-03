@@ -64,7 +64,33 @@ declare interface DictItemRes {
 
 declare type Subtract<T, K> = Pick<T, Exclude<keyof T, keyof K>>
 
+declare interface ICount {
+  label: string
+  value?: number
+  icon?: string
+  category?: string
+  categoryValue?: number
+}
+
+declare interface IDataStorage {
+  left: string
+  right: string
+}
+
 declare interface IPieData {
   name: string,
   value: number
+}
+
+declare interface IAreaAlarm {
+  level: string
+  location: string
+  content: string
+  datetime: string
+}
+
+declare interface ILast {
+  area: string
+  usage: number
+  value: string
 }

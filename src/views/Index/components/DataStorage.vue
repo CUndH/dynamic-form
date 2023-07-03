@@ -1,14 +1,8 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import DataStorageItem from '../components/DataStorageItem.vue'
-import { useAppStore } from '@/store/modules/app'
+import { computed, inject } from 'vue'
+import DataStorageItem from './DataStorageItem.vue'
 
-interface IDataStorages {
-  left: string
-  right: string
-}
-
-const dataStorages: IDataStorages[] = [
+const dataStorages: IDataStorage[] = [
   {
     left: 'HLNH2022/1',
     right: '2022/01/31'
@@ -27,9 +21,9 @@ const dataStorages: IDataStorages[] = [
   }
 ]
 
-const appStore = useAppStore()
+const echartTheme = inject('echartTheme') as ThemeTypes
 const themeName = computed(() => {
-  return appStore.getTheme.mainBgColor
+  return echartTheme.mainBgColor
 })
 </script>
 
@@ -46,13 +40,12 @@ const themeName = computed(() => {
   </div>
 
   <div class="h-[calc(100%-60px)] overflow-hidden">
-    <div class="flex px-20px justify-between flex-wrap h-full">
+    <div :class="dataStorages.length > 3 ? 'h-full' : ''" class="flex px-20px justify-between flex-wrap">
       <DataStorageItem
         v-for="(dataStorage, index) in dataStorages"
         :key="index"
-        :left="dataStorage.left"
-        :right="dataStorage.right"
-        :style="{ borderBottom: index > dataStorages.length - 2 ? '1px solid #DCDFE6' : 'none' }"
+        :dataStorage="dataStorage"
+        :class="index > dataStorages.length - 2 ? 'has-border-bottom' : ''"
       />
     </div>
   </div>

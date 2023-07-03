@@ -39,9 +39,7 @@ const loopSystemTheme = () => {
   }
 }
 
-const themeColor = 'linear-gradient(0, #8C83F7 0%, #F589CF 100%)'
-
-setSystemTheme(themeColor)
+setSystemTheme('linear-gradient(0, #8C83F7 0%, #F589CF 100%)')
 
 provide('echartTheme', appStore.getTheme)
 provide('setSystemTheme', setSystemTheme)

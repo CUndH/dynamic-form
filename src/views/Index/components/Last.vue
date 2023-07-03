@@ -1,17 +1,11 @@
 <script setup lang="ts">
 import { useDesign } from '@/utils/useDesign'
-import LastItem from '../components/LastItem.vue'
+import LastItem from './LastItem.vue'
 
 const { getPrefixCls } = useDesign()
 const prefixCls = getPrefixCls('homepage-last')
 
-interface ILasts {
-  area: string
-  usage: number
-  value: string
-}
-
-const lasts: ILasts[] = [
+const lasts: ILast[] = [
   {
     area: '车床工艺3车间',
     usage: 70,
@@ -38,20 +32,18 @@ const lasts: ILasts[] = [
   <div class="h-[calc(100%-45px)] overflow-hidden">
     <div class="px-20px w-full mt-5px h-full">
       <!-- 表头 -->
-      <div :class="`${prefixCls}-item-title`" class="flex justify-between h-[calc(25%)]">
-        <div class="pl-15px w-[calc(15%)] truncate">序号</div>
-        <div class="pl-15px w-[calc(30%)] truncate">区域</div>
-        <div class="pl-15px w-[calc(36%)] truncate">用量</div>
-        <div class="pl-15px w-[calc(19%)] truncate">能耗（标准煤）</div>
+      <div :class="`${prefixCls}-title`" class="flex justify-between h-[25%]">
+        <div class="pl-15px w-[15%] truncate">序号</div>
+        <div class="pl-15px w-[30%] truncate">区域</div>
+        <div class="pl-15px w-[36%] truncate">用量</div>
+        <div class="pl-15px w-[19%] truncate">能耗（标准煤）</div>
       </div>
 
       <LastItem
         v-for="(last, index) in lasts"
         :key="index"
         :index="index"
-        :area="last.area"
-        :usage="last.usage"
-        :value="last.value"
+        :last="last"
       />
     </div>
   </div>
@@ -59,12 +51,10 @@ const lasts: ILasts[] = [
 
 <style lang="scss" scoped>
 @import '../style.scss';
-$prefix-chart: '#{$vNamespace}-homepage-last-item-title';
+$prefix-chart: '#{$vNamespace}-homepage-last';
 
-.#{$prefix-chart} {
-  & > div {
-    line-height: 40px;
-    font-size: 14px;
-  }
+.#{$prefix-chart}-title {
+  line-height: 3;
+  font-size: 14px;
 }
 </style>

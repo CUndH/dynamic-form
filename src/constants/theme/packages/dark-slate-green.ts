@@ -27,7 +27,12 @@ export default {
       colorSuccess: '#2CCA75'
     },
     echartTheme: {
-      color: ['#035464', '#309db2', '#f95b01', '#fc8440', '#e1ba42', '#ceb66e', '#f99901','#cb8c28']
+      color: ['#035464', '#309db2', '#f95b01', '#fc8440', '#e1ba42', '#ceb66e', '#f99901','#cb8c28'],
+      line: {
+        areaStyle: {
+          color: 'rgba(229, 100, 26, 0.1) '
+        },
+      }
     }
   };
   

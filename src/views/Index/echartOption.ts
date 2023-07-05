@@ -55,18 +55,6 @@ export function UserTrendOption() {
           shadowBlur: 12,
           shadowOffsetY: 16
         },
-        areaStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: 'rgba(204, 204, 204, 0.5)'
-            },
-            {
-              offset: 1,
-              color: 'rgba(252, 252, 252, 0.5)'
-            }
-          ])
-        },
         smooth: true
       }
     ]

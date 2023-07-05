@@ -1,3 +1,5 @@
+import * as echarts from 'echarts'
+
 export default {
   label: 'linear-gradient(0, #8C83F7 0%, #F589CF 100%)',
   value: {
@@ -27,6 +29,20 @@ export default {
     colorSuccess: '#2CCA75'
   },
   echartTheme: {
-    color: ['#8C82F7', '#a97ce4', '#537afa', '#ea8ec8', '#75aee8', '#69b3e2', '#e58b6b' , '#e2a731']
-  }
+    color: ['#8C82F7', '#a97ce4', '#537afa', '#ea8ec8', '#75aee8', '#69b3e2', '#e58b6b' , '#e2a731'],
+    line: {
+      areaStyle: {
+        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+          {
+            offset: 0,
+            color: 'rgba(140,131,247,0.50)'
+          },
+          {
+            offset: 1,
+            color: 'rgba(252,252,252,0.50)'
+          }
+        ]),
+      },
+    }
+  },
 };

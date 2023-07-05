@@ -28,6 +28,11 @@ export default {
   },
 
   echartTheme: {
-    color: ['#6a9f61', '#76d466', '#4da198', '#7fd0c7', '#3eb5a5', '#27ced8', '#799c26', '#a6bb74']
+    color: ['#6a9f61', '#76d466', '#4da198', '#7fd0c7', '#3eb5a5', '#27ced8', '#799c26', '#a6bb74'],
+    line: {
+      areaStyle: {
+        color: 'rgba(38, 199, 215, 0.2)'
+      },
+    }
   }
 };

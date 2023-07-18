@@ -1,21 +1,15 @@
-# Vue 3 + Vite
+# vue3-template
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+海澜智云前端组 Vue3 前端基础架构
 
-While this project uses Vue.js, Vite supports many popular JS frameworks. [See all the supported frameworks](https://vitejs.dev/guide/#scaffolding-your-first-vite-project).
+技术栈：
+Vue3 + TypeScript + Vue-Router + Pinia
 
-## Deploy Your Own
+基础依赖：
+Lodash， Echarts， Element-plus，dayjs，mockjs
 
-Deploy your own Vite project with Vercel.
+## Recommended IDE Setup
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/vercel/vercel/tree/main/examples/vite&template=vite)
+[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
-_Live Example: https://vite-vue-template.vercel.app_
-
-### Deploying From Your Terminal
-
-You can deploy your new Vite project with a single command from your terminal using [Vercel CLI](https://vercel.com/download):
-
-```shell
-$ vercel
-```
+[WebStorm](https://www.jetbrains.com/webstorm/)

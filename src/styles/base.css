@@ -1,0 +1,183 @@
+#app {
+  font-family: AlibabaPuHuiTi_2_45_Light, Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+
+html {
+  overflow: auto;
+  font-size: 10px;
+}
+body {
+  min-width: 1220px;
+  font: status-bar;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #1e2330;
+  overflow: hidden;
+}
+:focus {
+  outline: none;
+}
+h6,
+h5,
+h4,
+h3,
+h2,
+h1 {
+  margin: 0;
+  font-size: 100%;
+  font-weight: normal;
+  font-style: normal;
+}
+body,
+form,
+ul,
+ol,
+dl,
+dd,
+p {
+  margin: 0;
+}
+ul,
+ol {
+  list-style-type: none;
+  padding: 0;
+}
+img {
+  border: none;
+  vertical-align: bottom;
+  border-style: none !important;
+}
+button,
+input,
+select,
+textarea {
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+}
+select {
+  opacity: 0;
+  filter: alpha(opacity=0);
+  *zoom: 1;
+}
+a {
+  text-decoration: none;
+  color: #0067ed;
+}
+a * {
+  cursor: pointer;
+}
+a:hover {
+  text-decoration: none;
+  color: #0056c7;
+}
+/*sup {*/
+/*  vertical-align: text-top;*/
+/*}*/
+/*sub {*/
+/*  vertical-align: text-bottom;*/
+/*}*/
+/*table {*/
+/*    border-collapse: collapse;*/
+/*    border-spacing: 0;*/
+/*    table-layout: fixed;*/
+/*}*/
+[hidden] {
+  display: none;
+}
+/*禁用ie下文本框后面的X*/
+/*input::-ms-clear {
+  display: none;
+}*/
+div::-webkit-scrollbar {
+  width: 6px;
+  height: 8px;
+}
+div::-webkit-scrollbar-thumb {
+  background-color: #c8cbcc;
+  border-radius: 8px;
+}
+div::-webkit-scrollbar-thumb:hover {
+  background-color: #aaaaaa;
+}
+div::-webkit-scrollbar-track-piece {
+  background-color: transparent;
+}
+
+.flex-all-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* text-decoration */
+.tdl {
+  text-decoration: underline;
+}
+.tdn,
+.tdn:hover,
+.tdn a:hover,
+a.tdl:hover {
+  text-decoration: none;
+}
+
+.icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  overflow: hidden;
+  text-indent: -20000px;
+  *text-indent: 0;
+  *line-height: 0;
+  *font-size: 0;
+}
+.hidden {
+  display: none !important;
+}
+/* 清除浮动*/
+.fix {
+  *zoom: 1;
+}
+.fix:after {
+  display: table;
+  content: '';
+  clear: both;
+}
+#shtml {
+  overflow: hidden;
+  height: 0;
+}
+#shtml.shtml-loaded {
+  height: auto;
+  overflow: visible;
+}
+.shtml-loading {
+  height: 400px;
+  line-height: 400px;
+  text-align: center;
+}
+
+.block-before::before {
+  content: ' ';
+  display: inline-block;
+  width: 0.4rem;
+  height: 1.8rem;
+  background-color: #5aa1ea;
+  font-size: 0;
+  margin-right: 1rem;
+}
+
+.slide-fade-enter-active {
+  transition: all 0.2s ease;
+}
+.slide-fade-leave-active {
+  transition: all 0.2s cubic-bezier(1, 0.5, 0.8, 1);
+}
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(5px);
+  opacity: 0;
+}

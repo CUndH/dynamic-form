@@ -1,18 +1,14 @@
 <script setup lang="ts">
 import { createForm } from "@formily/core";
-import { createSchemaField, FormProvider } from "@formily/vue";
-import {
-  Submit,
-  Input,
-  FormItem,
-  Cascader,
-  Select,
-} from "@formily/element-plus";
+import { createSchemaField, FormProvider, Field } from "@formily/vue";
+import { Submit, FormItem, Cascader, Select } from "@formily/element-plus";
+import Input from "./components/Input";
 import InputPrepend from "./components/InputPrepend.vue";
 
 interface IForm {
   name: string;
   describe: string;
+  asd: string;
 }
 
 const form = createForm<IForm>();
@@ -85,6 +81,15 @@ const schema = {
       },
       "x-index": 5,
     },
+    asd: {
+      type: "string",
+      "x-decorator": "FormItem",
+      "x-component": "ElInput",
+      title: "测试Element",
+      "x-component-props": {
+        value: form.values.asd,
+      },
+    },
   },
 };
 
@@ -106,6 +111,17 @@ function onSave(formValue: IForm) {
         >
         </SchemaStringField>
       </SchemaField>
+      <!-- <Field
+        name="name"
+        title="姓名"
+        type="string"
+        required
+        decorator="FormItem"
+      >
+        <template #default="{ form }">
+          <el-input v-model:model-value="form.values.name"></el-input>
+        </template>
+      </Field> -->
       <Submit @submit="onSave">保存</Submit>
     </FormProvider>
   </div>

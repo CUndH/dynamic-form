@@ -10,7 +10,7 @@
     "build:test": "vite build --mode test",
     "type-check": "vue-tsc --noEmit",
     "lint:eslint": "eslint --fix --ext .js,.ts,.vue ./src",
-    "lint:prettier": "prettier --write --loglevel warn \"src/**/*.{js,ts,json,tsx,css,less,vue,html,md}\"",
+    "lint:prettier": "prettier --write --loglevel warn \"src/**/*.{js,ts,json,tsx,css,less,vue,html,md}\""
   },
   "dependencies": {
     "@formily/core": "^2.2.27",

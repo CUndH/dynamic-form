@@ -86,7 +86,7 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
               >
                 <div class="user-dropdown">
                   <div class="user-avatar mr-20px">
-                    <img class="border-none" src="@/assets/image/avatar.jpg" alt="" />
+                    <!-- <img class="border-none" src="@/assets/image/avatar.jpg" alt="" /> -->
                   </div>
                   <div>
                     {{ userInfo && userInfo.name ? userInfo.name : userInfo.username || '管理员' }}
@@ -291,7 +291,7 @@ $prefix-cls: '#{$vNamespace}-layout';
       flex: 1;
       padding-bottom: var(--layout-menu-width);
       overflow-y: auto;
-      background-image: url('@/assets/image/layoutMenu/normal-menu-bottom.png');
+      // background-image: url('@/assets/image/layoutMenu/normal-menu-bottom.png');
       background-repeat: no-repeat;
       background-position: 50% 99%;
       background-size: 95% auto;

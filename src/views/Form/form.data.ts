@@ -119,7 +119,6 @@ export const schemaConfig2 = {
   components: { FormItem, Input, Select },
   scope: {
     fetchAddressTypeList: (field) => {
-      console.log(field)
       field.dataSource = [{
         label: "DB",
         value: "1"
@@ -135,7 +134,6 @@ export const schemaConfig2 = {
       }]
     },
     fetchDataTypeList: (field) => {
-      console.log(field)
       field.dataSource = [{
         label: "BIT（位：0/1）",
         value: "1"

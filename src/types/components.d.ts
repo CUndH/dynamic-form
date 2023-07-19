@@ -18,6 +18,7 @@ declare module '@vue/runtime-core' {
     Error: typeof import('./../components/Error/src/Error.vue')['default']
     Header: typeof import('./../components/Header/src/Header.vue')['default']
     Icon: typeof import('./../components/Icon/src/Icon.vue')['default']
+    InputPrepend: typeof import('./../components/InputPrepend.vue')['default']
     Layout: typeof import('./../components/Layout/src/Layout.vue')['default']
     Menu: typeof import('./../components/Menu/src/Menu.vue')['default']
     MenuItem: typeof import('./../components/Menu/src/MenuItem.vue')['default']

@@ -124,6 +124,34 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
         }
       }
     ]
+  },
+  {
+    path: '/form',
+    name: 'FormPage',
+    redirect: 'noredirect',
+    component: Layout,
+    meta: {
+      title: '动态表单',
+      icon: 'dashicons:admin-generic'
+    },
+    children: [
+      {
+        path: 'form1',
+        name: 'Form1',
+        component: () => import('@/views/Form/Form1.vue'),
+        meta: {
+          title: '表单1'
+        }
+      },
+      {
+        path: 'form2',
+        name: 'Form2',
+        component: () => import('@/views/Form/Form2.vue'),
+        meta: {
+          title: '表单2'
+        }
+      },
+    ]
   }
 ]
 

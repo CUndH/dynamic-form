@@ -6,7 +6,7 @@ import { ElMessageBox } from 'element-plus';
 import { debounce } from 'lodash-es';
 import { PropType, onMounted, ref } from 'vue'
 
-interface addUserData {
+interface addUserData2 {
   roleId: string;
   roleName: string;
   userId: string;
@@ -14,7 +14,7 @@ interface addUserData {
 
 const props = defineProps({
   addUserData: {
-    type: Object as PropType<addUserData | {}>
+    type: Object as PropType<addUserData2 | {}>
   },
   onConfirm: {
     type: Function,

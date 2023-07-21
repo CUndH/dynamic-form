@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { createForm } from '@formily/core'
-import { FormItem, Input, Submit } from '@formily/element-plus'
+import { FormItem, Input, Submit, Radio } from '@formily/element-plus'
 import { FormProvider, Field } from '@formily/vue'
 import InputWithAddition from './InputWithAddition.vue'
-import RadioGroup from './RadioGroup.vue'
 
 const form = createForm()
 
@@ -42,7 +41,12 @@ function save(values) {
         :name="item.name"
         :title="item.title"
         :decorator="[FormItem]"
-        :component="[RadioGroup, { border: true }]"
+        :component="[
+          Radio.Group,
+          {
+            options: item.options
+          }
+        ]"
         :data-source="item.dataSource"
         border
       />

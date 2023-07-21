@@ -12,12 +12,11 @@ const configs = [
     name: 'bitwiseReading',
     title: '读取位',
     type: 'radio',
-    dataSource: [
-      { label: '是', value: 1 },
-      { label: '否', value: 0 }
-    ],
-    
-  },
+    options: [
+      { label: '是', value: 1, border: true },
+      { label: '否', value: 0, border: true }
+    ]
+  }
 ]
 </script>
 

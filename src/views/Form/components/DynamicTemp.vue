@@ -3,6 +3,7 @@ import { createForm } from '@formily/core'
 import { FormItem, Input, Submit } from '@formily/element-plus'
 import { FormProvider, Field } from '@formily/vue'
 import InputWithAddition from './InputWithAddition.vue'
+import RadioGroup from './RadioGroup.vue'
 
 const form = createForm()
 
@@ -14,11 +15,9 @@ const props = defineProps({
 })
 
 const emits = defineEmits(['save'])
-
 function save(values) {
   emits('save', values)
 }
-
 </script>
 
 <template>
@@ -37,6 +36,15 @@ function save(values) {
         :title="item.title"
         :decorator="[FormItem]"
         :component="[InputWithAddition]"
+      />
+      <Field
+        v-if="item.type === 'radio'"
+        :name="item.name"
+        :title="item.title"
+        :decorator="[FormItem]"
+        :component="[RadioGroup, { border: true }]"
+        :data-source="item.dataSource"
+        border
       />
     </template>
     <Submit @submit="save">保存</Submit>

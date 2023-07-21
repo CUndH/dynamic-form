@@ -7,7 +7,17 @@ const configs = [
     title: 'opc地址',
     type: 'inputAddition'
   },
-  { name: 'port', title: '端口', type: 'input' }
+  { name: 'port', title: '端口', type: 'input' },
+  {
+    name: 'bitwiseReading',
+    title: '读取位',
+    type: 'radio',
+    dataSource: [
+      { label: '是', value: 1 },
+      { label: '否', value: 0 }
+    ],
+    
+  },
 ]
 </script>
 

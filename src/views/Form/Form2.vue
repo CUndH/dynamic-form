@@ -16,6 +16,11 @@ const configs = [
       { label: '是', value: 1, border: true },
       { label: '否', value: 0, border: true }
     ]
+  },
+  {
+    name: 'dataType',
+    title: '数据类型',
+    type: 'select'
   }
 ]
 </script>

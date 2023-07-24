@@ -1,10 +1,37 @@
 <script setup lang="ts">
-import { createForm } from '@formily/core'
-import { FormItem, Input, Submit, Radio } from '@formily/element-plus'
+import { DataField, createForm, onFieldReact } from '@formily/core'
+import { FormItem, Input, Submit, Radio, Select } from '@formily/element-plus'
 import { FormProvider, Field } from '@formily/vue'
+import { action } from '@formily/reactive'
 import InputWithAddition from './InputWithAddition.vue'
 
-const form = createForm()
+const useAsyncDataSource = (pattern, service) => {
+  onFieldReact(pattern, (field: DataField) => {
+    field.loading = true
+    service(field).then(
+      action.bound((data) => {
+        field.dataSource = data
+        field.loading = false
+      })
+    )
+  })
+}
+
+const form = createForm({
+  effects: () => {
+    useAsyncDataSource('dataType', async (field) => {
+      console.log('dataType', field)
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve([
+            { label: '1', value: 1 },
+            { label: '2', value: 2 }
+          ])
+        }, 1000)
+      })
+    })
+  }
+})
 
 const props = defineProps({
   configs: {
@@ -49,6 +76,13 @@ function save(values) {
         ]"
         :data-source="item.dataSource"
         border
+      />
+      <Field
+        v-if="item.type === 'select'"
+        :name="item.name"
+        :title="item.title"
+        :decorator="[FormItem]"
+        :component="[Select]"
       />
     </template>
     <Submit @submit="save">保存</Submit>

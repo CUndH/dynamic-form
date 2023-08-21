@@ -122,7 +122,7 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
         </Header>
       </div>
       <div v-loading="isRouterLoading" :class="`${prefixCls}-content`">
-        <TagsView class="mt-10px mb-10px" />
+        <TagsView />
         <div :class="`${prefixCls}-router`">
           <transition name="slide-fade">
             <RouterView>
@@ -364,7 +364,6 @@ $prefix-cls: '#{$vNamespace}-layout';
     min-height: 850px;
     box-sizing: border-box;
     flex-grow: 1;
-    padding: 0 12px;
     background-color: var(--content-bg);
     overflow: hidden;
   }
@@ -372,6 +371,7 @@ $prefix-cls: '#{$vNamespace}-layout';
     width: 100%;
     flex-grow: 1;
     overflow-y: auto;
+    padding: 4px 12px 12px;
     // background-color: white;
   }
   &-footer {

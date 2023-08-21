@@ -4,6 +4,8 @@ import { ref, computed } from 'vue'
 import eventBus, { EventTypeName } from '@/utils/eventBus'
 import { useTagsViewStore } from '@/store/modules/tagsView'
 import { useUserStore } from '@/store/modules/user'
+import { useAppStore } from '@/store/modules/app'
+const appStore = useAppStore()
 
 const { getPrefixCls } = useDesign()
 
@@ -56,7 +58,7 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
       <div :class="`${prefixCls}-menu-logo`">
         <img src="@/assets/images/logo.png" alt="logo" />
         <p :class="`${prefixCls}-menu-logo-title`">
-          {{ menuCollapse ? '' : 'VUE3 ADMIN' }}
+          {{ appStore.$state.appName }}
         </p>
       </div>
       <div :class="`${prefixCls}-menu-wrap`">
@@ -267,13 +269,6 @@ $prefix-cls: '#{$vNamespace}-layout';
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    &.is-collapse {
-      width: var(--layout-menu-collapse-width);
-      &-wrap {
-        padding-bottom: var(--layout-menu-collapse-width);
-      }
-    }
-
     &-logo {
       display: flex;
       align-items: center;
@@ -284,6 +279,7 @@ $prefix-cls: '#{$vNamespace}-layout';
       color: var(--color-normal);
       height: var(--tool-header-height);
       background-color: var(--layout-logo-bg);
+      border-bottom: 1px solid #e4e7ed;
       img {
         width: 44px;
         height: 44px;
@@ -291,8 +287,16 @@ $prefix-cls: '#{$vNamespace}-layout';
       }
 
       &-title {
+        transition: all var(--el-transition-duration)
+          var(--el-transition-function-ease-in-out-bezier);
+        -webkit-transition: all var(--el-transition-duration)
+          var(--el-transition-function-ease-in-out-bezier);
+        -o-transition: all var(--el-transition-duration)
+          var(--el-transition-function-ease-in-out-bezier);
+        min-width: 120px;
         white-space: nowrap;
         color: var(--layout-logo-color);
+        overflow: hidden;
       }
     }
     &-wrap {
@@ -304,6 +308,21 @@ $prefix-cls: '#{$vNamespace}-layout';
       background-position: 50% 99%;
       background-size: 95% auto;
     }
+    &.is-collapse {
+      width: var(--layout-menu-collapse-width);
+      .#{$prefix-cls}-menu {
+        &-wrap {
+          padding-bottom: var(--layout-menu-collapse-width);
+        }
+        &-logo {
+          &-title {
+            min-width: 0;
+            width: 0;
+          }
+        }
+      }
+    }
+
     &-content {
       height: 100%;
       overflow-y: auto;

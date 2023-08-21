@@ -6,6 +6,7 @@ export default {
     layoutLogoBg: '#E4EDEA', // logo 块背景
     layoutLogoColor: '#000000', // logo 块字体颜色
     layoutMenuActiveBg: '#000000', // 菜单激活背景
+    layoutMenuSubActiveBg: '#ecf2f0', // 父级菜单选中时子菜单背景
     layoutMenuHoverBg: '#ecf2f0', // 菜单hover背景
     layoutMenuColor: '#04113F', // 菜单字体颜色
     layoutMenuHoverColor: '#04113F', // 菜单hover字体颜色
@@ -32,7 +33,7 @@ export default {
     line: {
       areaStyle: {
         color: 'rgba(38, 199, 215, 0.2)'
-      },
+      }
     }
   }
-};
+}

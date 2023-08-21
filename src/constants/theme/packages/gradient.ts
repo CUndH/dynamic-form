@@ -8,6 +8,7 @@ export default {
     layoutLogoBg: '#f28bd2',
     layoutLogoColor: '#ffffff',
     layoutMenuActiveBg: 'linear-gradient(90deg, #D16DCD 0%, #9A68E0 100%)',
+    layoutMenuSubActiveBg: 'rgba(142, 131, 246, 0.3)',
     layoutMenuHoverBg: 'rgba(142, 131, 246, 0.3)',
     layoutMenuColor: '#ffffff',
     layoutMenuHoverColor: '#ffffff',
@@ -29,7 +30,7 @@ export default {
     colorSuccess: '#2CCA75'
   },
   echartTheme: {
-    color: ['#8C82F7', '#a97ce4', '#537afa', '#ea8ec8', '#75aee8', '#69b3e2', '#e58b6b' , '#e2a731'],
+    color: ['#8C82F7', '#a97ce4', '#537afa', '#ea8ec8', '#75aee8', '#69b3e2', '#e58b6b', '#e2a731'],
     line: {
       areaStyle: {
         color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
@@ -41,8 +42,8 @@ export default {
             offset: 1,
             color: 'rgba(252,252,252,0.50)'
           }
-        ]),
-      },
+        ])
+      }
     }
-  },
-};
+  }
+}

@@ -6,6 +6,7 @@ export default {
     layoutLogoBg: '#8b4bf3',
     layoutLogoColor: '#ffffff',
     layoutMenuActiveBg: '#FFFFFF',
+    layoutMenuSubActiveBg: '#ab81f6',
     layoutMenuHoverBg: '#ab81f6',
     layoutMenuColor: '#ffffff',
     layoutMenuHoverColor: '#ffffff',
@@ -27,6 +28,6 @@ export default {
     colorSuccess: '#2CCA75'
   },
   echartTheme: {
-    color: ['#8b4bf3', '#a054f8', '#3b69d1', '#6487d9', '#20a2a0', '#3e9c3e', '#53d1d1' , '#53a6f7']
+    color: ['#8b4bf3', '#a054f8', '#3b69d1', '#6487d9', '#20a2a0', '#3e9c3e', '#53d1d1', '#53a6f7']
   }
-};
+}

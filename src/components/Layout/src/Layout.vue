@@ -54,8 +54,9 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
   <div :class="prefixCls">
     <div :class="`${prefixCls}-menu ${menuCollapse ? 'is-collapse' : ''}`">
       <div :class="`${prefixCls}-menu-logo`">
+        <img src="@/assets/images/logo.png" alt="logo" />
         <p :class="`${prefixCls}-menu-logo-title`">
-          {{ menuCollapse ? 'ADMIN' : 'VUE3 ADMIN' }}
+          {{ menuCollapse ? '' : 'VUE3 ADMIN' }}
         </p>
       </div>
       <div :class="`${prefixCls}-menu-wrap`">
@@ -159,7 +160,7 @@ $prefix-cls: '#{$vNamespace}-layout';
     flex-shrink: 0;
     background-color: var(--tool-header-bg);
     color: var(--el-color-primary);
-    border-bottom: 1px solid #E4E7ED;
+    border-bottom: 1px solid #e4e7ed;
 
     &-right {
       display: flex;
@@ -283,6 +284,12 @@ $prefix-cls: '#{$vNamespace}-layout';
       color: var(--color-normal);
       height: var(--tool-header-height);
       background-color: var(--layout-logo-bg);
+      img {
+        width: 44px;
+        height: 44px;
+        margin-right: 6px;
+      }
+
       &-title {
         white-space: nowrap;
         color: var(--layout-logo-color);
@@ -325,12 +332,18 @@ $prefix-cls: '#{$vNamespace}-layout';
           background-color: var(--layout-menu-hover-bg);
           color: var(--layout-menu-hover-color);
         }
+        [class^='el-icon'] {
+          margin-right: 12px;
+        }
       }
       .el-sub-menu {
+        .el-icon {
+          margin-right: 12px;
+        }
         &.is-active {
-          background: var(--layout-menu-hover-bg) !important;
+          background: var(--layout-menu-sub-active-bg) !important;
           > .el-menu {
-            background: var(--layout-menu-hover-bg) !important;
+            background: var(--layout-menu-sub-active-bg) !important;
           }
         }
         .el-sub-menu__title {

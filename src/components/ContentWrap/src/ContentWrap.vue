@@ -42,7 +42,7 @@ const title = route.meta.title
         <slot name="extra"></slot>
       </div>
     </div>
-    <div class="flex flex-col flex-1 overflow-y-auto h-100% p-10px pt-0">
+    <div class="flex flex-col flex-1 overflow-y-auto h-100% pt-0">
       <slot name="content"></slot>
     </div>
   </div>

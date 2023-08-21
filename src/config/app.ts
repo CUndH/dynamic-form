@@ -21,7 +21,7 @@ export const appModules: ThemeWrap = {
     toolHeaderBg: '#ffffff', // 头部背景色
     contentBg: '#f6f6f6', // 内容页背景色
     tagsViewHeight: '32px', // 标签高度
-    tagsViewBg: '#ffffff', // 标签背景
+    tagsViewItemBg: '#ffffff', // 标签背景
     tagsViewActiveBg: '#ffffff', // 标签激活背景
     tagsViewColor: '#04113F', // 标签字体颜色
     tagsViewActiveColor: '#78E067', // 标签字体激活颜色

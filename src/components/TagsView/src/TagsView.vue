@@ -425,8 +425,8 @@ watch(
 $prefix-cls: '#{$vNamespace}-tags-view';
 
 .#{$prefix-cls} {
-  // background-color: #ffffff;
-  margin: 8px 0;
+  background-color: var(--tags-view-bg);
+  padding: 8px 12px;
   :deep(.#{$elNamespace}-scrollbar__view) {
     height: 100%;
   }
@@ -462,7 +462,7 @@ $prefix-cls: '#{$vNamespace}-tags-view';
     font-size: 1.4rem;
     border-radius: 4px;
     padding: 10px 22px 8px 12px;
-    background-color: var(--tags-view-bg);
+    background-color: var(--tags-view-item-bg);
     transition: all linear 0.2s;
     &--close {
       position: absolute;

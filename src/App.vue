@@ -4,8 +4,8 @@ import { onUnmounted, provide, ref } from 'vue'
 import eventBus, { EventTypeName } from '@/utils/eventBus'
 // import { Layout } from './components/Layout'
 // import { useRouter } from 'vue-router'
-import { useAppStore } from '@/store/modules/app'
 import { themeConfigs } from '@/config/app'
+import { useAppStore } from '@/store/modules/app'
 const appStore = useAppStore()
 
 eventBus.listen(EventTypeName.PAGE_START_LOAD, () => {
@@ -39,8 +39,7 @@ const loopSystemTheme = () => {
   }
 }
 
-setSystemTheme('linear-gradient(0, #8C83F7 0%, #F589CF 100%)')
-
+setSystemTheme(appStore.$state.defaultTheme)
 provide('echartTheme', appStore.getTheme)
 provide('setSystemTheme', setSystemTheme)
 provide('loopSystemTheme', loopSystemTheme)

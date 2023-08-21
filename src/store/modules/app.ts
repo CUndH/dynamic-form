@@ -5,7 +5,7 @@ import { defineStore } from 'pinia'
 import { store } from '@/store'
 import elementPlusPackage from 'element-plus/package.json'
 import { useCache } from '@/utils/useCache'
-import { appModules } from '@/config/app'
+import { website } from '@/constants/website'
 import { setCssVar, humpToUnderline } from '@/utils'
 import themeMethods from '@/utils/theme'
 import { useDesign } from '@/utils/useDesign'
@@ -14,7 +14,8 @@ const { getPrefixCls } = useDesign()
 
 const { wsCache } = useCache('localStorage')
 
-interface AppState extends ThemeWrap {
+interface AppState extends WebsiteConfig {
+  theme: ThemeTypes
   chalk: string
   originTheme: {
     [key: string]: string
@@ -24,7 +25,8 @@ interface AppState extends ThemeWrap {
 export const useAppStore = defineStore({
   id: 'app',
   state: (): AppState => ({
-    ...appModules,
+    ...website,
+    theme: wsCache.get('theme') || {},
     chalk: wsCache.get('chalk') || '',
     originTheme: wsCache.get('originTheme') || {
       primary: '#409EFF',

@@ -26,9 +26,6 @@ interface ThemeTypes {
   colorSuccess: string
   colorDanger: string
 }
-interface ThemeWrap {
-  theme: ThemeTypes
-}
 interface ThemeConfigs {
   label: string
   value: ThemeTypes

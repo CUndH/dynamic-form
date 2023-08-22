@@ -390,7 +390,7 @@ $prefix-cls: '#{$vNamespace}-layout';
     width: 100%;
     flex-grow: 1;
     overflow-y: auto;
-    padding: 4px 12px 12px;
+    padding: 12px;
     // background-color: white;
   }
   &-footer {

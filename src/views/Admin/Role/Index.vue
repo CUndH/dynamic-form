@@ -168,64 +168,65 @@ function setRoleStatus(row) {
 const { push } = useRouter()
 
 function goDetailPage(row) {
-  push({ path: '/admin/role/detail', query: { id: row.roleId } })
+  push({ name: 'RoleDetail', query: { id: row.roleId } })
 }
 </script>
 
 <template>
-  <div :class="`${prefixCls}-list-header h-full`">
-    <ContentWrap class="bg-[#fff] w-full">
-      <template #content>
-        <div class="search-tool-wrap">
-          <div class="tool-item">
-            <el-input
-              v-model:modelValue="searchKey.keyword"
-              placeholder="角色名称"
-              class="mr-10px w-120"
-            />
+  <ContentWrap class="bg-[#fff] w-full">
+    <template #content>
+      <div :class="`${prefixCls}-list`" class="p-20px h-full">
+        <div :class="`${prefixCls}-list-header`" class="mb-10px">
+          <div class="search-tool-wrap">
+            <div class="tool-item">
+              <el-input
+                  v-model:modelValue="searchKey.keyword"
+                  placeholder="角色名称"
+                  class="mr-10px w-120"
+              />
+            </div>
+            <div class="tool-item !min-w-0">
+              <el-button type="primary" @click="searchList">
+                <template #icon>
+                  <Icon icon="ep:search" :size="16" />
+                </template>
+                查询
+              </el-button>
+            </div>
+            <div class="tool-item !min-w-0">
+              <el-button class="mr-10px" type="default" @click="resetSearchParams">
+                <template #icon>
+                  <Icon icon="ep:refresh-left" :size="16" />
+                </template>
+                重置
+              </el-button>
+            </div>
           </div>
-          <div class="tool-item !min-w-0">
-            <el-button type="primary" @click="searchList">
+
+          <div :class="`${prefixCls}-list-header-right`">
+            <el-button type="primary" @click="addRole">
               <template #icon>
-                <Icon icon="ep:search" :size="16" />
+                <Icon icon="ep:plus" :size="16" />
               </template>
-              查询
-            </el-button>
-          </div>
-          <div class="tool-item !min-w-0">
-            <el-button class="mr-10px" type="default" @click="resetSearchParams">
-              <template #icon>
-                <Icon icon="ep:refresh-left" :size="16" />
-              </template>
-              重置
+              新建角色
             </el-button>
           </div>
         </div>
-
-        <div :class="`${prefixCls}-list-header-right`">
-          <el-button type="primary" @click="addRole">
-            <template #icon>
-              <Icon icon="ep:plus" :size="16" />
-            </template>
-            新建角色
-          </el-button>
-        </div>
-
         <Table
-          v-model:pageSize="tableObject.size"
-          v-model:currentPage="tableObject.current"
-          :class="`${prefixCls}-table mt-10px`"
-          :columns="columns"
-          :data="tableObject.tableList"
-          :loading="tableObject.loading"
-          :selection="false"
-          :border="true"
-          :stripe="true"
-          :pagination="{
+            v-model:pageSize="tableObject.size"
+            v-model:currentPage="tableObject.current"
+            :class="`${prefixCls}-table`"
+            :columns="columns"
+            :data="tableObject.tableList"
+            :loading="tableObject.loading"
+            :selection="false"
+            :border="true"
+            :stripe="true"
+            :pagination="{
             total: tableObject.total,
             background: true
           }"
-          @register="register"
+            @register="register"
         >
           <template #action="{ row }">
             <el-button type="primary" size="small" plain @click="goDetailPage(row)">
@@ -265,9 +266,9 @@ function goDetailPage(row) {
             </div>
           </template>
         </Table>
-      </template>
-    </ContentWrap>
-  </div>
+      </div>
+    </template>
+  </ContentWrap>
 </template>
 
 <style lang="scss" scoped>
@@ -275,6 +276,8 @@ $prefix-chart: '#{$vNamespace}-role';
 
 .#{$prefix-chart} {
   &-list {
+    display: flex;
+    flex-direction: column;
     &-header {
       display: flex;
       text-align: left;
@@ -285,6 +288,9 @@ $prefix-chart: '#{$vNamespace}-role';
         display: flex;
         align-items: center;
       }
+    }
+    &-table {
+      flex: 1;
     }
   }
 }

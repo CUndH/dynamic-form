@@ -199,162 +199,176 @@ function handleSelectDept(node) {
 </script>
 
 <template>
-  <div :class="`${prefixCls}-list-header relative h-full`">
-    <TreeSelector
-      title="部门"
-      class="absolute left-0 top-0 bottom-0 bg-[#fff] rounded-4px"
-      remote
-      :fetch-func="getDepartmentTreeDataApi"
-      :default-props="{
+  <ContentWrap>
+    <template #content>
+      <div :class="`${prefixCls}-list-header relative h-full`">
+        <TreeSelector
+            title="部门"
+            :class="`${prefixCls}-department`"
+            class="absolute left-0 top-0 bottom-0 bg-[#fff]"
+            remote
+            :fetch-func="getDepartmentTreeDataApi"
+            :default-props="{
         children: 'children',
         label: 'name',
         value: 'id'
       }"
-      @click="handleSelectDept"
-    />
-    <ContentWrap class="ml-232px bg-[#fff]">
-      <template #content>
-        <div class="search-tool-wrap">
-          <div class="tool-item">
-            <el-input v-model:modelValue="searchKey.keyword" placeholder="姓名/账号/手机" />
-          </div>
-          <div class="tool-item">
-            <el-select v-model:modelValue="searchKey.status" placeholder="状态选项">
-              <el-option
-                v-for="(item, key) in statusOpts"
-                :key="`search-module-${key}`"
-                :label="item.label"
-                :value="item.value"
-              />
-            </el-select>
-          </div>
-          <div class="tool-item">
-            <el-date-picker
-              v-model:modelValue="searchKey.lastLoginTime"
-              type="daterange"
-              start-placeholder="最后登录起始"
-              end-placeholder="最后登录结束"
-            />
-          </div>
-          <div class="tool-item !min-w-0">
-            <el-button type="primary" @click="searchList">
-              <template #icon>
-                <Icon icon="ep:search" :size="16" />
-              </template>
-              查询
-            </el-button>
-          </div>
-          <div class="tool-item !min-w-0">
-            <el-button class="mr-10px" type="default" @click="resetSearchParams">
-              <template #icon>
-                <Icon icon="ep:refresh-left" :size="16" />
-              </template>
-              重置
-            </el-button>
-          </div>
-        </div>
-        <div class="mt-5">
+            @click="handleSelectDept"
+        />
+        <div :class="`${prefixCls}-list-content p-20px ml-220px bg-[#fff] h-full`">
           <div class="search-tool-wrap">
+            <div class="tool-item">
+              <el-input v-model:modelValue="searchKey.keyword" placeholder="姓名/账号/手机" />
+            </div>
+            <div class="tool-item">
+              <el-select v-model:modelValue="searchKey.status" placeholder="状态选项">
+                <el-option
+                    v-for="(item, key) in statusOpts"
+                    :key="`search-module-${key}`"
+                    :label="item.label"
+                    :value="item.value"
+                />
+              </el-select>
+            </div>
+            <div class="tool-item">
+              <el-date-picker
+                  v-model:modelValue="searchKey.lastLoginTime"
+                  type="daterange"
+                  start-placeholder="最后登录起始"
+                  end-placeholder="最后登录结束"
+              />
+            </div>
             <div class="tool-item !min-w-0">
-              <el-button type="primary" @click="addUser">
+              <el-button type="primary" @click="searchList">
                 <template #icon>
-                  <Icon icon="ep:plus" :size="16" />
+                  <Icon icon="ep:search" :size="16" />
                 </template>
-                新增用户
+                查询
               </el-button>
             </div>
             <div class="tool-item !min-w-0">
-              <el-button @click="editDepartment">
+              <el-button class="mr-10px" type="default" @click="resetSearchParams">
                 <template #icon>
-                  <Icon icon="mdi:user-group" :size="16" />
+                  <Icon icon="ep:refresh-left" :size="16" />
                 </template>
-                修改部门
-              </el-button>
-            </div>
-            <div class="tool-item !min-w-0">
-              <el-button>
-                <template #icon>
-                  <Icon icon="ic:baseline-supervised-user-circle" :size="16" />
-                </template>
-                修改角色
-              </el-button>
-            </div>
-            <div class="tool-item !min-w-0">
-              <el-button>
-                <template #icon>
-                  <Icon icon="uiw:setting" :size="16" />
-                </template>
-                设置状态
-              </el-button>
-            </div>
-            <div class="tool-item !min-w-0">
-              <el-button>
-                <template #icon>
-                  <Icon icon="ion:finger-print" :size="16" />
-                </template>
-                重置密码
-              </el-button>
-            </div>
-            <div class="tool-item !min-w-0">
-              <el-button>
-                <template #icon>
-                  <Icon icon="material-symbols:upload-rounded" :size="16" />
-                </template>
-                导入数据
+                重置
               </el-button>
             </div>
           </div>
-        </div>
-        <Table
-          v-model:pageSize="tableObject.size"
-          v-model:currentPage="tableObject.current"
-          ref="tableRef"
-          :class="`${prefixCls}-table mt-10px`"
-          :columns="columns"
-          :data="tableObject.tableList"
-          :loading="tableObject.loading"
-          selection
-          :border="true"
-          :stripe="true"
-          :pagination="{
+          <div class="mt-5">
+            <div class="search-tool-wrap">
+              <div class="tool-item !min-w-0">
+                <el-button type="primary" @click="addUser">
+                  <template #icon>
+                    <Icon icon="ep:plus" :size="16" />
+                  </template>
+                  新增用户
+                </el-button>
+              </div>
+              <div class="tool-item !min-w-0">
+                <el-button @click="editDepartment">
+                  <template #icon>
+                    <Icon icon="mdi:user-group" :size="16" />
+                  </template>
+                  修改部门
+                </el-button>
+              </div>
+              <div class="tool-item !min-w-0">
+                <el-button>
+                  <template #icon>
+                    <Icon icon="ic:baseline-supervised-user-circle" :size="16" />
+                  </template>
+                  修改角色
+                </el-button>
+              </div>
+              <div class="tool-item !min-w-0">
+                <el-button>
+                  <template #icon>
+                    <Icon icon="uiw:setting" :size="16" />
+                  </template>
+                  设置状态
+                </el-button>
+              </div>
+              <div class="tool-item !min-w-0">
+                <el-button>
+                  <template #icon>
+                    <Icon icon="ion:finger-print" :size="16" />
+                  </template>
+                  重置密码
+                </el-button>
+              </div>
+              <div class="tool-item !min-w-0">
+                <el-button>
+                  <template #icon>
+                    <Icon icon="material-symbols:upload-rounded" :size="16" />
+                  </template>
+                  导入数据
+                </el-button>
+              </div>
+            </div>
+          </div>
+          <Table
+              v-model:pageSize="tableObject.size"
+              v-model:currentPage="tableObject.current"
+              ref="tableRef"
+              :class="`${prefixCls}-table mt-10px`"
+              :columns="columns"
+              :data="tableObject.tableList"
+              :loading="tableObject.loading"
+              selection
+              :border="true"
+              :stripe="true"
+              :pagination="{
             total: tableObject.total,
             background: true
           }"
-          @register="register"
-        >
-          <template #action="{ row }">
-            <el-button type="primary" size="small" plain @click="goDetailPage(row)">
-              <template #icon>
-                <Icon icon="ep:tickets" :size="16" />
-              </template>
-              详情
-            </el-button>
-            <el-button type="primary" size="small" plain @click="editRow(row)">
-              <template #icon>
-                <Icon icon="ep:edit-pen" :size="16" />
-              </template>
-              编辑
-            </el-button>
-            <el-button type="primary" size="small" plain @click="setStatusForModal(row)">
-              <template #icon>
-                <Icon icon="ep:setting" :size="16" />
-              </template>
-              设置
-            </el-button>
-            <el-button type="danger" size="small" plain>
-              <template #icon>
-                <Icon icon="ep:delete" :size="16" />
-              </template>
-              删除
-            </el-button>
-          </template>
-          <template #empty>
-            <div :class="`${prefixCls}-table-empty`">
-              {{ isSearch ? '无搜索结果' : '暂无数据' }}
-            </div>
-          </template>
-        </Table>
-      </template>
-    </ContentWrap>
-  </div>
+              @register="register"
+          >
+            <template #action="{ row }">
+              <el-button type="primary" size="small" plain @click="goDetailPage(row)">
+                <template #icon>
+                  <Icon icon="ep:tickets" :size="16" />
+                </template>
+                详情
+              </el-button>
+              <el-button type="primary" size="small" plain @click="editRow(row)">
+                <template #icon>
+                  <Icon icon="ep:edit-pen" :size="16" />
+                </template>
+                编辑
+              </el-button>
+              <el-button type="primary" size="small" plain @click="setStatusForModal(row)">
+                <template #icon>
+                  <Icon icon="ep:setting" :size="16" />
+                </template>
+                设置
+              </el-button>
+              <el-button type="danger" size="small" plain>
+                <template #icon>
+                  <Icon icon="ep:delete" :size="16" />
+                </template>
+                删除
+              </el-button>
+            </template>
+            <template #empty>
+              <div :class="`${prefixCls}-table-empty`">
+                {{ isSearch ? '无搜索结果' : '暂无数据' }}
+              </div>
+            </template>
+          </Table>
+        </div>
+      </div>
+    </template>
+  </ContentWrap>
 </template>
+<style lang="scss" scoped>
+$prefix-cls: '#{$vNamespace}-user';
+
+.#{$prefix-cls} {
+  &-list {
+    &-content {
+      border-left: 1px solid #E9E9E9;
+    }
+  }
+}
+</style>

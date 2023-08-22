@@ -109,7 +109,7 @@ function resetSearchParams() {
 </script>
 
 <template>
-  <div :class="`${prefixCls}-list-header`">
+  <div :class="`${prefixCls}-list-header mb-10px`">
     <div :class="`${prefixCls}-list-header-left`">
       <el-input
         v-model:modelValue="searchKey.keyword"
@@ -166,7 +166,7 @@ function resetSearchParams() {
     v-model:pageSize="tableObject.size"
     v-model:currentPage="tableObject.current"
     id="deviceTable"
-    :class="`${prefixCls}-table mt-10px`"
+    :class="`${prefixCls}-table`"
     :columns="columns"
     :data="tableObject.tableList"
     :loading="tableObject.loading"

@@ -140,7 +140,7 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
         name: 'Form1',
         component: () => import('@/views/Form/Form1.vue'),
         meta: {
-          title: '表单1'
+          title: '测试PaaS表单'
         }
       },
       {
@@ -148,7 +148,7 @@ export const asyncRoutes: AppRouteRecordRaw[] = [
         name: 'Form2',
         component: () => import('@/views/Form/Form2.vue'),
         meta: {
-          title: '表单2'
+          title: 'Template表单'
         }
       },
     ]

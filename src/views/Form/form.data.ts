@@ -20,9 +20,9 @@ export const schema1 = {
       type: 'number',
       title: '端口号',
       required: true,
-      'x-validator': [{ required: true }],
+      'x-validator': [{ required: true }, { minimum: 0, maximum: 65535, triggerType: 'onInput' }],
       'x-decorator': 'FormItem',
-      'x-component': 'Input'
+      'x-component': 'InputNumber'
     },
     model: {
       type: 'string',

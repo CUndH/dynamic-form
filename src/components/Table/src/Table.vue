@@ -321,6 +321,9 @@ $prefix-cls: '#{$vNamespace}-table';
     .el-scrollbar__view {
       height: 100%;
     }
+    .el-table__cell:not(.el-table-column--selection) {
+      padding-left: 1rem;
+    }
     .el-table__cell:not(.el-table-column--selection):first-child {
       padding-left: 2rem;
     }

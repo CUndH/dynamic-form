@@ -1,143 +1,143 @@
 <script setup lang="ts">
-import { onMounted, watch, computed, unref, ref, nextTick } from 'vue';
-import { useRouter } from 'vue-router';
-import type { RouteLocationNormalizedLoaded, RouterLinkProps } from 'vue-router';
-import { useRouterStore } from '@/store/modules/router';
-import { useTagsViewStore } from '@/store/modules/tagsView';
-import { filterAffixTags } from './helper';
-import { ContextMenu, ContextMenuExpose } from '@/components/ContextMenu';
-import { useDesign } from '@/utils/useDesign';
-import { useTemplateRefsList } from '@vueuse/core';
-import { ElScrollbar } from 'element-plus';
-import { useScrollTo } from '@/utils/useScrollTo';
+import { onMounted, watch, computed, unref, ref, nextTick } from 'vue'
+import { useRouter } from 'vue-router'
+import type { RouteLocationNormalizedLoaded, RouterLinkProps } from 'vue-router'
+import { useRouterStore } from '@/store/modules/router'
+import { useTagsViewStore } from '@/store/modules/tagsView'
+import { filterAffixTags } from './helper'
+import { ContextMenu, ContextMenuExpose } from '@/components/ContextMenu'
+import { useDesign } from '@/utils/useDesign'
+import { useTemplateRefsList } from '@vueuse/core'
+import { ElScrollbar } from 'element-plus'
+import { useScrollTo } from '@/utils/useScrollTo'
 
-const { getPrefixCls } = useDesign();
+const { getPrefixCls } = useDesign()
 
-const prefixCls = getPrefixCls('tags-view');
+const prefixCls = getPrefixCls('tags-view')
 
-const { currentRoute, push, replace } = useRouter();
+const { currentRoute, push, replace } = useRouter()
 
-const routerStore = useRouterStore();
+const routerStore = useRouterStore()
 
-const routers = computed(() => routerStore.getRouters);
+const routers = computed(() => routerStore.getRouters)
 
-const tagsViewStore = useTagsViewStore();
+const tagsViewStore = useTagsViewStore()
 
-const visitedViews = computed(() => tagsViewStore.getVisitedViews);
+const visitedViews = computed(() => tagsViewStore.getVisitedViews)
 
-const affixTagArr = ref<RouteLocationNormalizedLoaded[]>([]);
+const affixTagArr = ref<RouteLocationNormalizedLoaded[]>([])
 
 // 初始化tag
 const initTags = () => {
-  affixTagArr.value = filterAffixTags(unref(routers));
+  affixTagArr.value = filterAffixTags(unref(routers))
   for (const tag of unref(affixTagArr)) {
     // Must have tag name
     if (tag.name) {
-      tagsViewStore.addVisitedView(tag);
+      tagsViewStore.addVisitedView(tag)
     }
   }
-};
+}
 
-const selectedTag = ref<RouteLocationNormalizedLoaded>();
+const selectedTag = ref<RouteLocationNormalizedLoaded>()
 
 // 新增tag
 const addTags = () => {
-  const { name } = unref(currentRoute);
+  const { name } = unref(currentRoute)
   if (name) {
-    selectedTag.value = unref(currentRoute);
-    tagsViewStore.addView(unref(currentRoute));
+    selectedTag.value = unref(currentRoute)
+    tagsViewStore.addView(unref(currentRoute))
   }
-  return false;
-};
+  return false
+}
 
 // 关闭选中的tag
 const closeSelectedTag = (view: RouteLocationNormalizedLoaded) => {
-  if (view?.meta?.affix) return;
-  tagsViewStore.delView(view);
+  if (view?.meta?.affix) return
+  tagsViewStore.delView(view)
   if (isActive(view)) {
-    toLastView();
+    toLastView()
   }
-};
+}
 
 // 关闭全部
 const closeAllTags = () => {
-  tagsViewStore.delAllViews();
-  toLastView();
-};
+  tagsViewStore.delAllViews()
+  toLastView()
+}
 
 // 关闭其他
 const closeOthersTags = () => {
-  tagsViewStore.delOthersViews(unref(selectedTag) as RouteLocationNormalizedLoaded);
-};
+  tagsViewStore.delOthersViews(unref(selectedTag) as RouteLocationNormalizedLoaded)
+}
 
 // 重新加载
 const refreshSelectedTag = async (view?: RouteLocationNormalizedLoaded) => {
-  if (!view) return;
-  tagsViewStore.delCachedView();
-  const { path, query } = view;
-  await nextTick();
+  if (!view) return
+  tagsViewStore.delCachedView()
+  const { path, query } = view
+  await nextTick()
   replace({
     path: '/redirect' + path,
     query: query
-  });
-};
+  })
+}
 
 // 关闭左侧
 const closeLeftTags = () => {
-  tagsViewStore.delLeftViews(unref(selectedTag) as RouteLocationNormalizedLoaded);
-};
+  tagsViewStore.delLeftViews(unref(selectedTag) as RouteLocationNormalizedLoaded)
+}
 
 // 关闭右侧
 const closeRightTags = () => {
-  tagsViewStore.delRightViews(unref(selectedTag) as RouteLocationNormalizedLoaded);
-};
+  tagsViewStore.delRightViews(unref(selectedTag) as RouteLocationNormalizedLoaded)
+}
 
 // 跳转到最后一个
 const toLastView = () => {
-  const visitedViews = tagsViewStore.getVisitedViews;
-  const latestView = visitedViews.slice(-1)[0];
+  const visitedViews = tagsViewStore.getVisitedViews
+  const latestView = visitedViews.slice(-1)[0]
   if (latestView) {
-    push(latestView);
+    push(latestView)
   } else {
     if (
       unref(currentRoute).path === routerStore.getAddRouters[0].path ||
       unref(currentRoute).path === routerStore.getAddRouters[0].redirect
     ) {
-      addTags();
-      return;
+      addTags()
+      return
     }
     // You can set another route
-    push(routerStore.getAddRouters[0].path);
+    push(routerStore.getAddRouters[0].path)
   }
-};
+}
 
 // 滚动到选中的tag
 const moveToCurrentTag = async () => {
-  await nextTick();
+  await nextTick()
   for (const v of unref(visitedViews)) {
     if (v.fullPath === unref(currentRoute).path) {
-      moveToTarget(v);
+      moveToTarget(v)
       if (v.fullPath !== unref(currentRoute).fullPath) {
-        tagsViewStore.updateVisitedView(unref(currentRoute));
+        tagsViewStore.updateVisitedView(unref(currentRoute))
       }
 
-      break;
+      break
     }
   }
-};
+}
 
-const tagLinksRefs = useTemplateRefsList<RouterLinkProps>();
+const tagLinksRefs = useTemplateRefsList<RouterLinkProps>()
 
 const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
-  const wrap$ = unref(scrollbarRef)?.wrapRef;
-  let firstTag: Nullable<RouterLinkProps> = null;
-  let lastTag: Nullable<RouterLinkProps> = null;
+  const wrap$ = unref(scrollbarRef)?.wrapRef
+  let firstTag: Nullable<RouterLinkProps> = null
+  let lastTag: Nullable<RouterLinkProps> = null
 
-  const tagList = unref(tagLinksRefs);
+  const tagList = unref(tagLinksRefs)
   // find first tag and last tag
   if (tagList.length > 0) {
-    firstTag = tagList[0];
-    lastTag = tagList[tagList.length - 1];
+    firstTag = tagList[0]
+    lastTag = tagList[tagList.length - 1]
   }
   if ((firstTag?.to as RouteLocationNormalizedLoaded).fullPath === currentTag.fullPath) {
     // 直接滚动到0的位置
@@ -146,8 +146,8 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
       position: 'scrollLeft',
       to: 0,
       duration: 500
-    });
-    start();
+    })
+    start()
   } else if ((lastTag?.to as RouteLocationNormalizedLoaded).fullPath === currentTag.fullPath) {
     // 滚动到最后的位置
     const { start } = useScrollTo({
@@ -155,23 +155,23 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
       position: 'scrollLeft',
       to: wrap$!.scrollWidth - wrap$!.offsetWidth,
       duration: 500
-    });
-    start();
+    })
+    start()
   } else {
     // find preTag and nextTag
     const currentIndex: number = tagList.findIndex(
       (item) => (item?.to as RouteLocationNormalizedLoaded).fullPath === currentTag.fullPath
-    );
-    const tgsRefs = document.getElementsByClassName(`${prefixCls}__item`);
+    )
+    const tgsRefs = document.getElementsByClassName(`${prefixCls}__item`)
 
-    const prevTag = tgsRefs[currentIndex - 1] as HTMLElement;
-    const nextTag = tgsRefs[currentIndex + 1] as HTMLElement;
+    const prevTag = tgsRefs[currentIndex - 1] as HTMLElement
+    const nextTag = tgsRefs[currentIndex + 1] as HTMLElement
 
     // the tag's offsetLeft after of nextTag
-    const afterNextTagOffsetLeft = nextTag.offsetLeft + nextTag.offsetWidth + 4;
+    const afterNextTagOffsetLeft = (nextTag && nextTag.offsetLeft + nextTag.offsetWidth + 4) || 0
 
     // the tag's offsetLeft before of prevTag
-    const beforePrevTagOffsetLeft = prevTag.offsetLeft - 4;
+    const beforePrevTagOffsetLeft = (prevTag && prevTag.offsetLeft - 4) || 0
 
     if (afterNextTagOffsetLeft > unref(scrollLeftNumber) + wrap$!.offsetWidth) {
       const { start } = useScrollTo({
@@ -179,49 +179,49 @@ const moveToTarget = (currentTag: RouteLocationNormalizedLoaded) => {
         position: 'scrollLeft',
         to: afterNextTagOffsetLeft - wrap$!.offsetWidth,
         duration: 500
-      });
-      start();
+      })
+      start()
     } else if (beforePrevTagOffsetLeft < unref(scrollLeftNumber)) {
       const { start } = useScrollTo({
         el: wrap$!,
         position: 'scrollLeft',
         to: beforePrevTagOffsetLeft,
         duration: 500
-      });
-      start();
+      })
+      start()
     }
   }
-};
+}
 
 // 是否是当前tag
 const isActive = (route: RouteLocationNormalizedLoaded): boolean => {
-  return route.path === unref(currentRoute).path;
-};
+  return route.path === unref(currentRoute).path
+}
 
 // 所有右键菜单组件的元素
-const itemRefs = useTemplateRefsList<ComponentRef<typeof ContextMenu & ContextMenuExpose>>();
+const itemRefs = useTemplateRefsList<ComponentRef<typeof ContextMenu & ContextMenuExpose>>()
 
 // 右键菜单装填改变的时候
 const visibleChange = (visible: boolean, tagItem: RouteLocationNormalizedLoaded) => {
   if (visible) {
     for (const v of unref(itemRefs)) {
-      const elDropdownMenuRef = v.elDropdownMenuRef;
+      const elDropdownMenuRef = v.elDropdownMenuRef
       if (tagItem.fullPath !== v.tagItem.fullPath) {
-        elDropdownMenuRef?.handleClose();
+        elDropdownMenuRef?.handleClose()
       }
     }
   }
-};
+}
 
 // elscroll 实例
-const scrollbarRef = ref<ComponentRef<typeof ElScrollbar>>();
+const scrollbarRef = ref<ComponentRef<typeof ElScrollbar>>()
 
 // 保存滚动位置
-const scrollLeftNumber = ref(0);
+const scrollLeftNumber = ref(0)
 
 const scroll = ({ scrollLeft }) => {
-  scrollLeftNumber.value = scrollLeft as number;
-};
+  scrollLeftNumber.value = scrollLeft as number
+}
 
 // 移动到某个位置
 // const move = (to: number) => {
@@ -236,17 +236,17 @@ const scroll = ({ scrollLeft }) => {
 // };
 
 onMounted(() => {
-  initTags();
-  addTags();
-});
+  initTags()
+  addTags()
+})
 
 watch(
   () => currentRoute.value,
   () => {
-    addTags();
-    moveToCurrentTag();
+    addTags()
+    moveToCurrentTag()
   }
-);
+)
 </script>
 
 <template>
@@ -261,14 +261,14 @@ watch(
             v-for="item in visitedViews"
             :ref="itemRefs.set"
             :key="item.fullPath"
-            :popper-clazz="`router-${String(item.name)}`"
+            :popper-clazz="`router-${item.name}`"
             :schema="[
               {
                 icon: 'ant-design:sync-outlined',
                 label: '重新加载',
                 disabled: selectedTag?.fullPath !== item.fullPath,
                 command: () => {
-                  refreshSelectedTag(item);
+                  refreshSelectedTag(item)
                 }
               },
               {
@@ -276,7 +276,7 @@ watch(
                 label: '关闭标签页',
                 disabled: !!visitedViews?.length && selectedTag?.meta.affix,
                 command: () => {
-                  closeSelectedTag(item);
+                  closeSelectedTag(item)
                 }
               },
               {
@@ -285,9 +285,10 @@ watch(
                 label: '关闭左侧标签页',
                 disabled:
                   !!visitedViews?.length &&
-                  (item.fullPath === visitedViews[0].fullPath || selectedTag?.fullPath !== item.fullPath),
+                  (item.fullPath === visitedViews[0].fullPath ||
+                    selectedTag?.fullPath !== item.fullPath),
                 command: () => {
-                  closeLeftTags();
+                  closeLeftTags()
                 }
               },
               {
@@ -298,7 +299,7 @@ watch(
                   (item.fullPath === visitedViews[visitedViews.length - 1].fullPath ||
                     selectedTag?.fullPath !== item.fullPath),
                 command: () => {
-                  closeRightTags();
+                  closeRightTags()
                 }
               },
               {
@@ -307,14 +308,14 @@ watch(
                 label: '关闭其他标签页',
                 disabled: selectedTag?.fullPath !== item.fullPath,
                 command: () => {
-                  closeOthersTags();
+                  closeOthersTags()
                 }
               },
               {
                 icon: 'ant-design:line-outlined',
                 label: '关闭全部标签页',
                 command: () => {
-                  closeAllTags();
+                  closeAllTags()
                 }
               }
             ]"
@@ -424,8 +425,8 @@ watch(
 $prefix-cls: '#{$vNamespace}-tags-view';
 
 .#{$prefix-cls} {
-  // background-color: #ffffff;
-  margin: 8px 0;
+  background-color: var(--tags-view-bg);
+  padding: 8px 12px;
   :deep(.#{$elNamespace}-scrollbar__view) {
     height: 100%;
   }
@@ -455,14 +456,13 @@ $prefix-cls: '#{$vNamespace}-tags-view';
   }
 
   &__item {
-    padding-right: 25px;
     margin-right: 10px;
     cursor: pointer;
     color: var(--tags-view-color);
     font-size: 1.4rem;
     border-radius: 4px;
     padding: 10px 22px 8px 12px;
-    background-color: var(--tags-view-bg);
+    background-color: var(--tags-view-item-bg);
     transition: all linear 0.2s;
     &--close {
       position: absolute;

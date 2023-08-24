@@ -109,14 +109,14 @@ function resetSearchParams() {
 </script>
 
 <template>
-  <div :class="`${prefixCls}-list-header`">
+  <div :class="`${prefixCls}-list-header mb-10px`">
     <div :class="`${prefixCls}-list-header-left`">
       <el-input
         v-model:modelValue="searchKey.keyword"
         placeholder="输入搜索关键词"
-        class="mr-10px w-200px"
+        class="mr-10px w-200px flex-1"
       />
-      <el-select v-model:modelValue="searchKey.module" placeholder="所属模块" class="mr-10px w-120px">
+      <el-select v-model:modelValue="searchKey.module" placeholder="所属模块" class="mr-10px w-120px flex-shrink-0">
         <el-option
           v-for="(item, key) in moduleOpts"
           :key="`search-module-${key}`"
@@ -124,7 +124,7 @@ function resetSearchParams() {
           :value="item.value"
         />
       </el-select>
-      <el-select v-model:modelValue="searchKey.type" placeholder="操作类型" class="mr-10px w-120px">
+      <el-select v-model:modelValue="searchKey.type" placeholder="操作类型" class="mr-10px w-120px flex-shrink-0">
         <el-option
           v-for="(item, key) in typeOpts"
           :key="`search-type-${key}`"
@@ -134,12 +134,12 @@ function resetSearchParams() {
       </el-select>
       <el-date-picker
         v-model:modelValue="searchKey.date"
-        class="mr-10px w-120px"
+        class="mr-10px w-120px flex-1"
         type="daterange"
         start-placeholder="操作时间起始"
         end-placeholder="操作时间结束"
       />
-      <el-input class="mr-10px w-200px" v-model:modelValue="searchKey.person" placeholder="操作人员" />
+      <el-input class="mr-10px w-200px flex-1" v-model:modelValue="searchKey.person" placeholder="操作人员" />
       <el-button type="primary" @click="searchList">
         <template #icon>
           <Icon icon="ep:search" :size="16" />
@@ -166,7 +166,7 @@ function resetSearchParams() {
     v-model:pageSize="tableObject.size"
     v-model:currentPage="tableObject.current"
     id="deviceTable"
-    :class="`${prefixCls}-table mt-10px`"
+    :class="`${prefixCls}-table`"
     :columns="columns"
     :data="tableObject.tableList"
     :loading="tableObject.loading"

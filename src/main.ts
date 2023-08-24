@@ -14,10 +14,11 @@ import { setupCommonDirectives } from './directives'
 import { setupGlobCom } from '@/components'
 // 注册Vue-Echarts
 import { setupPluginVueEchart } from '@/plugins/echarts'
-// 主题色
-import '@/styles/theme.scss'
+// import 'element-plus/dist/index.css'
 // 初始样式
 import '@/styles/index.scss'
+// 渐变主题
+import '@/styles/gradient.scss'
 // windiCss
 import '@/plugins/windi.css'
 import 'highlight.js/styles/stackoverflow-light.css'

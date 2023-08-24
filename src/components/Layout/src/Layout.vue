@@ -4,6 +4,8 @@ import { ref, computed } from 'vue'
 import eventBus, { EventTypeName } from '@/utils/eventBus'
 import { useTagsViewStore } from '@/store/modules/tagsView'
 import { useUserStore } from '@/store/modules/user'
+import { useAppStore } from '@/store/modules/app'
+const appStore = useAppStore()
 
 const { getPrefixCls } = useDesign()
 
@@ -54,8 +56,9 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
   <div :class="prefixCls">
     <div :class="`${prefixCls}-menu ${menuCollapse ? 'is-collapse' : ''}`">
       <div :class="`${prefixCls}-menu-logo`">
+        <img src="@/assets/images/logo.png" alt="logo" />
         <p :class="`${prefixCls}-menu-logo-title`">
-          {{ menuCollapse ? 'ADMIN' : 'VUE3 ADMIN' }}
+          {{ appStore.$state.appName }}
         </p>
       </div>
       <div :class="`${prefixCls}-menu-wrap`">
@@ -86,7 +89,7 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
               >
                 <div class="user-dropdown">
                   <div class="user-avatar mr-20px">
-                    <!-- <img class="border-none" src="@/assets/image/avatar.jpg" alt="" /> -->
+                    <img class="border-none" src="@/assets/images/avatar.jpg" alt="" />
                   </div>
                   <div>
                     {{ userInfo && userInfo.name ? userInfo.name : userInfo.username || '管理员' }}
@@ -121,7 +124,7 @@ eventBus.listen(EventTypeName.PAGE_LOADED, () => {
         </Header>
       </div>
       <div v-loading="isRouterLoading" :class="`${prefixCls}-content`">
-        <TagsView class="mt-10px mb-10px" />
+        <TagsView />
         <div :class="`${prefixCls}-router`">
           <transition name="slide-fade">
             <RouterView>
@@ -150,6 +153,7 @@ $prefix-cls: '#{$vNamespace}-layout';
 .#{$prefix-cls} {
   width: 100%;
   height: 100vh;
+  min-height: 900px;
   box-sizing: border-box;
   background-color: #f0f3f6;
   display: flex;
@@ -158,7 +162,7 @@ $prefix-cls: '#{$vNamespace}-layout';
     flex-shrink: 0;
     background-color: var(--tool-header-bg);
     color: var(--el-color-primary);
-    // border-bottom: 1px solid #a8abb3;
+    border-bottom: 1px solid #e4e7ed;
 
     &-right {
       display: flex;
@@ -265,13 +269,6 @@ $prefix-cls: '#{$vNamespace}-layout';
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    &.is-collapse {
-      width: var(--layout-menu-collapse-width);
-      &-wrap {
-        padding-bottom: var(--layout-menu-collapse-width);
-      }
-    }
-
     &-logo {
       display: flex;
       align-items: center;
@@ -282,20 +279,50 @@ $prefix-cls: '#{$vNamespace}-layout';
       color: var(--color-normal);
       height: var(--tool-header-height);
       background-color: var(--layout-logo-bg);
+      border-bottom: 1px solid #e4e7ed;
+      img {
+        width: 44px;
+        height: 44px;
+        margin-right: 6px;
+      }
+
       &-title {
+        transition: all var(--el-transition-duration)
+          var(--el-transition-function-ease-in-out-bezier);
+        -webkit-transition: all var(--el-transition-duration)
+          var(--el-transition-function-ease-in-out-bezier);
+        -o-transition: all var(--el-transition-duration)
+          var(--el-transition-function-ease-in-out-bezier);
+        min-width: 120px;
         white-space: nowrap;
         color: var(--layout-logo-color);
+        overflow: hidden;
       }
     }
     &-wrap {
       flex: 1;
       padding-bottom: var(--layout-menu-width);
       overflow-y: auto;
-      // background-image: url('@/assets/image/layoutMenu/normal-menu-bottom.png');
+      background-image: url('@/assets/images/layoutMenu/normal-menu-bottom.png');
       background-repeat: no-repeat;
       background-position: 50% 99%;
       background-size: 95% auto;
     }
+    &.is-collapse {
+      width: var(--layout-menu-collapse-width);
+      .#{$prefix-cls}-menu {
+        &-wrap {
+          padding-bottom: var(--layout-menu-collapse-width);
+        }
+        &-logo {
+          &-title {
+            min-width: 0;
+            width: 0;
+          }
+        }
+      }
+    }
+
     &-content {
       height: 100%;
       overflow-y: auto;
@@ -324,12 +351,18 @@ $prefix-cls: '#{$vNamespace}-layout';
           background-color: var(--layout-menu-hover-bg);
           color: var(--layout-menu-hover-color);
         }
+        [class^='el-icon'] {
+          margin-right: 12px;
+        }
       }
       .el-sub-menu {
+        .el-icon {
+          margin-right: 12px;
+        }
         &.is-active {
-          background: var(--layout-menu-hover-bg) !important;
+          background: var(--layout-menu-sub-active-bg) !important;
           > .el-menu {
-            background: var(--layout-menu-hover-bg) !important;
+            background: var(--layout-menu-sub-active-bg) !important;
           }
         }
         .el-sub-menu__title {
@@ -347,9 +380,9 @@ $prefix-cls: '#{$vNamespace}-layout';
     flex-direction: column;
     width: 100%;
     height: calc(100vh - var(--tool-header-height));
+    min-height: 850px;
     box-sizing: border-box;
     flex-grow: 1;
-    padding: 0 12px;
     background-color: var(--content-bg);
     overflow: hidden;
   }
@@ -357,6 +390,7 @@ $prefix-cls: '#{$vNamespace}-layout';
     width: 100%;
     flex-grow: 1;
     overflow-y: auto;
+    padding: 12px;
     // background-color: white;
   }
   &-footer {
